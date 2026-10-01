@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Varde Code Agent</title>
+<meta name="description" content="A coding agent that reads, writes and runs your codebase with a model on your own machine. No source code, no keys and no prompts leave the network. Measured, with every finding on record.">
+<link rel="canonical" href="https://vardecodeagent.netlify.app/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vardecodeagent.netlify.app/">
+<meta property="og:title" content="Varde Code Agent">
+<meta property="og:description" content="A coding agent that reads, writes and runs your codebase with a model on your own machine. No source code, no keys and no prompts leave the network. Measured, with every finding on record.">
+<meta property="og:image" content="https://vardecodeagent.netlify.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Varde Code Agent: a coding agent that works on your own machine.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://vardecodeagent.netlify.app/og.png">
+<meta name="theme-color" content="#f1f0ee" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#100e0b" media="(prefers-color-scheme: dark)">
+<style>
+  :root {
+    --ground: #f1f0ee;
+    --surface: #ffffff;
+    --surface-2: #e9e7e3;
+    --ink: #17140f;
+    --ink-2: #5a5245;
+    --ink-3: #857c6d;
+    --line: #d8d3ca;
+    --line-soft: #e6e2db;
+    --accent: #9a5518;
+    --accent-soft: #f6e9dc;
+    --caveat: #1f5f6e;
+    --caveat-soft: #ddeef2;
+    --grid: rgba(154, 85, 24, 0.07);
+    --sans: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --mono: "Cascadia Mono", ui-monospace, "SF Mono", Consolas, "Liberation Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #100e0b; --surface: #191612; --surface-2: #221d17;
+      --ink: #f0ebe3; --ink-2: #aba193; --ink-3: #7d7264;
+      --line: #2d2721; --line-soft: #221d18;
+      --accent: #f0a868; --accent-soft: #2c1f13;
+      --caveat: #6fc5d6; --caveat-soft: #12262b;
+      --grid: rgba(240, 168, 104, 0.055);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #100e0b; --surface: #191612; --surface-2: #221d17;
+    --ink: #f0ebe3; --ink-2: #aba193; --ink-3: #7d7264;
+    --line: #2d2721; --line-soft: #221d18;
+    --accent: #f0a868; --accent-soft: #2c1f13;
+    --caveat: #6fc5d6; --caveat-soft: #12262b;
+    --grid: rgba(240, 168, 104, 0.055);
+  }
+
+  .proof { margin: 0; font-size: 1.05rem; color: var(--ink-2); max-width: 62ch; text-wrap: pretty; }
+  .proof strong { color: var(--accent); font-weight: 640; }
+  .proof a { color: var(--accent); white-space: nowrap; }
+  .price-note { margin-top: 16px; }
+  .row p.price-note { margin-top: 22px; }
+  @media (min-width: 681px) { .price-note th:first-child, .price-note td:first-child { padding-left: 0; } }
+  .price-note td .dim { color: var(--ink-3); font-family: var(--mono); font-size: 11px; font-weight: 400; margin-left: 6px; }
+  /* ---------- language switching ---------- */
+  [lang="sv"] { display: none; }
+  :root[data-lang="sv"] [lang="sv"] { display: revert; }
+  :root[data-lang="sv"] [lang="en"] { display: none; }
+
+  body { background: var(--ground); color: var(--ink); font-family: var(--sans); line-height: 1.6; margin: 0; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px 96px; }
+
+  .mast {
+    position: relative; border-bottom: 1px solid var(--line);
+    background:
+      linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 100% 34px,
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px) 0 0 / 34px 100%,
+      var(--surface);
+    overflow: hidden;
+  }
+  .mast::after { content: ""; position: absolute; inset: auto 0 0 0; height: 2px; background: linear-gradient(90deg, var(--accent), transparent 62%); }
+  .mast-inner { max-width: 1080px; margin: 0 auto; padding: 54px 28px 40px; display: flex; flex-direction: column; gap: 22px; }
+  .topline { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-3); margin: 0; }
+  h1 { font-size: clamp(2.3rem, 5.2vw, 3.4rem); line-height: 1.04; margin: 0; letter-spacing: -0.022em; text-wrap: balance; font-weight: 650; }
+  .lede { font-size: 1.2rem; color: var(--ink-2); max-width: 60ch; margin: 0; text-wrap: pretty; }
+
+  .langs { display: inline-flex; border: 1px solid var(--line); border-radius: 2px; overflow: hidden; background: var(--surface); }
+  .langs button {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 7px 14px; border: 0; background: transparent; color: var(--ink-2); cursor: pointer;
+  }
+  .langs button + button { border-left: 1px solid var(--line); }
+  .langs button[aria-pressed="true"] { background: var(--accent); color: #ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .langs button[aria-pressed="true"] { color: #1a1208; } }
+  :root[data-theme="dark"] .langs button[aria-pressed="true"] { color: #1a1208; }
+  .langs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .langs button:hover:not([aria-pressed="true"]) { background: var(--surface-2); }
+
+  .deploy { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--accent); color: var(--accent); padding: 5px 11px; border-radius: 2px; background: var(--accent-soft); }
+  .chip.plain { border-color: var(--line); color: var(--ink-2); background: transparent; }
+
+  section { padding-top: 54px; }
+  h2 { font-size: 0.82rem; font-family: var(--mono); font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin: 0 0 20px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+  p { margin: 0 0 14px; max-width: 68ch; }
+  .prose { color: var(--ink-2); }
+  strong { color: var(--ink); font-weight: 640; }
+
+  .figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .fig { background: var(--surface); padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 3px; }
+  .fig .n { font-family: var(--mono); font-size: 1.55rem; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; color: var(--ink); line-height: 1.1; }
+  .fig .k { font-size: 0.9rem; color: var(--ink); }
+  .fig .src { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); letter-spacing: 0.03em; }
+
+  .rows { display: flex; flex-direction: column; gap: 1px; background: var(--line-soft); border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); }
+  .row { background: var(--surface); padding: 20px; display: grid; grid-template-columns: 210px 1fr; gap: 24px; }
+  .row .label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--accent); text-transform: uppercase; padding-top: 2px; }
+  .row p { margin: 0; }
+  .row p + p { margin-top: 10px; }
+
+  .surfaces { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
+  .surfaces .item { border: 1px solid var(--line); background: var(--surface); padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
+  .surfaces .item .t { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
+  .surfaces .item p { margin: 0; font-size: 0.94rem; color: var(--ink-2); }
+
+  .tools { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
+  .tool { font-family: var(--mono); font-size: 12px; border: 1px solid var(--line); padding: 5px 10px; color: var(--ink-2); border-radius: 2px; }
+
+  .limits { border-left: 2px solid var(--caveat); background: var(--caveat-soft); padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .limits h2 { color: var(--caveat); border-color: color-mix(in srgb, var(--caveat) 30%, transparent); }
+  .limit { display: grid; grid-template-columns: 210px 1fr; gap: 24px; }
+  .limit .label { font-family: var(--mono); font-size: 12px; color: var(--caveat); letter-spacing: 0.04em; }
+  .limit p { margin: 0; color: var(--ink-2); }
+  .limit p + p { margin-top: 10px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.94rem; }
+  .scroll { overflow-x: auto; }
+  th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--line-soft); }
+  th { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); font-weight: 500; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  footer { margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--ink-3); font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+
+  .credo {
+    margin: 8px 0 0; padding: 14px 18px; border-left: 2px solid var(--accent);
+    background: var(--accent-soft); max-width: 62ch;
+  }
+  .credo p { margin: 0; font-size: 1.05rem; color: var(--ink); font-weight: 560; letter-spacing: -0.005em; }
+  .credo .who { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-top: 6px; display: block; }
+
+  /* ---------- server tier (2026-09-26) ---------- */
+  h3.sub { font-size: 0.98rem; font-weight: 640; margin: 34px 0 6px; letter-spacing: -0.005em; text-wrap: balance; }
+  h3.sub + .prose { margin-bottom: 14px; }
+  .est {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;
+    color: var(--caveat); border: 1px solid color-mix(in srgb, var(--caveat) 45%, transparent); border-radius: 2px;
+    padding: 1px 6px; margin-left: 10px; vertical-align: 1px;
+  }
+  th .est { display: table; margin: 6px 0 0; }
+  .measured { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+  tr.total td { font-weight: 640; color: var(--ink); border-top: 1px solid var(--line); border-bottom: 0; }
+  td.dim { color: var(--ink-2); }
+  .note { font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.02em; margin: 12px 0 0; max-width: 90ch; }
+  .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .tier { background: var(--surface); padding: 18px; display: flex; flex-direction: column; gap: 6px; }
+  .tier .t { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+  .tier .who { font-size: 1.35rem; font-weight: 640; letter-spacing: -0.01em; line-height: 1.2; }
+  .tier p { margin: 0; font-size: 0.94rem; color: var(--ink-2); }
+
+
+  /* ---------- panels: the server section in the page's box language (2026-09-27) ---------- */
+  .panel { border: 1px solid var(--line); background: var(--surface); margin-top: 28px; }
+  .panel-head { padding: 18px 20px 16px; border-bottom: 1px solid var(--line-soft); display: flex; flex-direction: column; gap: 8px; }
+  .panel-head .t, .build .t { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .panel-head p { margin: 0; color: var(--ink-2); font-size: 0.95rem; max-width: 74ch; }
+  .panel-foot { margin: 0; padding: 14px 20px 16px; border-top: 1px solid var(--line-soft); font-family: var(--mono); font-size: 11px; line-height: 1.6; color: var(--ink-3); letter-spacing: 0.02em; max-width: none; }
+  .builds { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1px; background: var(--line-soft); }
+  .build { background: var(--surface); padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 4px; }
+  .build .gpu { font-size: 0.95rem; color: var(--ink); font-weight: 560; }
+  .build .big { font-family: var(--mono); font-size: 1.35rem; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; color: var(--ink); margin-top: 10px; line-height: 1.15; }
+  .build .unit { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); letter-spacing: 0.04em; }
+  .build dl { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--line-soft); font-size: 0.88rem; }
+  .build dt { color: var(--ink-2); }
+  .build dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--ink); text-align: right; }
+  .panel table.grid th { padding: 12px 20px; }
+  .panel table.grid td { padding: 11px 20px; }
+  .panel table.grid tbody tr:last-child td { border-bottom: 0; }
+  .sub-th { display: block; margin-top: 3px; text-transform: none; letter-spacing: 0.02em; font-size: 10.5px; color: var(--ink-3); }
+  .panel td .dim { color: var(--ink-3); font-family: var(--mono); font-size: 11px; margin-left: 6px; }
+  .panel td.hl { color: var(--accent); font-weight: 640; }
+
+/* ---------- contact (2026-09-28) ---------- */
+  .contact { display: grid; grid-template-columns: auto 1fr; gap: 10px 22px; padding: 18px 20px 20px; align-items: baseline; }
+  .contact .k { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .contact .v { font-size: 1.05rem; color: var(--ink); }
+  .contact a { color: var(--accent); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); }
+  .contact a:hover, .contact a:focus-visible { border-bottom-color: var(--accent); }
+
+  /* ---------- a worked example, set apart from the note above it (2026-09-30) ---------- */
+  .case { margin-top: 30px; border: 1px solid var(--line); border-left: 2px solid var(--accent); background: var(--surface); padding: 16px 20px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .case .t { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .case p { margin: 0; max-width: 74ch; }
+
+  @media (max-width: 680px) { .row, .limit { grid-template-columns: 1fr; gap: 8px; } }
+
+  /* ---------- tables on a phone: each row becomes a card (2026-09-28) ----------
+     Measured at 390 px: all four tables were 386-523 px wide inside a 315 px box, so every one needed a sideways
+     swipe. Under 680 px a row is a card: its first cell is the card's title, and each other cell shows its column's
+     name (data-label, copied from the header by the script at the end) beside the value. Screens only; print keeps
+     the tables. */
+  @media screen and (max-width: 680px) {
+    .scroll { overflow-x: hidden; }
+    .scroll table { display: block; }
+    .scroll thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .scroll tbody[lang="en"] { display: block; }
+    :root[data-lang="sv"] .scroll tbody[lang="en"] { display: none; }
+    :root[data-lang="sv"] .scroll tbody[lang="sv"] { display: block; }
+    .scroll tr { display: block; background: var(--surface); border: 1px solid var(--line-soft); padding: 10px 14px 8px; margin: 0 0 10px; }
+    .panel .scroll { padding: 14px 14px 4px; }
+    .panel .scroll tr { background: var(--ground); }
+    .scroll td, .panel table.grid td { display: grid; grid-template-columns: minmax(0, 44%) minmax(0, 1fr); align-items: baseline; gap: 12px; padding: 5px 0; border: 0; text-align: right; white-space: normal; overflow-wrap: anywhere; }
+    .scroll td::before { content: attr(data-label); min-width: 0; text-align: left; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+    .scroll td:first-child, .panel table.grid td:first-child { display: block; text-align: left; color: var(--ink); font-weight: 560; padding: 0 0 8px; margin-bottom: 4px; border-bottom: 1px solid var(--line-soft); }
+    .scroll td:first-child::before { content: none; }
+    .scroll td:not(.num):not(:first-child) { text-align: left; }
+    .scroll tr.total { border-color: var(--line); }
+    .scroll tr.total td { border-top: 0; }
+    .scroll tr.total td:first-child { border-bottom: 1px solid var(--line-soft); }
+  }
+
+  /* ---------- printing and PDF ---------- */
+  @media print {
+    :root:root {
+      --ground: #ffffff; --surface: #ffffff; --surface-2: #f2f0ec;
+      --ink: #17140f; --ink-2: #4a443a; --ink-3: #6f675a;
+      --line: #cfc9be; --line-soft: #e2ded6;
+      --accent: #8a4a14; --accent-soft: #f7ece1;
+      --caveat: #1b5464; --caveat-soft: #e6f2f5;
+      --grid: rgba(138, 74, 20, 0.05);
+      color-scheme: light;
+    }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { size: A4; margin: 14mm 12mm; }
+    body { background: #ffffff; font-size: 10.5pt; line-height: 1.5; }
+    .wrap { padding: 0 0 8mm; max-width: none; }
+    .mast-inner { padding: 0 0 8mm; max-width: none; }
+    .langs { display: none; }
+    h1 { font-size: 26pt; }
+    .lede { font-size: 12pt; }
+    section { padding-top: 9mm; break-inside: avoid; }
+    h2 { break-after: avoid; }
+    .fig, .row, .limit, .surfaces .item, .figures, .limits, .case, table, footer { break-inside: avoid; }
+    p { max-width: none; }
+    .tools { gap: 5px; }
+    footer { margin-top: 9mm; }
+  }
+</style>
+</head>
+<body>
+<header class="mast">
+  <div class="mast-inner">
+    <div class="topline">
+      <p class="eyebrow"><span lang="en">Software engineering agent · on-premise</span><span lang="sv">Utvecklingsagent · lokal drift</span></p>
+      <div class="langs" role="group" aria-label="Language / Språk">
+        <button type="button" id="btn-en" aria-pressed="true">English</button>
+        <button type="button" id="btn-sv" aria-pressed="false">Svenska</button>
+      </div>
+    </div>
+    <h1>Varde Code Agent</h1>
+    <p class="lede"><span lang="en">A coding agent that reads, writes and runs your codebase from a model on your own machine. No source code, no keys and no prompts leave the network.</span><span lang="sv">En utvecklingsagent som läser, skriver och kör er kodbas med en modell på er egen maskin. Ingen källkod, inga nycklar och inga frågor lämnar nätverket.</span></p>
+    <p class="proof"><span lang="en"><strong>≈ 4 hours of agent time against an estimated 5–8 working days.</strong> Ten features built in a real business system, graded afterwards against checks written in advance. <a href="#evening">See the day&nbsp;→</a></span><span lang="sv"><strong>≈ 4 timmars agenttid mot uppskattningsvis 5–8 arbetsdagar.</strong> Tio funktioner byggda i ett riktigt affärssystem, rättade i efterhand mot kontroller skrivna i förväg. <a href="#evening">Se dagen&nbsp;→</a></span></p>
+    <div class="credo">
+      <p lang="en">Built on one rule: nothing gets to misreport, not the agent, the tests, the instruments or us.</p>
+      <p lang="sv">Byggd på en enda regel: ingenting får rapportera fel, varken agenten, testerna, mätverktygen eller vi.</p>
+      <span class="who"><span lang="en">the design principle behind all 428 findings</span><span lang="sv">designprincipen bakom alla 428 fynd</span></span>
+    </div>
+    <div class="deploy">
+      <span class="chip"><span lang="en">Fully offline</span><span lang="sv">Helt offline</span></span>
+      <span class="chip"><span lang="en">Local network only</span><span lang="sv">Endast lokalt nätverk</span></span>
+      <span class="chip"><span lang="en">Your code stays in-house</span><span lang="sv">Koden stannar i huset</span></span>
+      <span class="chip"><span lang="en">The code it writes is yours</span><span lang="sv">Koden den skriver är er</span></span>
+      <span class="chip"><span lang="en">No usage limits</span><span lang="sv">Inga användningsgränser</span></span>
+      <span class="chip plain"><span lang="en">Runs on one 16 GB GPU</span><span lang="sv">Körs på ett grafikkort med 16 GB</span></span>
+      <span class="chip plain"><span lang="en">Scales to server class</span><span lang="sv">Skalar upp till serverklass</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section>
+    <h2><span lang="en">What it is</span><span lang="sv">Vad det är</span></h2>
+    <div lang="en">
+      <p class="prose">An agent that works inside a project folder: it reads files, edits them, runs commands and tests, inspects git, and reports what actually happened. It talks to a model hosted locally, so it is usable in environments where a cloud coding assistant is not permitted: defence, medical, legal, industrial, or anywhere a source tree cannot be sent to a third party.</p>
+      <p class="prose"><strong>The code it writes is yours.</strong> It is produced on your own machine, no cloud provider's terms apply to it, and the model runs under the open Apache 2.0 licence.</p>
+      <p class="prose">The same engine drives three interfaces, so a team can use it wherever they already work.</p>
+      <p class="prose">It scales with the hardware you give it. The tested configuration fits a single 16 GB desktop card, which is the floor rather than the target: the same engine runs against a workstation card, a shared server GPU or a rack of them, with a larger model behind the same contract and no change to how anyone works. One developer's machine and a department's server are the same product with a different model behind it.</p>
+    </div>
+    <div lang="sv">
+      <p class="prose">En agent som arbetar inne i en projektmapp: den läser filer, ändrar dem, kör kommandon och tester, tittar i git och rapporterar vad som faktiskt hände. Den pratar med en modell som körs lokalt, vilket gör den användbar där molnbaserade kodassistenter inte är tillåtna: försvar, vård, juridik, industri, eller överallt där en kodbas inte får skickas till tredje part.</p>
+      <p class="prose"><strong>Koden den skriver är er.</strong> Den skapas på er egen maskin, inga villkor från någon molnleverantör gäller för den, och modellen körs under den öppna licensen Apache 2.0.</p>
+      <p class="prose">Samma motor driver tre gränssnitt, så teamet kan använda den där de redan arbetar.</p>
+      <p class="prose">Den skalar med hårdvaran ni ger den. Den testade konfigurationen ryms på ett enda 16 GB-kort i en vanlig dator, och det är golvet snarare än målet: samma motor kör mot ett arbetsstationskort, ett delat server-GPU eller ett rack av dem, med en större modell bakom samma kontrakt och utan att någon behöver ändra sitt arbetssätt. En utvecklares dator och en avdelnings server är samma produkt med olika modell bakom.</p>
+    </div>
+    <div class="surfaces" style="margin-top:20px">
+      <div class="item"><span class="t">VS Code</span><p lang="en">A sidebar chat panel operating on the open workspace.</p><p lang="sv">En chattpanel i sidofältet som arbetar mot den öppna arbetsytan.</p></div>
+      <div class="item"><span class="t"><span lang="en">Desktop</span><span lang="sv">Skrivbord</span></span><p lang="en">A standalone window, launched from a shortcut. No editor required.</p><p lang="sv">Ett eget fönster som startas från en genväg. Ingen utvecklingsmiljö krävs.</p></div>
+      <div class="item"><span class="t"><span lang="en">Terminal</span><span lang="sv">Terminal</span></span><p lang="en">A CLI loop for servers and headless machines.</p><p lang="sv">En kommandoradsslinga för servrar och maskiner utan skärm.</p></div>
+    </div>
+  </section>
+
+  <section id="evening">
+    <h2><span lang="en">One day's work, graded</span><span lang="sv">En dags arbete, rättat</span></h2>
+    <p class="prose" lang="en">On 27 September the agent built ten features, one after the other, in a real business system for a small renovation company: from the first customer enquiry to the hand-off to the project leader. A person approved each step. Every change was then graded on a fresh copy of the project, row by row, against checks written before the work started. The agent's time is measured; the developer figures are an estimate for an experienced developer who first has to learn the codebase.</p>
+    <p class="prose" lang="sv">Den 27 september byggde agenten tio funktioner, en efter en, i ett riktigt affärssystem för ett litet renoveringsföretag: från kundens första förfrågan till överlämningen till projektledaren. En människa godkände varje steg. Varje ändring rättades sedan på en ny kopia av projektet, rad för rad, mot kontroller som skrivits innan arbetet började. Agentens tid är uppmätt; utvecklarsiffrorna är en uppskattning för en erfaren utvecklare som först måste sätta sig in i kodbasen.</p>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr lang="en"><th>Feature</th><th>Agent time</th><th>Senior developer <span class="est">estimate</span></th></tr>
+          <tr lang="sv"><th>Funktion</th><th>Agentens tid</th><th>Senior utvecklare <span class="est">uppskattning</span></th></tr>
+        </thead>
+        <tbody lang="en">
+          <tr><td>Server settings for an office server: port, address and clear error messages</td><td class="num">19 min</td><td class="num">1–2 hours</td></tr>
+          <tr><td>A desktop app for the staff's computers</td><td class="num">45 min</td><td class="num">1–2 days</td></tr>
+          <tr><td>A nightly backup, with a restore that is proven to work</td><td class="num">63 min</td><td class="num">1 day</td></tr>
+          <tr><td>A customer register, moved over from the existing projects</td><td class="num">13 min</td><td class="num">3–5 hours</td></tr>
+          <tr><td>A customer page: change a detail once and it is updated everywhere</td><td class="num">12 min</td><td class="num">2–4 hours</td></tr>
+          <tr><td>Closing enquiries that go nowhere, with a reason</td><td class="num">15 min</td><td class="num">3–5 hours</td></tr>
+          <tr><td>Recognising a returning customer from the web form</td><td class="num">13 min</td><td class="num">2–4 hours</td></tr>
+          <tr><td>Customers enter their own ROT details, stored and shown masked</td><td class="num">28 min</td><td class="num">1 day</td></tr>
+          <tr><td>Recording the signed contract</td><td class="num">21 min</td><td class="num">2–4 hours</td></tr>
+          <tr><td>A hand-off card for the project leader</td><td class="num">14 min</td><td class="num">2–4 hours</td></tr>
+          <tr class="total"><td>Together</td><td class="num">≈ 4 hours</td><td class="num">5–8 working days</td></tr>
+        </tbody>
+        <tbody lang="sv">
+          <tr><td>Serverinställningar för en kontorsserver: port, adress och tydliga felmeddelanden</td><td class="num">19 min</td><td class="num">1–2 timmar</td></tr>
+          <tr><td>En skrivbordsapp för personalens datorer</td><td class="num">45 min</td><td class="num">1–2 dagar</td></tr>
+          <tr><td>En nattlig säkerhetskopia, med en återställning som bevisat fungerar</td><td class="num">63 min</td><td class="num">1 dag</td></tr>
+          <tr><td>Ett kundregister, flyttat över från de befintliga projekten</td><td class="num">13 min</td><td class="num">3–5 timmar</td></tr>
+          <tr><td>En kundsida: ändra en uppgift en gång så uppdateras den överallt</td><td class="num">12 min</td><td class="num">2–4 timmar</td></tr>
+          <tr><td>Avsluta förfrågningar som inte blir något, med en orsak</td><td class="num">15 min</td><td class="num">3–5 timmar</td></tr>
+          <tr><td>Känna igen en återkommande kund från webbformuläret</td><td class="num">13 min</td><td class="num">2–4 timmar</td></tr>
+          <tr><td>Kunden fyller själv i sina ROT-uppgifter, som lagras och visas maskerade</td><td class="num">28 min</td><td class="num">1 dag</td></tr>
+          <tr><td>Registrera det signerade avtalet</td><td class="num">21 min</td><td class="num">2–4 timmar</td></tr>
+          <tr><td>Ett överlämningskort till projektledaren</td><td class="num">14 min</td><td class="num">2–4 timmar</td></tr>
+          <tr class="total"><td>Tillsammans</td><td class="num">≈ 4 timmar</td><td class="num">5–8 arbetsdagar</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><span lang="en">Graded afterwards on a fresh copy: every check passed except two, and both of those were mistakes in the written task rather than in the code. The model ran on a rented A100; the agent and the project stayed on an ordinary PC. The ten features ran in one continuous conversation of about four and a half hours.</span><span lang="sv">Rättat i efterhand på en ny kopia: alla kontroller gick igenom utom två, och båda var fel i den skrivna uppgiften, inte i koden. Modellen kördes på ett hyrt A100; agenten och projektet stannade på en vanlig dator. De tio funktionerna byggdes i en och samma sammanhängande konversation på ungefär fyra och en halv timme.</span></p>
+    <div class="case">
+      <span class="t"><span lang="en">Example · 29 September</span><span lang="sv">Exempel · 29 september</span></span>
+    <p class="prose" lang="en"><strong>It proves its own fixes.</strong> Enquiries from the company's website were being saved under the website's name instead of the customer's, so a new lead lost its name. The tests were green both before and after the fix, and the agent pointed out that they therefore proved nothing. It rebuilt the real email and showed the difference: the old code saved the enquiry as "Website Form", the fixed code under the customer's own name. Then it added that case to the tests, which now fail on the old code and pass on the new. We checked this separately, on a copy: with the old code, 4 of the new checks fail.</p>
+    <p class="prose" lang="sv"><strong>Den bevisar sina egna rättningar.</strong> Förfrågningar från företagets hemsida sparades under webbplatsens namn i stället för kundens, så att en ny kund tappade sitt namn. Testerna var gröna både före och efter rättningen, och agenten påpekade att de därför inte bevisade något. Den återskapade det riktiga mejlet och visade skillnaden: den gamla koden sparade förfrågan som "Website Form", den rättade under kundens eget namn. Sedan lade den till fallet i testerna, som nu fallerar på den gamla koden och går igenom på den nya. Vi kontrollerade det separat, på en kopia: med den gamla koden fallerar 4 av de nya kontrollerna.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span lang="en">Verified build</span><span lang="sv">Verifierad version</span></h2>
+    <div class="figures">
+      <div class="fig"><span class="n">50</span><span class="k"><span lang="en">tools available</span><span lang="sv">verktyg tillgängliga</span></span><span class="src"><span lang="en">counted 2026-09-27</span><span lang="sv">räknade 2026-09-27</span></span></div>
+      <div class="fig"><span class="n">306</span><span class="k"><span lang="en">fast tests passing</span><span lang="sv">snabba tester godkända</span></span><span class="src"><span lang="en">plus live and end-to-end suites</span><span lang="sv">plus integrations- och e2e-sviter</span></span></div>
+      <div class="fig"><span class="n">1,621</span><span class="k"><span lang="en">mutation anchors</span><span lang="sv">mutationsankare</span></span><span class="src"><span lang="en">checks that catch tests faking success, 0 broken</span><span lang="sv">kontroller som avslöjar tester som låtsas lyckas, 0 trasiga</span></span></div>
+      <div class="fig"><span class="n">65</span><span class="k"><span lang="en">self-testing sensors</span><span lang="sv">självtestande mätverktyg</span></span><span class="src"><span lang="en">each verifies its own reading</span><span lang="sv">vart och ett kontrollerar sin egen avläsning</span></span></div>
+      <div class="fig"><span class="n">428</span><span class="k"><span lang="en">logged findings</span><span lang="sv">loggade fynd</span></span><span class="src"><span lang="en">measured, with what was rejected</span><span lang="sv">uppmätta, med det som förkastats</span></span></div>
+      <div class="fig"><span class="n">117</span><span class="k"><span lang="en">pre-registered studies</span><span lang="sv">förhandsregistrerade studier</span></span><span class="src"><span lang="en">written and frozen before the run</span><span lang="sv">skrivna och låsta före körningen</span></span></div>
+      <div class="fig"><span class="n">3</span><span class="k"><span lang="en">interfaces, one engine</span><span lang="sv">gränssnitt, en motor</span></span><span class="src"><span lang="en">no drift between them</span><span lang="sv">ingen glidning dem emellan</span></span></div>
+    </div>
+    <div class="prose" style="margin-top:20px">
+      <p lang="en">Every figure above can be recomputed from the repository, and what was measured and <em>rejected</em> is logged beside what shipped. The whole build is made to be inspected rather than taken on trust.</p>
+      <p lang="sv">Varje siffra ovan kan räknas om från kodbasen, och det som mätts och <em>förkastats</em> loggas bredvid det som levererats. Hela bygget är gjort för att granskas i stället för att tas på förtroende.</p>
+    </div>
+    <div class="case prose">
+      <span class="t"><span lang="en">Separate workbench</span><span lang="sv">Separat verkstad</span></span>
+      <p lang="en">Since late August the measuring has been done by a <strong>separate workbench with its own repository</strong>, which treats this agent as its subject: studies are written before they are run, the instruments that read the results are themselves tested with deliberately broken inputs, and the analysis is run without looking at the numbers first. The studies run on the developer's own card and on rented graphics cards.</p>
+      <p lang="sv">Sedan slutet av augusti sköts mätningen av en <strong>separat verkstad med eget kodarkiv</strong>, som behandlar den här agenten som sitt mätobjekt: studier skrivs innan de körs, instrumenten som läser resultaten testas själva med medvetet trasiga indata, och analysen körs utan att först titta på siffrorna. Studierna körs på utvecklarens eget kort och på hyrda grafikkort.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span lang="en">Why it is trustworthy on a real codebase</span><span lang="sv">Varför den går att lita på i en riktig kodbas</span></h2>
+    <div class="rows">
+      <div class="row">
+        <div class="label"><span lang="en">Nothing runs unapproved</span><span lang="sv">Inget körs utan godkännande</span></div>
+        <div>
+          <p lang="en">Every file write, every shell command and every commit is shown and approved before it happens. A denied action is explained to the agent rather than retried.</p>
+          <p lang="sv">Varje filskrivning, varje kommando och varje incheckning visas och godkänns innan den sker. Ett nekat steg förklaras för agenten i stället för att försökas igen.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">There is always a way back</span><span lang="sv">Det finns alltid en väg tillbaka</span></div>
+        <div>
+          <div lang="en">
+            <p>The project is snapshotted before the first destructive action of a turn, and the snapshot lives <strong>outside</strong> the project folder: because an undo history stored inside the thing it protects is not an undo history.</p>
+            <p class="prose">A recursive delete whose target is computed rather than named is refused outright.</p>
+          </div>
+          <div lang="sv">
+            <p>Projektet ögonblickskopieras före första förstörande steget i en tur, och kopian ligger <strong>utanför</strong> projektmappen: en ångra-historik som sparas inuti det den skyddar är ingen ångra-historik.</p>
+            <p class="prose">En rekursiv radering vars mål räknas fram i stället för att namnges nekas rakt av.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Claims are checked</span><span lang="sv">Påståenden kontrolleras</span></div>
+        <div>
+          <div lang="en">
+            <p>Written code is compile-checked immediately. A test file that never imports the module it claims to test does not count as verification. A run that contradicts the agent's own summary is caught and put back in front of it.</p>
+            <p class="prose">The agent must state what it expects before running a command, so a result that disagrees with the prediction cannot quietly become the story afterwards.</p>
+          </div>
+          <div lang="sv">
+            <p>Skriven kod kompileringskontrolleras direkt. En testfil som aldrig importerar modulen den påstår sig testa räknas inte som verifiering. En körning som motsäger agentens egen sammanfattning fångas upp och läggs tillbaka framför den.</p>
+            <p class="prose">Agenten måste säga vad den förväntar sig innan ett kommando körs, så att ett resultat som motsäger förutsägelsen inte i efterhand kan bli den nya berättelsen.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">It runs what it builds</span><span lang="sv">Den kör det den bygger</span></div>
+        <div>
+          <p lang="en">It can launch a program, watch it, measure the window it opened, and drive an interactive command-line program by typing scripted input into it, which is how it catches the class of bug where every unit test passes and the actual program does nothing.</p>
+          <p lang="sv">Den kan starta ett program, iaktta det, mäta fönstret det öppnade och styra ett interaktivt kommandoradsprogram genom att mata in färdiga rader, vilket är så den fångar den sortens fel där alla enhetstester går igenom och själva programmet inte gör någonting.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">It tunes the machine</span><span lang="sv">Den trimmar maskinen</span></div>
+        <div>
+          <p lang="en">GPU memory cost per model is measured once and cached rather than guessed: measurements on this hardware showed a 13× spread between models that parameter counts do not predict. Context length, batch sizes and offload are set from those measurements.</p>
+          <p lang="sv">Grafikminnets kostnad per modell mäts en gång och sparas i stället för att gissas: mätningar på den här hårdvaran visade 13 gångers spridning mellan modeller, vilket antalet parametrar inte förutsäger. Kontextlängd, batchstorlekar och GPU-avlastning sätts utifrån de mätningarna.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tools">
+      <span class="tool"><span lang="en">read / write / edit files</span><span lang="sv">läsa / skriva / ändra filer</span></span>
+      <span class="tool"><span lang="en">ranged reads</span><span lang="sv">läsning av radintervall</span></span>
+      <span class="tool"><span lang="en">line-ranged edits</span><span lang="sv">ändring av radintervall</span></span>
+      <span class="tool"><span lang="en">run commands</span><span lang="sv">köra kommandon</span></span>
+      <span class="tool"><span lang="en">run &amp; watch programs</span><span lang="sv">köra och bevaka program</span></span>
+      <span class="tool"><span lang="en">scripted stdin</span><span lang="sv">skriptad inmatning</span></span>
+      <span class="tool"><span lang="en">semantic search</span><span lang="sv">semantisk sökning</span></span>
+      <span class="tool"><span lang="en">text search</span><span lang="sv">textsökning</span></span>
+      <span class="tool">git status / diff / commit</span>
+      <span class="tool"><span lang="en">checkpoints &amp; restore</span><span lang="sv">återställningspunkter</span></span>
+      <span class="tool"><span lang="en">screen capture</span><span lang="sv">skärmbild</span></span>
+      <span class="tool"><span lang="en">GPU &amp; system info</span><span lang="sv">GPU- och systeminfo</span></span>
+      <span class="tool"><span lang="en">document reading</span><span lang="sv">dokumentläsning</span></span>
+      <span class="tool"><span lang="en">desktop control</span><span lang="sv">skrivbordsstyrning</span></span>
+      <span class="tool"><span lang="en">mail</span><span lang="sv">e-post</span></span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span lang="en">How the quality is proven</span><span lang="sv">Hur kvaliteten bevisas</span></h2>
+    <p class="prose"><span lang="en">Most agents are demonstrated. This one is measured, on a benchmark built from real bugs in real programs, with a scoring oracle that runs the fixed program instead of trusting the agent's own tests.</span><span lang="sv">De flesta agenter demonstreras. Den här mäts: mot ett testunderlag byggt av verkliga buggar i verkliga program, med en bedömare som kör det lagade programmet i stället för att lita på agentens egna tester.</span></p>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr lang="en"><th>Practice</th><th>Scale</th><th>What it prevents</th></tr>
+          <tr lang="sv"><th>Metod</th><th>Omfattning</th><th>Vad det förhindrar</th></tr>
+        </thead>
+        <tbody lang="en">
+          <tr><td>Mutation testing of every guard</td><td class="num">1,621 anchors</td><td>Tests that pass whether or not the code works</td></tr>
+          <tr><td>Frozen bug fixtures with oracles</td><td class="num">3 fixtures</td><td>A benchmark that quietly changes between runs</td></tr>
+          <tr><td>Self-testing sensors</td><td class="num">65</td><td>Instruments that report a confident zero when blind</td></tr>
+          <tr><td>Recorded rejections</td><td class="num">428 findings</td><td>Re-trying approaches already measured as harmful</td></tr>
+          <tr><td>Studies written and frozen before the run</td><td class="num">117 pre-registrations</td><td>A result chosen after the fact, and a rule moved to fit it</td></tr>
+          <tr><td>The same study repeated on a second machine</td><td class="num">2 sites</td><td>A number that is really a property of one computer</td></tr>
+          <tr><td>Analysis run blind, on a sealed plan</td><td class="num">every study</td><td>Reading the results until they say something</td></tr>
+        </tbody>
+        <tbody lang="sv">
+          <tr><td>Mutationstestning av varje skydd</td><td class="num">1 621 ankare</td><td>Tester som går igenom oavsett om koden fungerar</td></tr>
+          <tr><td>Frysta buggfall med bedömare</td><td class="num">3 fall</td><td>Ett testunderlag som tyst ändrar sig mellan körningar</td></tr>
+          <tr><td>Självtestande mätverktyg</td><td class="num">65</td><td>Instrument som rapporterar en självsäker nolla när de är blinda</td></tr>
+          <tr><td>Dokumenterade förkastanden</td><td class="num">428 fynd</td><td>Att på nytt pröva vägar som redan mätts som skadliga</td></tr>
+          <tr><td>Studier skrivna och låsta före körningen</td><td class="num">117 förhandsregistreringar</td><td>Ett resultat som väljs i efterhand, och en regel som flyttas för att passa det</td></tr>
+          <tr><td>Samma studie upprepad på en andra maskin</td><td class="num">2 platser</td><td>En siffra som egentligen är en egenskap hos en dator</td></tr>
+          <tr><td>Analysen körd blint, efter en låst plan</td><td class="num">varje studie</td><td>Att läsa resultaten tills de säger något</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2><span lang="en">What the measurements showed</span><span lang="sv">Vad mätningarna visade</span></h2>
+    <p class="prose"><span lang="en">This agent was not just built: it was studied. Thousands of recorded work sessions, each one designed like a small experiment: predict first, run once, read everything, change one thing. Since late August the measurement work has had its own workbench, its own rules and its own rented hardware, and the agent is the thing it measures. These lessons now live in the product.</span><span lang="sv">Den här agenten byggdes inte bara: den studerades. Tusentals inspelade arbetspass, vart och ett upplagt som ett litet experiment: förutsäg först, kör en gång, läs allt, ändra en sak. Sedan slutet av augusti har mätarbetet en egen verkstad, egna regler och egen hyrd hårdvara, och agenten är det som mäts. De här lärdomarna sitter numera i produkten.</span></p>
+    <div class="rows">
+      <div class="row">
+        <div class="label"><span lang="en">An independent referee</span><span lang="sv">En oberoende domare</span></div>
+        <div>
+          <p lang="en">Correctness is decided by a separate referee program that <strong>runs the finished code</strong> and compares the results with answers fixed in advance, not by the agent's own tests.</p>
+          <p lang="sv">Korrekthet avgörs av ett separat domarprogram som <strong>kör den färdiga koden</strong> och jämför resultaten med facit som bestämts i förväg, inte av agentens egna tester.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Proven work is saved instantly</span><span lang="sv">Bevisat arbete sparas direkt</span></div>
+        <div>
+          <p lang="en">The moment a fix is proven correct, a copy is stored outside the agent's reach, automatically, before anything else can happen. Proven work is never left where a later cleanup step can reach it.</p>
+          <p lang="sv">I samma ögonblick som en lagning bevisats korrekt sparas en kopia utom räckhåll för agenten, automatiskt, innan något annat hinner ske. Bevisat arbete lämnas aldrig kvar där ett senare upprensningssteg kan nå det.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Its reasoning is on record</span><span lang="sv">Dess resonemang sparas</span></div>
+        <div>
+          <p lang="en">The agent's step-by-step thinking is captured to disk. When something goes wrong, the reason can be read afterwards rather than guessed at.</p>
+          <p lang="sv">Agentens steg-för-steg-tänkande sparas till disk. När något går fel kan orsaken läsas i efterhand i stället för att gissas.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Models chosen by measurement</span><span lang="sv">Modeller väljs efter mätning</span></div>
+        <div>
+          <p lang="en">Models differ in pace, habits and strengths. They are compared here on identical tasks with identical referees. One finding: a small, fast model measurably solved a hard bug that a model four times its size could not, so the shipped configuration comes from measurements, not marketing.</p>
+          <p lang="sv">Modeller skiljer sig i tempo, vanor och styrkor. Här jämförs de på identiska uppgifter med identiska domare. Ett fynd: en liten, snabb modell löste bevisligen en svår bugg som en modell fyra gånger så stor inte klarade, så den levererade konfigurationen kommer från mätningar, inte marknadsföring.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">How you write the task changes the work</span><span lang="sv">Hur uppgiften skrivs ändrar arbetet</span></div>
+        <div>
+          <p lang="en">One study took a single task and removed a contradiction from its wording, nothing else. The agent's planning reply <strong>halved</strong>. The effect held on a second machine with a different graphics card, and a length-matched placebo sentence did not reproduce it, so it is the contradiction and not the extra words.</p>
+          <p lang="en" class="prose">That is why the product now reads a task before it starts and puts two measured shapes of a self-contradicting request back to the person as a question, instead of quietly picking one reading.</p>
+          <p lang="sv">En studie tog en enda uppgift och tog bort en motsägelse i formuleringen, inget annat. Agentens planeringssvar <strong>halverades</strong>. Effekten höll på en andra maskin med ett annat grafikkort, och en lika lång placebomening återskapade den inte, alltså är det motsägelsen och inte de extra orden.</p>
+          <p lang="sv" class="prose">Därför läser produkten numera uppgiften innan den börjar och lägger två uppmätta former av en motsägelsefull beställning tillbaka till personen som en fråga, i stället för att tyst välja en tolkning.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Its own verification was audited</span><span lang="sv">Dess egen verifiering granskades</span></div>
+        <div>
+          <p lang="en">The agent is reminded when it claims a fix without exercising it. Every real firing of that rule was then audited against the recorded sessions, and the rule was rewritten from what the audit showed: it now reads what a real test of <strong>that specific edit</strong> looks like, and the check that runs the agent's own tests to watch them fail first was extended to the language it actually writes.</p>
+          <p lang="sv">Agenten påminns när den påstår sig ha lagat något utan att ha kört det. Varje verklig utlösning av regeln granskades sedan mot de inspelade passen, och regeln skrevs om utifrån vad granskningen visade: den läser numera vad ett verkligt test av <strong>just den ändringen</strong> är, och kontrollen som kör agentens egna tester för att se dem falla först utökades till det språk den faktiskt skriver.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Existing code costs more</span><span lang="sv">Befintlig kod kostar mer</span></div>
+        <div>
+          <p lang="en">The same requirements cost <strong>3.5× more</strong> when the agent works inside code that already exists than on an empty folder, and the measured mechanism is avoidance, not editing: the work goes around the old code rather than through it. Useful when you plan what to hand it, and it is why the benchmark now includes existing-code tasks rather than green fields only.</p>
+          <p lang="sv">Samma krav kostar <strong>3,5 gånger mer</strong> när agenten arbetar i kod som redan finns än i en tom mapp, och den uppmätta mekanismen är undvikande, inte redigering: arbetet går runt den gamla koden i stället för genom den. Bra att veta när man planerar vad man lämnar över, och därför innehåller testunderlaget numera uppgifter i befintlig kod, inte bara tomma mappar.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">The tooling is measured too</span><span lang="sv">Verktygen mäts också</span></div>
+        <div>
+          <p lang="en">Whole recorded sessions are read back, not just their outcomes, and a surprising share of lost time turns out to be in the tooling around the model rather than in the model itself. Each case found that way becomes a fixed defect with a test that fails without the fix, so the same minute is never lost twice.</p>
+          <p lang="sv">Hela inspelade arbetspass läses tillbaka, inte bara utfallen, och en förvånande del av den förlorade tiden visar sig ligga i verktygen runt modellen snarare än i modellen själv. Varje sådant fall blir ett åtgärdat fel med ett test som faller utan åtgärden, så att samma minut aldrig går förlorad två gånger.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="server">
+    <h2><span lang="en">From one desk to a team server</span><span lang="sv">Från ett skrivbord till en teamserver</span></h2>
+    <p class="prose" lang="en">The agent runs on each developer's own computer: its tools, the project files and git never leave that machine. Only the model can move to a shared server on the local network. On 2026-09-26 the unchanged product was run against a rented NVIDIA A100 80 GB, with the same 27-billion-parameter model at 8-bit precision and the model's full context window.</p>
+    <p class="prose" lang="sv">Agenten körs på varje utvecklares egen dator: dess verktyg, projektfilerna och git lämnar aldrig den maskinen. Bara modellen kan flytta till en delad server i det lokala nätverket. Den 26 september 2026 kördes den oförändrade produkten mot ett hyrt NVIDIA A100 80 GB, med samma modell på 27 miljarder parametrar i 8-bitars precision och modellens fulla kontextfönster.</p>
+
+    <div class="figures">
+      <div class="fig"><span class="n">262,144</span><span class="k"><span lang="en">tokens of context per agent</span><span lang="sv">token kontext per agent</span></span><span class="src"><span lang="en">the model's full window, 4× the desktop card</span><span lang="sv">modellens fulla fönster, 4× skrivbordskortet</span></span></div>
+      <div class="fig"><span class="n">43.5 GB</span><span class="k"><span lang="en">of 80 GB in use</span><span lang="sv">av 80 GB används</span></span><span class="src"><span lang="en">model, full window and image reading</span><span lang="sv">modell, fullt fönster och bildläsning</span></span></div>
+      <div class="fig"><span class="n">≈ 40</span><span class="k"><span lang="en">tokens per second, one agent</span><span lang="sv">token per sekund, en agent</span></span><span class="src"><span lang="en">measured by the model server itself</span><span lang="sv">uppmätt av modellservern själv</span></span></div>
+      <div class="fig"><span class="n">67,596</span><span class="k"><span lang="en">tokens held by one real ticket</span><span lang="sv">token i en enda verklig uppgift</span></span><span class="src"><span lang="en">more than a 16 GB card's whole window</span><span lang="sv">mer än ett 16 GB-korts hela fönster</span></span></div>
+    </div>
+    <p class="note"><span lang="en">A token is a piece of a word, about three quarters of an English word on average; 30 tokens a second is faster than most people read. Measured 2026-09-26 on a rented A100 SXM 80 GB. The A100 is not sold by any Swedish store today, so the builds below use NVIDIA's current workstation cards, which are.</span><span lang="sv">En token är en bit av ett ord, i snitt ungefär tre fjärdedelar av ett ord; 30 token i sekunden är snabbare än de flesta läser. Uppmätt 2026-09-26 på ett hyrt A100 SXM 80 GB. A100 säljs inte av någon svensk butik i dag, så byggena nedan använder NVIDIA:s aktuella arbetsstationskort, som gör det.</span></p>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span class="t"><span lang="en">Three builds, bought in Sweden</span><span lang="sv">Tre byggen, köpta i Sverige</span></span>
+        <p lang="en">One workstation, one graphics card with enough memory for the model and its context. Prices include 25% VAT, read from the stores' pages on 2026-09-26. Each total is the complete machine: graphics card, processor and cooler, motherboard, 64 GB memory, 2 TB drive, power supply and case. It runs Linux, which is free, as the model server did on the rented A100; no screen is needed, and assembly is not included.</p>
+        <p lang="sv">En arbetsstation, ett grafikkort med tillräckligt minne för modellen och dess kontext. Priserna är inklusive moms, lästa från butikernas sidor 2026-09-26. Varje totalsumma är hela datorn: grafikkort, processor och kylare, moderkort, 64 GB minne, 2 TB lagring, nätaggregat och chassi. Den kör Linux, som är gratis, precis som modellservern gjorde på det hyrda A100; ingen skärm behövs, och montering ingår inte.</p>
+      </div>
+      <div class="builds">
+        <div class="build">
+          <span class="t"><span lang="en">Starter</span><span lang="sv">Start</span></span>
+          <span class="gpu">RTX PRO 5000 · 48 GB</span>
+          <span class="big">≈ <span lang="en">106,000–113,000</span><span lang="sv">106 000–113 000</span></span>
+          <span class="unit"><span lang="en">SEK incl. VAT</span><span lang="sv">kr inkl. moms</span></span>
+          <dl>
+            <dt><span lang="en">Graphics card</span><span lang="sv">Grafikkort</span></dt><dd><span lang="en">84,990</span><span lang="sv">84 990</span></dd>
+            <dt><span lang="en">Rest of the machine</span><span lang="sv">Resten av datorn</span></dt><dd><span lang="en">21,000–28,000</span><span lang="sv">21 000–28 000</span></dd>
+            <dt><span lang="en">Speed, one agent</span><span lang="sv">Hastighet, en agent</span></dt><dd><span lang="en">≈ 26 tok/s</span><span lang="sv">≈ 26 token/s</span></dd>
+          </dl>
+        </div>
+        <div class="build">
+          <span class="t"><span lang="en">Mid</span><span lang="sv">Mellan</span></span>
+          <span class="gpu">RTX PRO 5000 · 72 GB</span>
+          <span class="big">≈ <span lang="en">145,000–152,000</span><span lang="sv">145 000–152 000</span></span>
+          <span class="unit"><span lang="en">SEK incl. VAT</span><span lang="sv">kr inkl. moms</span></span>
+          <dl>
+            <dt><span lang="en">Graphics card</span><span lang="sv">Grafikkort</span></dt><dd><span lang="en">124,378</span><span lang="sv">124 378</span></dd>
+            <dt><span lang="en">Rest of the machine</span><span lang="sv">Resten av datorn</span></dt><dd><span lang="en">21,000–28,000</span><span lang="sv">21 000–28 000</span></dd>
+            <dt><span lang="en">Speed, one agent</span><span lang="sv">Hastighet, en agent</span></dt><dd><span lang="en">≈ 26 tok/s</span><span lang="sv">≈ 26 token/s</span></dd>
+          </dl>
+        </div>
+        <div class="build">
+          <span class="t"><span lang="en">Team</span><span lang="sv">Team</span></span>
+          <span class="gpu">RTX PRO 6000 Max-Q · 96 GB</span>
+          <span class="big">≈ <span lang="en">191,000–198,000</span><span lang="sv">191 000–198 000</span></span>
+          <span class="unit"><span lang="en">SEK incl. VAT</span><span lang="sv">kr inkl. moms</span></span>
+          <dl>
+            <dt><span lang="en">Graphics card</span><span lang="sv">Grafikkort</span></dt><dd><span lang="en">169,990</span><span lang="sv">169 990</span></dd>
+            <dt><span lang="en">Rest of the machine</span><span lang="sv">Resten av datorn</span></dt><dd><span lang="en">21,000–28,000</span><span lang="sv">21 000–28 000</span></dd>
+            <dt><span lang="en">Speed, one agent</span><span lang="sv">Hastighet, en agent</span></dt><dd><span lang="en">≈ 35 tok/s</span><span lang="sv">≈ 35 token/s</span></dd>
+          </dl>
+        </div>
+      </div>
+      <p class="panel-foot"><span lang="en">Rest of the machine, all in stock: AMD Ryzen 7 9700X, Thermalright Peerless Assassin 120 SE, Gigabyte B650 Eagle AX, 64 GB DDR5 (half of this line's cost: memory prices rose four- to sixfold in 2026), 2 TB NVMe, Corsair RM1000e 1000 W with the card's 16-pin connector, an airflow case. The range is the cheapest stores (Prisjakt) against all parts from Inet. Speed per agent is estimated from the card's memory bandwidth against the measured A100. A ready-built alternative: HP Z2 G1i with the 96 GB card, 96 GB RAM and three years of on-site service, 194,990 kr at Proshop.</span><span lang="sv">Resten av datorn, allt i lager: AMD Ryzen 7 9700X, Thermalright Peerless Assassin 120 SE, Gigabyte B650 Eagle AX, 64 GB DDR5 (halva radens kostnad: minnespriserna steg fyra till sex gånger under 2026), 2 TB NVMe, Corsair RM1000e 1000 W med kortets 16-poliga kontakt, ett chassi med bra luftflöde. Spannet är billigaste butikerna (Prisjakt) mot alla delar från Inet. Hastigheten per agent är uppskattad från kortets minnesbandbredd jämfört med uppmätt A100. Färdigbyggt alternativ: HP Z2 G1i med 96 GB-kortet, 96 GB RAM och tre års service på plats, 194 990 kr hos Proshop.</span></p>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span class="t"><span lang="en">Against a cloud subscription</span><span lang="sv">Jämfört med en molnprenumeration</span></span>
+        <p lang="en">A typical cloud AI provider charges $200 per user per month for its top coding-assistant plan. At 9.92 SEK per USD that is <strong>1,984 SEK per month</strong>, or <strong>23,808 SEK per year</strong>, for each seat. The build and installation are a one-time cost and the software a fixed monthly fee; the cloud subscription grows with every seat. <strong>And the build has no usage limits:</strong> no quotas, no caps on requests and no billing per token. The hardware is yours, so it can work around the clock, every day of the year.</p>
+        <p lang="en">The cheaper $20 to $40 plans are made for suggestions and chat, with usage caps that an agent working all day through a codebase uses up quickly, and heavy daily agent work can reach the caps of the $100 plans too. Teams that build with agents every day end up on the top plans or pay per token, and that is the comparison in the table below. The build also gives what no plan can: code that never leaves the building, no usage limits, and code that is yours.</p>
+        <p lang="sv">En typisk moln-AI-leverantör tar 200 dollar per användare och månad för sin högsta plan för kodassistans. Vid 9,92 kr per dollar blir det <strong>1 984 kr i månaden</strong>, eller <strong>23 808 kr om året</strong>, per plats. Bygget och installationen är en engångskostnad och mjukvaran en fast månadsavgift; molnprenumerationen växer med varje plats. <strong>Och bygget har inga användningsgränser:</strong> inga kvoter, inga tak för antalet förfrågningar och ingen betalning per token. Hårdvaran är er egen, så den kan arbeta dygnet runt, årets alla dagar.</p>
+        <p lang="sv">De billigare planerna på 20 till 40 dollar är gjorda för förslag och chatt, med användningstak som en agent som arbetar hela dagen i en kodbas snabbt förbrukar, och tungt dagligt agentarbete kan nå taken för 100-dollarsplanerna också. Team som bygger med agenter varje dag hamnar på de högsta planerna eller betalar per token, och det är den jämförelsen som tabellen nedan gör. Bygget ger dessutom det ingen plan kan: kod som aldrig lämnar huset, inga användningsgränser, och kod som är er egen.</p>
+      </div>
+      <div class="scroll">
+        <table class="grid">
+          <thead>
+            <tr lang="en"><th>Package</th><th>One-time cost<span class="sub-th">hardware + installation</span></th><th>Software<span class="sub-th">per month</span></th><th>Break-even<span class="sub-th">full team</span></th><th>Saved over 3 years<span class="sub-th">full team</span></th></tr>
+            <tr lang="sv"><th>Paket</th><th>Engångskostnad<span class="sub-th">hårdvara + installation</span></th><th>Mjukvara<span class="sub-th">per månad</span></th><th>Break-even<span class="sub-th">fullt team</span></th><th>Sparat på 3 år<span class="sub-th">fullt team</span></th></tr>
+          </thead>
+          <tbody lang="en">
+            <tr><td>Starter <span class="dim">6 users</span></td><td class="num">≈ 111,600 SEK</td><td class="num">7,500 SEK</td><td class="num">≈ 25 months</td><td class="num">≈ 47,000 SEK</td></tr>
+            <tr><td>Mid <span class="dim">12 users</span></td><td class="num">≈ 154,800 SEK</td><td class="num">13,500 SEK</td><td class="num">≈ 15 months</td><td class="num">≈ 216,000 SEK</td></tr>
+            <tr><td>Team <span class="dim">20 users</span></td><td class="num">≈ 203,600 SEK</td><td class="num">19,500 SEK</td><td class="num hl">≈ 10 months</td><td class="num">≈ 523,000 SEK</td></tr>
+          </tbody>
+          <tbody lang="sv">
+            <tr><td>Start <span class="dim">6 användare</span></td><td class="num">≈ 111 600 kr</td><td class="num">7 500 kr</td><td class="num">≈ 25 månader</td><td class="num">≈ 47 000 kr</td></tr>
+            <tr><td>Mellan <span class="dim">12 användare</span></td><td class="num">≈ 154 800 kr</td><td class="num">13 500 kr</td><td class="num">≈ 15 månader</td><td class="num">≈ 216 000 kr</td></tr>
+            <tr><td>Team <span class="dim">20 användare</span></td><td class="num">≈ 203 600 kr</td><td class="num">19 500 kr</td><td class="num hl">≈ 10 månader</td><td class="num">≈ 523 000 kr</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="panel-foot"><span lang="en">Everything included: the build, installation and the monthly software fee. All amounts excluding VAT, which a business deducts; the hardware prices above include VAT, so the average build price is divided by 1.25 here. Break-even = one-time cost ÷ (users × 1,984 SEK − monthly fee). Smaller teams take longer: with 5 users the Starter package pays back in about 46 months, and with 4 users it does not pay back on cost alone; for a small team the reason to choose it is that the code stays in-house. After break-even the running cost is the monthly fee, electricity (about 400 to 450 W while the model works) and upkeep. A cost comparison, not a capability comparison: a cloud provider runs a different, larger model, and the local build keeps every line of code on the premises.</span><span lang="sv">Allt ingår: bygget, installationen och mjukvarans månadsavgift. Alla belopp exklusive moms, som ett företag drar av; hårdvarupriserna ovan är inklusive moms, så byggets snittpris delas här med 1,25. Break-even = engångskostnad ÷ (användare × 1 984 kr − månadsavgift). Mindre team tar längre tid: med 5 användare betalar Start-paketet tillbaka sig på ungefär 46 månader, och med 4 användare lönar det sig inte på kostnad enbart; för ett litet team är skälet att välja det att koden stannar i huset. Efter break-even är driftskostnaden månadsavgiften, el (ungefär 400 till 450 W medan modellen arbetar) och underhåll. En kostnadsjämförelse, inte en förmågejämförelse: en molnleverantör kör en annan, större modell, och det lokala bygget håller varje kodrad i huset.</span></p>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span class="t"><span lang="en">How many people each build serves</span><span lang="sv">Hur många varje bygge räcker till</span></span>
+        <p lang="en">Two limits decide it. <strong>Memory</strong> sets how many agents can hold a conversation at once: the model takes about 29 GB, and each seat takes more the larger its context window. <strong>Speed</strong> is shared: agents working at the same moment split the card's throughput. Between tasks a person reads, reviews, approves and writes the next request, so a card serves more people than it has agents generating at any one moment.</p>
+        <p lang="sv">Två gränser avgör. <strong>Minnet</strong> bestämmer hur många agenter som kan hålla en konversation samtidigt: modellen tar ungefär 29 GB, och varje plats tar mer ju större kontextfönster den har. <strong>Hastigheten</strong> delas: agenter som arbetar i samma stund delar på kortets kapacitet. Mellan uppgifterna läser, granskar och godkänner personen och skriver nästa beställning, så ett kort räcker till fler personer än det har agenter som genererar i samma ögonblick.</p>
+      </div>
+      <div class="scroll">
+        <table class="grid">
+          <thead>
+            <tr lang="en"><th>Seats that fit in memory</th><th>48 GB</th><th>72 GB</th><th>96 GB</th><th>A100 80 GB</th></tr>
+            <tr lang="sv"><th>Platser som ryms i minnet</th><th>48 GB</th><th>72 GB</th><th>96 GB</th><th>A100 80 GB</th></tr>
+          </thead>
+          <tbody lang="en">
+            <tr><td>Full window, 262,144 tokens</td><td class="num">1</td><td class="num">2</td><td class="num">4</td><td class="num">3</td></tr>
+            <tr><td>131,072 tokens</td><td class="num">2</td><td class="num">5</td><td class="num">8</td><td class="num">6</td></tr>
+            <tr><td>65,536 tokens, the desktop window</td><td class="num">4</td><td class="num">10</td><td class="num">16</td><td class="num">12</td></tr>
+            <tr><td>65,536, compressed cache</td><td class="num">9</td><td class="num">21</td><td class="num">33</td><td class="num">25</td></tr>
+          </tbody>
+          <tbody lang="sv">
+            <tr><td>Fullt fönster, 262 144 token</td><td class="num">1</td><td class="num">2</td><td class="num">4</td><td class="num">3</td></tr>
+            <tr><td>131 072 token</td><td class="num">2</td><td class="num">5</td><td class="num">8</td><td class="num">6</td></tr>
+            <tr><td>65 536 token, skrivbordets fönster</td><td class="num">4</td><td class="num">10</td><td class="num">16</td><td class="num">12</td></tr>
+            <tr><td>65 536, komprimerad cache</td><td class="num">9</td><td class="num">21</td><td class="num">33</td><td class="num">25</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="panel-foot"><span lang="en">Calculated from the measured A100 run: about 29 GB for the model and image reading, and 16 GB of working memory per seat at the full window (8 GB at 131,072, 4 GB at 65,536; half that with the compressed 8-bit cache the desktop configuration already uses). People per build, below, are estimates from this arithmetic, each card's memory bandwidth and one earlier measurement of several agents sharing a card, until a direct measurement replaces them.</span><span lang="sv">Beräknat från den uppmätta A100-körningen: ungefär 29 GB för modellen och bildläsningen, och 16 GB arbetsminne per plats vid fullt fönster (8 GB vid 131 072, 4 GB vid 65 536; hälften med den komprimerade 8-bitarscache som skrivbordskonfigurationen redan använder). Personer per bygge, nedan, är uppskattningar utifrån denna beräkning, varje korts minnesbandbredd och en tidigare mätning av flera agenter som delar ett kort, tills en direkt mätning ersätter dem.</span></p>
+    </div>
+
+<div class="tiers" style="margin-top:22px">
+      <div class="tier">
+        <span class="t"><span lang="en">Desktop · 16 GB card</span><span lang="sv">Skrivbord · 16 GB-kort</span></span>
+        <span class="who"><span lang="en">1 developer</span><span lang="sv">1 utvecklare</span></span>
+        <p lang="en">One agent at a time, 65,536 tokens of context, about 24 tokens per second. The tested configuration.</p>
+        <p lang="sv">En agent i taget, 65 536 token kontext, ungefär 24 token per sekund. Den testade konfigurationen.</p>
+      </div>
+      <div class="tier">
+        <span class="t"><span lang="en">Starter · 48 GB</span><span lang="sv">Start · 48 GB</span></span>
+        <span class="who"><span lang="en">3–6 people</span><span lang="sv">3–6 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
+        <p lang="en">About 2 to 3 agents at work at once, each with 65,536 tokens. ≈ 18,000–38,000 kr per person.</p>
+        <p lang="sv">Ungefär 2 till 3 agenter i arbete samtidigt, var och en med 65 536 token. ≈ 18 000–38 000 kr per person.</p>
+      </div>
+      <div class="tier">
+        <span class="t"><span lang="en">Mid · 72 GB</span><span lang="sv">Mellan · 72 GB</span></span>
+        <span class="who"><span lang="en">6–12 people</span><span lang="sv">6–12 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
+        <p lang="en">About 3 agents at work at once, memory for 10 seats at 65,536. ≈ 12,000–25,000 kr per person.</p>
+        <p lang="sv">Ungefär 3 agenter i arbete samtidigt, minne för 10 platser à 65 536. ≈ 12 000–25 000 kr per person.</p>
+      </div>
+      <div class="tier">
+        <span class="t"><span lang="en">Team · 96 GB</span><span lang="sv">Team · 96 GB</span></span>
+        <span class="who"><span lang="en">10–20 people</span><span lang="sv">10–20 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
+        <p lang="en">About 4 to 5 agents at work at once at a comfortable speed, memory for 16 seats at 65,536. ≈ 10,000–20,000 kr per person.</p>
+        <p lang="sv">Ungefär 4 till 5 agenter i arbete samtidigt i bekväm takt, minne för 16 platser à 65 536. ≈ 10 000–20 000 kr per person.</p>
+      </div>
+      <div class="tier">
+        <span class="t"><span lang="en">Rent instead</span><span lang="sv">Hyr i stället</span></span>
+        <span class="who"><span lang="en">≈ 11–12 SEK / hour</span><span lang="sv">≈ 11–12 kr / timme</span></span>
+        <p lang="en">An A100 80 GB on demand from a cloud provider, as used for the measurement above. For occasional heavy work, renting stays cheaper than any build.</p>
+        <p lang="sv">Ett A100 80 GB vid behov hos en molnleverantör, som i mätningen ovan. För tillfälligt tungt arbete förblir hyra billigare än något bygge.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="limits">
+      <h2><span lang="en">Stated plainly</span><span lang="sv">Sagt rakt ut</span></h2>
+      <div class="limit">
+        <div class="label"><span lang="en">Capability scales with the model</span><span lang="sv">Förmågan skalar med modellen</span></div>
+        <div lang="en">
+        <p>Capability tracks the local model you run. On the benchmark, some categories of bug are fixed reliably and others are not, and the numbers are recorded rather than rounded up.</p>
+        <p>The agent is not tied to one model. It speaks to any local model server through a single contract, so <strong>the next step is larger models on larger hardware</strong>: a workstation card or a server GPU runs models several times the size of the tested one, and the measurement bench re-runs the same sealed studies on each so the gain is a number rather than a claim.</p>
+        </div>
+        <div lang="sv">
+        <p>Förmågan följer den lokala modell ni kör. I testunderlaget lagas vissa sorters fel pålitligt och andra inte, och siffrorna redovisas i stället för att rundas uppåt.</p>
+        <p>Agenten är inte bunden till en modell. Den talar med vilken lokal modellserver som helst genom ett enda kontrakt, så <strong>nästa steg är större modeller på större hårdvara</strong>: ett arbetsstationskort eller ett server-GPU kör modeller flera gånger så stora som den testade, och mätverkstaden kör om samma låsta studier på var och en så att vinsten blir en siffra i stället för ett påstående.</p>
+        </div>
+      </div>
+      <div class="limit">
+        <div class="label"><span lang="en">Requires local hosting</span><span lang="sv">Kräver lokal modell</span></div>
+        <p lang="en">It needs a model server on the machine or the network: a 16 GB GPU runs the tested configuration comfortably. There is no fallback to a hosted API, by design.</p>
+        <p lang="sv">Den behöver en modellserver på maskinen eller i nätverket: ett grafikkort med 16 GB kör den testade konfigurationen med marginal. Det finns medvetet ingen reservväg till ett moln-API.</p>
+      </div>
+      <div class="limit">
+        <div class="label"><span lang="en">Windows-first</span><span lang="sv">Windows i första hand</span></div>
+        <p lang="en">Developed and measured on Windows, including the shell behaviours that break naive agents there. Other platforms are not currently exercised by the test suite.</p>
+        <p lang="sv">Utvecklad och uppmätt på Windows, inklusive de skalbeteenden som fäller naiva agenter där. Andra plattformar täcks för närvarande inte av testsviten.</p>
+      </div>
+      <div class="limit">
+        <div class="label"><span lang="en">Supervised, not autonomous</span><span lang="sv">Övervakad, inte självgående</span></div>
+        <p lang="en">It is built to work with a person approving actions, not to be left running unattended against production systems.</p>
+        <p lang="sv">Den är byggd för att arbeta med en människa som godkänner stegen, inte för att lämnas ensam mot produktionssystem.</p>
+      </div>
+      <div class="limit">
+        <div class="label"><span lang="en">One model, measured deeply</span><span lang="sv">En modell, djupt uppmätt</span></div>
+        <p lang="en">The studies behind the figures above were run against one 27-billion-parameter model in the quantisation that fits a 16 GB card. A smaller or larger model will behave differently, and a study answers the question it asked and no more, and studies that found no effect are reported as such.</p>
+        <p lang="sv">Studierna bakom siffrorna ovan kördes mot en modell med 27 miljarder parametrar, i den komprimering som ryms på ett 16 GB-kort. En mindre eller större modell beter sig annorlunda, och en studie besvarar den fråga den ställde och inte mer, och studier som inte fann någon effekt redovisas som sådana.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span lang="en">What is included</span><span lang="sv">Det här ingår</span></h2>
+    <div class="surfaces">
+      <div class="item"><span class="t"><span lang="en">Three front-ends</span><span lang="sv">Tre gränssnitt</span></span><p lang="en">VS Code extension, desktop app and CLI, all sharing one engine.</p><p lang="sv">VS Code-tillägg, skrivbordsapp och kommandorad, alla med samma motor.</p></div>
+      <div class="item"><span class="t"><span lang="en">Test suites</span><span lang="sv">Testsviter</span></span><p lang="en">Fast, integration and end-to-end, plus the mutation harness that verifies the tests themselves.</p><p lang="sv">Snabba, integrations- och e2e-tester, plus mutationsverktyget som kontrollerar testerna själva.</p></div>
+      <div class="item"><span class="t"><span lang="en">Benchmark</span><span lang="sv">Testunderlag</span></span><p lang="en">Frozen fixtures and scoring oracles for measuring the agent against real bugs.</p><p lang="sv">Frysta buggfall och bedömare för att mäta agenten mot verkliga fel.</p></div>
+      <div class="item"><span class="t"><span lang="en">Instrumentation</span><span lang="sv">Mätverktyg</span></span><p lang="en">Sensors that read sessions and report where turns are spent and where they fail.</p><p lang="sv">Sensorer som läser sessioner och visar var turerna går åt och var de fallerar.</p></div>
+      <div class="item"><span class="t"><span lang="en">Engineering log</span><span lang="sv">Utvecklingslogg</span></span><p lang="en">428 findings: what was measured, what was shipped, and what was rejected with reasons.</p><p lang="sv">428 fynd: vad som mättes, vad som levererades och vad som förkastades, med skäl.</p></div>
+      <div class="item"><span class="t"><span lang="en">Hardware profiles</span><span lang="sv">Hårdvaruprofiler</span></span><p lang="en">Measured model settings, so it runs correctly on day one instead of after a week of tuning.</p><p lang="sv">Uppmätta modellinställningar, så att den går rätt från dag ett i stället för efter en veckas trimning.</p></div>
+      <div class="item"><span class="t"><span lang="en">The study record</span><span lang="sv">Studieprotokollen</span></span><p lang="en">117 pre-registrations and the write-ups that followed, including the studies that found nothing, and the one that was voided by its own rule.</p><p lang="sv">117 förhandsregistreringar och rapporterna som följde, inklusive studierna som inte fann något, och den som ogiltigförklarades av sin egen regel.</p></div>
+    </div>
+  </section>
+
+  <section id="start">
+    <h2><span lang="en">Getting started</span><span lang="sv">Kom igång</span></h2>
+    <div class="rows">
+      <div class="row">
+        <div class="label"><span lang="en">A trial first</span><span lang="sv">Först ett prov</span></div>
+        <div>
+          <p lang="en"><strong>Pilot, 2 weeks, 12,000 SEK excl. VAT.</strong> The agent works on one of your own projects before any hardware is bought. You get a measurement report and a hardware recommendation for your team. If you continue, the pilot fee is credited in full against the installation. A free demo comes first, if you like.</p>
+          <p lang="sv"><strong>Pilot, 2 veckor, 12 000 kr exkl. moms.</strong> Agenten arbetar på ett av era egna projekt innan någon hårdvara köps. Ni får en mätrapport och en hårdvarurekommendation för ert team. Går ni vidare avräknas pilotavgiften i sin helhet mot installationen. En kostnadsfri demo först, om ni vill.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Setup</span><span lang="sv">Installation</span></div>
+        <div>
+          <p lang="en">One server on your local network runs the model, and the agent is installed on each developer's own computer. We install it for you, and first measure which hardware your team needs, on your own projects, so you buy what fits and nothing more. Nothing is hosted outside your company.</p>
+          <p lang="sv">En server i ert lokala nätverk kör modellen, och agenten installeras på varje utvecklares egen dator. Vi installerar den åt er, och mäter först vilken hårdvara ert team behöver, på era egna projekt, så att ni köper det som räcker och inget mer. Ingenting driftas utanför företaget.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">A 12-month partnership</span><span lang="sv">Ett samarbete i 12 månader</span></div>
+        <div>
+          <p lang="en">The agreement is a working relationship, not just a licence. Over the twelve months we go through how your team writes tasks and uses the agent, and turn what works into habits. The goal is that by the end, your team builds its own software with it, on its own.</p>
+          <p lang="sv">Avtalet är ett samarbete, inte bara en licens. Under de tolv månaderna går vi igenom hur ert team formulerar uppgifter och använder agenten, och gör det som fungerar till vanor. Målet är att ni i slutet bygger er egen programvara med den, på egen hand.</p>
+          <p lang="en">It works both ways. When the agent fails or something could work better, it becomes a measured fix in the product, and every customer gains from it. We learn only from what you choose to share, such as failures, timings and measurements, never from your source code, which stays in your building.</p>
+          <p lang="sv">Det går åt båda hållen. När agenten misslyckas eller något kan fungera bättre blir det en uppmätt förbättring i produkten, som alla kunder får del av. Vi lär oss bara av det ni väljer att dela, som misslyckanden, tider och mätningar, aldrig av er källkod, som stannar i huset.</p>
+          <p lang="en">Included: a follow-up of about 45 minutes every month, a review of the quarterly measurement report together, and guidance on writing tasks, built from your own team's sessions.</p>
+          <p lang="sv">Det här ingår: en uppföljning på ungefär 45 minuter varje månad, en genomgång av den kvartalsvisa mätrapporten tillsammans och vägledning i att formulera uppgifter, byggd på ert eget teams arbetspass.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Price</span><span lang="sv">Pris</span></div>
+        <div>
+          <p lang="en">Fixed prices, excluding VAT. The software runs on a 12-month agreement; if you are not satisfied after three months, you can leave with 30 days' notice and pay nothing more. The hardware is yours: you buy it where you like, and the builds above show what it costs.</p>
+          <p lang="sv">Fasta priser, exklusive moms. Mjukvaran löper på ett avtal om 12 månader; är ni inte nöjda efter tre månader kan ni gå ur med 30 dagars uppsägning och betalar inget mer. Hårdvaran är er egen: ni köper den där ni vill, och byggena ovan visar vad den kostar.</p>
+          <div class="scroll price-note">
+            <table class="grid">
+              <thead>
+                <tr lang="en"><th>Plan</th><th>Installation<span class="sub-th">one-time</span></th><th>Software<span class="sub-th">per month</span></th></tr>
+                <tr lang="sv"><th>Paket</th><th>Installation<span class="sub-th">engångsavgift</span></th><th>Mjukvara<span class="sub-th">per månad</span></th></tr>
+              </thead>
+              <tbody lang="en">
+                <tr><td>Small <span class="dim">up to 6 users</span></td><td class="num">24,000 SEK</td><td class="num">7,500 SEK</td></tr>
+                <tr><td>Medium <span class="dim">up to 12 users</span></td><td class="num">36,000 SEK</td><td class="num">13,500 SEK</td></tr>
+                <tr><td>Team <span class="dim">up to 20 users</span></td><td class="num">48,000 SEK</td><td class="num">19,500 SEK</td></tr>
+                <tr><td>Organisation <span class="dim">20+ users or regulated</span></td><td class="num">On quote</td><td class="num">from 25,000 SEK</td></tr>
+              </tbody>
+              <tbody lang="sv">
+                <tr><td>Liten <span class="dim">upp till 6 användare</span></td><td class="num">24 000 kr</td><td class="num">7 500 kr</td></tr>
+                <tr><td>Mellan <span class="dim">upp till 12 användare</span></td><td class="num">36 000 kr</td><td class="num">13 500 kr</td></tr>
+                <tr><td>Team <span class="dim">upp till 20 användare</span></td><td class="num">48 000 kr</td><td class="num">19 500 kr</td></tr>
+                <tr><td>Organisation <span class="dim">fler än 20 eller reglerad miljö</span></td><td class="num">Enligt offert</td><td class="num">från 25 000 kr</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p lang="en" class="price-note">Every month includes updates, support by the next working day, the monthly follow-up and a quarterly measurement report on your own code. Organisation adds security documentation for your review, installation on site and priority support, for more than 20 users or regulated environments such as defence and healthcare. Extra work is 1,150 SEK per hour. <strong>Pilot partners:</strong> the first three companies get 30% off the monthly fee for the first year, in exchange for helping shape the product and being a reference.</p>
+          <p lang="sv" class="price-note">Varje månad ingår uppdateringar, support senast nästa arbetsdag, den månatliga uppföljningen och en mätrapport per kvartal på er egen kod. Organisation lägger till säkerhetsdokumentation för er granskning, installation på plats och prioriterad support, för fler än 20 användare eller reglerade miljöer som försvar och vård. Tilläggsarbete kostar 1 150 kr per timme. <strong>Pilotpartner:</strong> de tre första företagen får 30 % rabatt på månadsavgiften första året, mot att de är med och formar produkten och ställer upp som referens.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2><span lang="en">Contact</span><span lang="sv">Kontakt</span></h2>
+    <div class="panel" style="margin-top:0">
+      <div class="panel-head">
+        <p lang="en">Want to see it work on your own code? Get in touch for a demo or a trial on one of your projects.</p>
+        <p lang="sv">Vill ni se den arbeta med er egen kod? Hör av er för en demo eller ett prov på något av era projekt.</p>
+      </div>
+      <div class="contact">
+        <span class="k"><span lang="en">Mail</span><span lang="sv">E-post</span></span>
+        <span class="v"><a href="mailto:Johan.wahlsten@outlook.com">Johan Wahlsten</a></span>
+        <span class="k"><span lang="en">Mobile</span><span lang="sv">Mobil</span></span>
+        <span class="v"><a href="tel:+46735718245">+46 73 571 82 45</a></span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Varde Code Agent</span>
+    <span lang="en">Offline · local network only</span><span lang="sv">Offline · endast lokalt nätverk</span>
+    <span lang="en">Build verified 2026-09-27</span><span lang="sv">Version verifierad 2026-09-27</span>
+    <span lang="en">Server figures measured 2026-09-26</span><span lang="sv">Serversiffror uppmätta 2026-09-26</span>
+    <span lang="en">428 findings · 117 pre-registered studies · measured on in-house and rented hardware</span><span lang="sv">428 fynd · 117 förhandsregistrerade studier · uppmätt på egen och hyrd hårdvara</span>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var en = document.getElementById("btn-en");
+    var sv = document.getElementById("btn-sv");
+    function set(lang) {
+      root.setAttribute("data-lang", lang);
+      en.setAttribute("aria-pressed", String(lang === "en"));
+      sv.setAttribute("aria-pressed", String(lang === "sv"));
+      try { localStorage.setItem("qca-lang", lang); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem("qca-lang"); } catch (e) {}
+    var initial = saved || ((navigator.language || "").toLowerCase().indexOf("sv") === 0 ? "sv" : "en");
+    set(initial);
+    en.addEventListener("click", function () { set("en"); });
+    sv.addEventListener("click", function () { set("sv"); });
+
+    // Column names for the phone layout: each body cell gets its header's text in its own language, without the
+    // small sub-lines, with an "estimate" badge kept as "(estimate)".
+    var tables = document.querySelectorAll(".scroll table");
+    for (var t = 0; t < tables.length; t++) {
+      ["en", "sv"].forEach(function (lang) {
+        var head = tables[t].querySelector('thead tr[lang="' + lang + '"]');
+        if (!head) return;
+        var labels = [];
+        var ths = head.querySelectorAll("th");
+        for (var h = 0; h < ths.length; h++) {
+          var c = ths[h].cloneNode(true);
+          var badge = c.querySelector(".est");
+          var extra = badge ? " (" + badge.textContent.trim() + ")" : "";
+          var drop = c.querySelectorAll(".sub-th, .est");
+          for (var d = 0; d < drop.length; d++) drop[d].parentNode.removeChild(drop[d]);
+          labels.push(c.textContent.replace(/\s+/g, " ").trim() + extra);
+        }
+        var rows = tables[t].querySelectorAll('tbody[lang="' + lang + '"] tr');
+        for (var r = 0; r < rows.length; r++) {
+          var tds = rows[r].querySelectorAll("td");
+          for (var i = 0; i < tds.length; i++) if (labels[i]) tds[i].setAttribute("data-label", labels[i]);
+        }
+      });
+    }
+  })();
+</script>
+</body>
+</html>
