@@ -280,7 +280,8 @@
   .where-node .i { color: var(--ink-2); font-size: 0.94rem; }
   .where-clients { display: flex; flex-direction: column; gap: 8px; }
   .where-clients .where-node { padding: 10px 14px; }
-  .where-node.more { background: transparent; border-style: dashed; align-items: center; }
+  .where-node.more { background: transparent; border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent); align-items: center; }
+  .nw { white-space: nowrap; }
   .where-node.server { border: 1px solid var(--accent); padding: 18px 18px; }
   .where-link { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .where-link .arrow { font-size: 1.5rem; line-height: 1; color: var(--accent); }
@@ -519,7 +520,7 @@
           </div>
           <div class="where-node server">
             <span class="t"><span lang="en">Your model server</span><span lang="sv">Er modellserver</span></span>
-            <span class="i"><span lang="en">The model, on your own hardware. One shared server with 48–96 GB serves about 3–20 people.</span><span lang="sv">Modellen, på er egen hårdvara. En delad server med 48–96 GB räcker till ungefär 3–20 personer.</span></span>
+            <span class="i"><span lang="en">The model, on your own hardware. One shared server with <span class="nw">48–96 GB</span> serves about <span class="nw">3–20 people</span>.</span><span lang="sv">Modellen, på er egen hårdvara. En delad server med <span class="nw">48–96 GB</span> räcker till ungefär <span class="nw">3–20 personer</span>.</span></span>
           </div>
         </div>
       </div>
