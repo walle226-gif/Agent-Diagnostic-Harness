@@ -256,6 +256,40 @@
     .tools { gap: 5px; }
     footer { margin-top: 9mm; }
   }
+  /* ---------- call to action ---------- */
+  .top-actions { display: flex; align-items: center; gap: 16px; }
+  .top-link { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; }
+  .top-link:hover, .top-link:focus-visible { color: var(--accent); }
+  .cta { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #ffffff; font-weight: 620; font-size: 1rem; text-decoration: none; padding: 11px 20px; border-radius: 2px; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn { color: #1a1208; } }
+  :root[data-theme="dark"] .btn { color: #1a1208; }
+  .btn:hover { filter: brightness(1.08); }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .cta-note { margin: 0; color: var(--ink-2); font-size: 0.95rem; max-width: 62ch; text-wrap: pretty; }
+  .cta-note a { color: var(--accent); }
+  .contact-who { margin: 0; color: var(--ink-2); font-size: 0.95rem; max-width: 74ch; }
+
+  /* ---------- what stays where ---------- */
+  .where { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .where-lan { position: relative; border: 1px dashed var(--accent); background: var(--accent-soft); padding: 34px 16px 16px; border-radius: 2px; }
+  .where-tag { position: absolute; top: 10px; left: 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+  .where-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 14px; align-items: center; }
+  .where-node { background: var(--surface); border: 1px solid var(--line); padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
+  .where-node .t { font-weight: 640; color: var(--ink); }
+  .where-node .i { color: var(--ink-2); font-size: 0.94rem; }
+  .where-link { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .where-link .arrow { font-size: 1.5rem; line-height: 1; color: var(--accent); }
+  .where-link .cap { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); text-align: center; max-width: 13ch; }
+  .where-out { display: flex; align-items: baseline; gap: 10px; border: 1px solid var(--line); background: var(--surface); padding: 11px 16px; color: var(--ink-2); font-size: 0.94rem; }
+  .where-out .x { color: var(--accent); font-weight: 700; }
+  .where-out s { color: var(--ink-3); }
+  @media (max-width: 680px) {
+    .where-row { grid-template-columns: 1fr; }
+    .where-link .arrow { transform: rotate(90deg); }
+    .where-link .cap { max-width: none; }
+  }
+
   /* ---------- foldable privacy section ---------- */
   .fold > summary { list-style: none; cursor: pointer; }
   .fold > summary::-webkit-details-marker { display: none; }
@@ -273,14 +307,21 @@
   <div class="mast-inner">
     <div class="topline">
       <p class="eyebrow"><span lang="en">Software engineering agent · on-premise</span><span lang="sv">Utvecklingsagent · lokal drift</span></p>
+      <div class="top-actions">
+      <a class="top-link" href="#contact"><span lang="en">Contact</span><span lang="sv">Kontakt</span></a>
       <div class="langs" role="group" aria-label="Language / Språk">
         <button type="button" id="btn-en" aria-pressed="true">English</button>
         <button type="button" id="btn-sv" aria-pressed="false">Svenska</button>
       </div>
+      </div>
     </div>
     <h1>Varde Code Agent</h1>
     <p class="lede"><span lang="en">A coding agent that reads, writes and runs your code with a model on your own server. No code, keys or prompts leave the network.</span><span lang="sv">En utvecklingsagent som läser, skriver och kör er kod med en modell på er egen server. Ingen kod, inga nycklar och inga frågor lämnar nätverket.</span></p>
-    <p class="proof"><span lang="en"><strong>10 h 39 min alone overnight on one 16 GB graphics card:</strong> 6 of 8 work orders finished and the project's tests grew from 38 to 95. <a href="#night">See the night&nbsp;→</a></span><span lang="sv"><strong>10 h 39 min ensam under natten på ett 16 GB-grafikkort:</strong> 6 av 8 arbetsorder klara och projektets tester växte från 38 till 95. <a href="#night">Se natten&nbsp;→</a></span></p>
+    <p class="proof"><span lang="en"><strong>10 h 39 min alone overnight on one 16&nbsp;GB graphics card:</strong> 6 of 8 work orders finished and the project's tests grew from 38 to 95. <a href="#night">See the night&nbsp;→</a></span><span lang="sv"><strong>10 h 39 min ensam under natten på ett 16&nbsp;GB-grafikkort:</strong> 6 av 8 arbetsorder klara och projektets tester växte från 38 till 95. <a href="#night">Se natten&nbsp;→</a></span></p>
+    <div class="cta">
+      <span lang="en"><a class="btn" href="mailto:Johan.wahlsten@outlook.com?subject=Demo%20of%20Varde%20Code%20Agent">Book a demo&nbsp;→</a></span><span lang="sv"><a class="btn" href="mailto:Johan.wahlsten@outlook.com?subject=Demo%20av%20Varde%20Code%20Agent">Boka en demo&nbsp;→</a></span>
+      <p class="cta-note"><span lang="en">Or try it on your own code first: <a href="#start">a 2-week pilot for 12,000 SEK</a>, credited if you continue. The first three pilot partners get 30% off the first year.</span><span lang="sv">Eller prova den på er egen kod först: <a href="#start">en pilot i 2 veckor för 12 000 kr</a>, som avräknas om ni går vidare. De tre första pilotpartnerna får 30&nbsp;% rabatt första året.</span></p>
+    </div>
     <div class="credo">
       <p lang="en">Built on one rule: nothing gets to misreport, not the agent, the tests, the instruments or us.</p>
       <p lang="sv">Byggd på en enda regel: ingenting får rapportera fel, varken agenten, testerna, mätverktygen eller vi.</p>
@@ -450,6 +491,32 @@
     <p class="prose" lang="en">Start on one computer with a 16 GB card. For a team, only the model moves to a shared server; the agent, files and git stay on each developer's computer.</p>
     <p class="prose" lang="sv">Börja på en dator med ett 16 GB-kort. För ett team flyttar bara modellen till en delad server; agenten, filerna och git stannar på varje utvecklares dator.</p>
 
+    <h3 class="sub"><span lang="en">What stays where</span><span lang="sv">Vad som stannar var</span></h3>
+    <div class="where">
+      <div class="where-lan">
+        <span class="where-tag"><span lang="en">Your local network</span><span lang="sv">Ert lokala nätverk</span></span>
+        <div class="where-row">
+          <div class="where-node">
+            <span class="t"><span lang="en">Each developer's computer</span><span lang="sv">Varje utvecklares dator</span></span>
+            <span class="i"><span lang="en">The agent, your files and git</span><span lang="sv">Agenten, era filer och git</span></span>
+          </div>
+          <div class="where-link" aria-hidden="true">
+            <span class="arrow">⇄</span>
+            <span class="cap"><span lang="en">Prompts and answers</span><span lang="sv">Frågor och svar</span></span>
+          </div>
+          <div class="where-node">
+            <span class="t"><span lang="en">Model server</span><span lang="sv">Modellserver</span></span>
+            <span class="i"><span lang="en">The model, on a 16 GB card or a shared server</span><span lang="sv">Modellen, på ett 16 GB-kort eller en delad server</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="where-out">
+        <span class="x" aria-hidden="true">✕</span>
+        <span><s>Internet</s> <span lang="en">No code, keys or prompts leave the network.</span><span lang="sv">Ingen kod, inga nycklar och inga frågor lämnar nätverket.</span></span>
+      </div>
+    </div>
+    <p class="note"><span lang="en">On a single desktop, the model runs on the same computer.</span><span lang="sv">På en enskild dator körs modellen på samma dator.</span></p>
+
     <div class="tiers" style="margin-top:22px">
       <div class="tier">
         <span class="t"><span lang="en">Desktop · 16 GB card</span><span lang="sv">Skrivbord · 16 GB-kort</span></span>
@@ -592,7 +659,7 @@
             </table>
           </div>
           <p lang="en" class="price-note">Each month includes updates, next-working-day support, the follow-up and the quarterly report. Organisation adds security documentation, on-site installation and priority support. Extra work: 1,150 SEK per hour. <strong>Pilot partners:</strong> the first three companies get 30% off the monthly fee for the first year, in return for feedback and being a reference.</p>
-          <p lang="sv" class="price-note">Varje månad ingår uppdateringar, support senast nästa arbetsdag, uppföljningen och kvartalsrapporten. Organisation lägger till säkerhetsdokumentation, installation på plats och prioriterad support. Tilläggsarbete: 1 150 kr per timme. <strong>Pilotpartner:</strong> de tre första företagen får 30 % rabatt på månadsavgiften första året, mot återkoppling och att de ställer upp som referens.</p>
+          <p lang="sv" class="price-note">Varje månad ingår uppdateringar, support senast nästa arbetsdag, uppföljningen och kvartalsrapporten. Organisation lägger till säkerhetsdokumentation, installation på plats och prioriterad support. Tilläggsarbete: 1 150 kr per timme. <strong>Pilotpartner:</strong> de tre första företagen får 30&nbsp;% rabatt på månadsavgiften första året, mot återkoppling och att de ställer upp som referens.</p>
         </div>
       </div>
     </div>
@@ -604,12 +671,16 @@
       <div class="panel-head">
         <p lang="en">Want to see it on your own code? Get in touch for a demo or a trial.</p>
         <p lang="sv">Vill ni se den på er egen kod? Hör av er för en demo eller ett prov.</p>
+        <p class="contact-who" lang="en">Varde Code Agent is built and run by Johan Wahlsten in Sweden, so you talk directly to the person who builds it.</p>
+        <p class="contact-who" lang="sv">Varde Code Agent byggs och drivs av Johan Wahlsten i Sverige, så ni pratar direkt med den som bygger den.</p>
       </div>
       <div class="contact">
         <span class="k"><span lang="en">Mail</span><span lang="sv">E-post</span></span>
-        <span class="v"><a href="mailto:Johan.wahlsten@outlook.com">Johan Wahlsten</a></span>
+        <span class="v"><span lang="en"><a href="mailto:Johan.wahlsten@outlook.com?subject=Demo%20of%20Varde%20Code%20Agent">Johan Wahlsten</a></span><span lang="sv"><a href="mailto:Johan.wahlsten@outlook.com?subject=Demo%20av%20Varde%20Code%20Agent">Johan Wahlsten</a></span></span>
         <span class="k"><span lang="en">Mobile</span><span lang="sv">Mobil</span></span>
         <span class="v"><a href="tel:+46735718245">+46 73 571 82 45</a></span>
+        <span class="k">LinkedIn</span>
+        <span class="v"><a href="https://www.linkedin.com/in/johan-wahlsten-553195246/" target="_blank" rel="noopener">Johan Wahlsten</a></span>
       </div>
     </div>
   </section>
