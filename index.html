@@ -256,6 +256,16 @@
     .tools { gap: 5px; }
     footer { margin-top: 9mm; }
   }
+  /* ---------- foldable privacy section ---------- */
+  .fold > summary { list-style: none; cursor: pointer; }
+  .fold > summary::-webkit-details-marker { display: none; }
+  .fold > summary h2 { display: flex; justify-content: space-between; align-items: baseline; }
+  .fold > summary h2::after { content: "+"; font-size: 1.1rem; line-height: 1; color: var(--accent); }
+  .fold[open] > summary h2::after { content: "\2212"; }
+  .fold > summary .fold-hint { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+  .fold[open] > summary .fold-hint { display: none; }
+  .fold > summary:hover h2::after, .fold > summary:hover .fold-hint { opacity: 0.75; }
+  .fold > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
 </style>
 </head>
 <body>
@@ -605,8 +615,11 @@
   </section>
 
   <section id="privacy">
-    <h2><span lang="en">Privacy</span><span lang="sv">Integritet</span></h2>
-    <p class="prose"><span lang="en">How we handle personal data. Updated 1 October 2026.</span><span lang="sv">Så hanterar vi personuppgifter. Uppdaterad 1 oktober 2026.</span></p>
+    <details class="fold" id="privacy-fold">
+    <summary>
+      <h2><span lang="en">Privacy</span><span lang="sv">Integritet</span></h2>
+      <p class="prose"><span lang="en">How we handle personal data. Updated 1 October 2026.</span><span lang="sv">Så hanterar vi personuppgifter. Uppdaterad 1 oktober 2026.</span> <span class="fold-hint"><span lang="en">Show</span><span lang="sv">Visa</span></span></p>
+    </summary>
     <div class="rows">
       <div class="row">
         <div class="label"><span lang="en">Who is responsible</span><span lang="sv">Vem som ansvarar</span></div>
@@ -672,6 +685,7 @@
         </div>
       </div>
     </div>
+    </details>
   </section>
 
   <footer>
@@ -699,6 +713,15 @@
     set(initial);
     en.addEventListener("click", function () { set("en"); });
     sv.addEventListener("click", function () { set("sv"); });
+
+    // Privacy starts folded; the footer link, a #privacy address and printing open it.
+    var fold = document.getElementById("privacy-fold");
+    function openPrivacy() { if (fold) fold.open = true; }
+    if (location.hash === "#privacy") openPrivacy();
+    window.addEventListener("hashchange", function () { if (location.hash === "#privacy") openPrivacy(); });
+    var links = document.querySelectorAll('a[href="#privacy"]');
+    for (var k = 0; k < links.length; k++) links[k].addEventListener("click", openPrivacy);
+    window.addEventListener("beforeprint", openPrivacy);
 
     // Column names for the phone layout: each body cell gets its header's text in its own language, without the
     // small sub-lines, with an "estimate" badge kept as "(estimate)".
