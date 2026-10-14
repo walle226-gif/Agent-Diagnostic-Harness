@@ -108,8 +108,8 @@
   .prose { color: var(--ink-2); }
   strong { color: var(--ink); font-weight: 640; }
 
-  .figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
-  .fig { background: var(--surface); padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 3px; }
+  .figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; padding: 1px; }
+  .fig { background: var(--surface); padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 3px; box-shadow: 0 0 0 1px var(--line-soft); }
   .fig .n { font-family: var(--mono); font-size: 1.55rem; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; color: var(--ink); line-height: 1.1; }
   .fig .k { font-size: 0.9rem; color: var(--ink); }
   .fig .src { font-family: var(--mono); font-size: 10.5px; color: var(--ink-3); letter-spacing: 0.03em; }
@@ -214,6 +214,8 @@
     .scroll { overflow-x: hidden; }
     .scroll table { display: block; }
     .scroll thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    .scroll thead tr[lang="sv"], :root[data-lang="sv"] .scroll thead tr[lang="en"] { display: none; }
+    :root[data-lang="sv"] .scroll thead tr[lang="sv"] { display: block; }
     .scroll tbody[lang="en"] { display: block; }
     :root[data-lang="sv"] .scroll tbody[lang="en"] { display: none; }
     :root[data-lang="sv"] .scroll tbody[lang="sv"] { display: block; }
@@ -276,6 +278,8 @@
   .fact .big { font-size: 1.6rem; font-weight: 650; letter-spacing: -0.015em; line-height: 1.15; color: var(--ink); white-space: nowrap; }
   .fact .small { font-size: 0.92rem; color: var(--ink-2); }
   .fact .small a { color: var(--accent); white-space: nowrap; }
+  .fact .small .est { display: block; width: fit-content; margin: 6px 0 0; }
+  .scroll + .prose { margin-top: 18px; }
   @media (max-width: 680px) {
     .facts { grid-template-columns: 1fr; }
     .fact, .fact + .fact { padding: 14px 0; border-left: 0; }
@@ -560,20 +564,20 @@
       <div class="tier">
         <span class="t"><span lang="en">Starter · 48 GB</span><span lang="sv">Start · 48 GB</span></span>
         <span class="who"><span lang="en">3–6 people</span><span lang="sv">3–6 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">2–3 people using it at the same time. Machine ≈ 106,000–113,000 SEK incl. VAT.</p>
-        <p lang="sv">2–3 personer använder den samtidigt. Dator ≈ 106 000–113 000 kr inkl. moms.</p>
+        <p lang="en">2–3 people using it at the same time. Machine <span class="nw">≈ 106,000–113,000 SEK</span> incl. VAT.</p>
+        <p lang="sv">2–3 personer använder den samtidigt. Dator <span class="nw">≈ 106 000–113 000 kr</span> inkl. moms.</p>
       </div>
       <div class="tier">
         <span class="t"><span lang="en">Mid · 72 GB</span><span lang="sv">Mellan · 72 GB</span></span>
         <span class="who"><span lang="en">6–12 people</span><span lang="sv">6–12 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">About 3 people using it at the same time. Machine ≈ 145,000–152,000 SEK incl. VAT.</p>
-        <p lang="sv">Ungefär 3 personer använder den samtidigt. Dator ≈ 145 000–152 000 kr inkl. moms.</p>
+        <p lang="en">About 3 people using it at the same time. Machine <span class="nw">≈ 145,000–152,000 SEK</span> incl. VAT.</p>
+        <p lang="sv">Ungefär 3 personer använder den samtidigt. Dator <span class="nw">≈ 145 000–152 000 kr</span> inkl. moms.</p>
       </div>
       <div class="tier">
         <span class="t"><span lang="en">Team · 96 GB</span><span lang="sv">Team · 96 GB</span></span>
         <span class="who"><span lang="en">10–20 people</span><span lang="sv">10–20 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">4–5 people using it at the same time. Machine ≈ 191,000–198,000 SEK incl. VAT.</p>
-        <p lang="sv">4–5 personer använder den samtidigt. Dator ≈ 191 000–198 000 kr inkl. moms.</p>
+        <p lang="en">4–5 people using it at the same time. Machine <span class="nw">≈ 191,000–198,000 SEK</span> incl. VAT.</p>
+        <p lang="sv">4–5 personer använder den samtidigt. Dator <span class="nw">≈ 191 000–198 000 kr</span> inkl. moms.</p>
       </div>
     </div>
     <p class="note"><span lang="en">Prices from Swedish stores on 2026-09-26 for the complete machine with free Linux. Speeds and people per build are our estimates from a measured A100 run. By day, that many people work with the agent at the same time; at night, the server works through the work orders they leave. You buy the hardware yourself. For occasional heavy work, renting an A100 80 GB costs about 11–12 SEK an hour.</span><span lang="sv">Priser från svenska butiker 2026-09-26 för hela datorn med gratis Linux. Hastigheter och personer per bygge är våra uppskattningar utifrån en uppmätt A100-körning. På dagen arbetar så många personer med agenten samtidigt; på natten arbetar servern sig igenom de arbetsorder de lämnar. Hårdvaran köper ni själva. För tillfälligt tungt arbete kostar det ungefär 11–12 kr i timmen att hyra ett A100 80 GB.</span></p>
@@ -653,7 +657,7 @@
     <div class="figures">
       <div class="fig"><span class="n">50</span><span class="k"><span lang="en">tools available</span><span lang="sv">verktyg tillgängliga</span></span><span class="src"><span lang="en">counted 2026-10-13</span><span lang="sv">räknade 2026-10-13</span></span></div>
       <div class="fig"><span class="n">355</span><span class="k"><span lang="en">fast tests passing</span><span lang="sv">snabba tester godkända</span></span><span class="src"><span lang="en">plus live and end-to-end suites</span><span lang="sv">plus integrations- och e2e-sviter</span></span></div>
-      <div class="fig"><span class="n">2,481</span><span class="k"><span lang="en">mutation anchors</span><span lang="sv">mutationsankare</span></span><span class="src"><span lang="en">catch faked test success, 0 broken</span><span lang="sv">fångar tester som låtsas, 0 trasiga</span></span></div>
+      <div class="fig"><span class="n"><span lang="en">2,481</span><span lang="sv">2 481</span></span><span class="k"><span lang="en">mutation anchors</span><span lang="sv">mutationsankare</span></span><span class="src"><span lang="en">catch faked test success, 0 broken</span><span lang="sv">fångar tester som låtsas, 0 trasiga</span></span></div>
       <div class="fig"><span class="n">65</span><span class="k"><span lang="en">self-testing sensors</span><span lang="sv">självtestande mätverktyg</span></span><span class="src"><span lang="en">each checks its own reading</span><span lang="sv">vart och ett kontrollerar sig självt</span></span></div>
       <div class="fig"><span class="n">428</span><span class="k"><span lang="en">logged findings</span><span lang="sv">loggade fynd</span></span><span class="src"><span lang="en">rejections included</span><span lang="sv">förkastade inräknade</span></span></div>
       <div class="fig"><span class="n">117</span><span class="k"><span lang="en">pre-registered studies</span><span lang="sv">förhandsregistrerade studier</span></span><span class="src"><span lang="en">frozen before the run</span><span lang="sv">låsta före körningen</span></span></div>
@@ -756,10 +760,10 @@
     <p class="prose" lang="en">On 2026-09-26 we ran the unchanged product on a rented NVIDIA A100 80 GB with the same 27-billion-parameter model at 8-bit precision.</p>
     <p class="prose" lang="sv">Den 26 september 2026 körde vi den oförändrade produkten på ett hyrt NVIDIA A100 80 GB med samma modell på 27 miljarder parametrar i 8-bitars precision.</p>
     <div class="figures">
-      <div class="fig"><span class="n">262,144</span><span class="k"><span lang="en">tokens of context per agent</span><span lang="sv">token kontext per agent</span></span><span class="src"><span lang="en">the model's full window, 4× the desktop card</span><span lang="sv">modellens fulla fönster, 4× skrivbordskortet</span></span></div>
-      <div class="fig"><span class="n">43.5 GB</span><span class="k"><span lang="en">of 80 GB in use</span><span lang="sv">av 80 GB används</span></span><span class="src"><span lang="en">model, full window and image reading</span><span lang="sv">modell, fullt fönster och bildläsning</span></span></div>
+      <div class="fig"><span class="n"><span lang="en">262,144</span><span lang="sv">262 144</span></span><span class="k"><span lang="en">tokens of context per agent</span><span lang="sv">token kontext per agent</span></span><span class="src"><span lang="en">the model's full window, 4× the desktop card</span><span lang="sv">modellens fulla fönster, 4× skrivbordskortet</span></span></div>
+      <div class="fig"><span class="n"><span lang="en">43.5 GB</span><span lang="sv">43,5 GB</span></span><span class="k"><span lang="en">of 80 GB in use</span><span lang="sv">av 80 GB används</span></span><span class="src"><span lang="en">model, full window and image reading</span><span lang="sv">modell, fullt fönster och bildläsning</span></span></div>
       <div class="fig"><span class="n">≈ 40</span><span class="k"><span lang="en">tokens per second, one agent</span><span lang="sv">token per sekund, en agent</span></span><span class="src"><span lang="en">measured by the model server itself</span><span lang="sv">uppmätt av modellservern själv</span></span></div>
-      <div class="fig"><span class="n">67,596</span><span class="k"><span lang="en">tokens held by one real ticket</span><span lang="sv">token i en enda verklig uppgift</span></span><span class="src"><span lang="en">more than a 16 GB card's whole window</span><span lang="sv">mer än ett 16 GB-korts hela fönster</span></span></div>
+      <div class="fig"><span class="n"><span lang="en">67,596</span><span lang="sv">67 596</span></span><span class="k"><span lang="en">tokens held by one real ticket</span><span lang="sv">token i en enda verklig uppgift</span></span><span class="src"><span lang="en">more than a 16 GB card's whole window</span><span lang="sv">mer än ett 16 GB-korts hela fönster</span></span></div>
     </div>
     <p class="note"><span lang="en">A token is about three quarters of a word; 30 tokens a second is faster than most people read. Measured 2026-09-26 on a rented A100 SXM 80 GB, which no Swedish store sells; the builds use NVIDIA workstation cards.</span><span lang="sv">En token är ungefär tre fjärdedelar av ett ord; 30 token i sekunden är snabbare än de flesta läser. Uppmätt 2026-09-26 på ett hyrt A100 SXM 80 GB, som ingen svensk butik säljer; byggena använder NVIDIA:s arbetsstationskort.</span></p>
 
@@ -945,8 +949,8 @@
       <div class="row">
         <div class="label"><span lang="en">Who is responsible</span><span lang="sv">Vem som ansvarar</span></div>
         <div>
-          <p lang="en">Johan Wahlsten, who runs Varde Code Agent, is responsible for the personal data described here. Contact: <a href="mailto:Johan.wahlsten@outlook.com">Johan.wahlsten@outlook.com</a>, +46 73 571 82 45.</p>
-          <p lang="sv">Johan Wahlsten, som driver Varde Code Agent, ansvarar för de personuppgifter som beskrivs här. Kontakt: <a href="mailto:Johan.wahlsten@outlook.com">Johan.wahlsten@outlook.com</a>, +46 73 571 82 45.</p>
+          <p lang="en">Johan Wahlsten, who runs Varde Code Agent, is responsible for the personal data described here. Contact: <a href="mailto:Johan.wahlsten@outlook.com">Johan.wahlsten@outlook.com</a>, <span class="nw">+46 73 571 82 45</span>.</p>
+          <p lang="sv">Johan Wahlsten, som driver Varde Code Agent, ansvarar för de personuppgifter som beskrivs här. Kontakt: <a href="mailto:Johan.wahlsten@outlook.com">Johan.wahlsten@outlook.com</a>, <span class="nw">+46 73 571 82 45</span>.</p>
         </div>
       </div>
       <div class="row">
