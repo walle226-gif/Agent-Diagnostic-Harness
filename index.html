@@ -270,6 +270,23 @@
   .cta-note a { color: var(--accent); }
   .contact-who { margin: 0; color: var(--ink-2); font-size: 0.95rem; max-width: 74ch; }
 
+  /* ---------- scaling strip in the header ---------- */
+  .scale { display: flex; flex-direction: column; gap: 10px; max-width: 820px; }
+  .scale-lead { margin: 0; color: var(--ink); font-size: 1.02rem; max-width: 62ch; text-wrap: pretty; }
+  .scale-steps { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 8px; }
+  .step { background: var(--surface); border: 1px solid var(--line); padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+  .step:last-child { border-color: var(--accent); }
+  .step .hw { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .step .ppl { font-size: 1.25rem; font-weight: 650; letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+  .step .ag { font-size: 0.9rem; color: var(--ink-2); }
+  .step-arrow { align-self: center; color: var(--accent); font-size: 1.2rem; }
+  .scale-foot { margin: 0; font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.02em; }
+  .scale-foot a { color: var(--accent); }
+  @media (max-width: 680px) {
+    .scale-steps { grid-template-columns: 1fr; }
+    .step-arrow { justify-self: center; transform: rotate(90deg); }
+  }
+
   /* ---------- what stays where ---------- */
   .where { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
   .where-lan { position: relative; border: 1px dashed var(--accent); background: var(--accent-soft); padding: 34px 16px 16px; border-radius: 2px; }
@@ -322,7 +339,30 @@
     </div>
     <h1>Varde Code Agent</h1>
     <p class="lede"><span lang="en">A coding agent that reads, writes and runs your code with a model on your own server. No code, keys or prompts leave the network.</span><span lang="sv">En utvecklingsagent som läser, skriver och kör er kod med en modell på er egen server. Ingen kod, inga nycklar och inga frågor lämnar nätverket.</span></p>
-    <p class="proof"><span lang="en"><strong>10 h 39 min alone overnight on one 16&nbsp;GB graphics card:</strong> 6 of 8 work orders finished and the project's tests grew from 38 to 95. <a href="#night">See the night&nbsp;→</a></span><span lang="sv"><strong>10 h 39 min ensam under natten på ett 16&nbsp;GB-grafikkort:</strong> 6 av 8 arbetsorder klara och projektets tester växte från 38 till 95. <a href="#night">Se natten&nbsp;→</a></span></p>
+    <p class="proof"><span lang="en"><strong>10 h 39 min alone overnight:</strong> 6 of 8 work orders finished and the project's tests grew from 38 to 95. <a href="#night">See the night&nbsp;→</a></span><span lang="sv"><strong>10 h 39 min ensam under natten:</strong> 6 av 8 arbetsorder klara och projektets tester växte från 38 till 95. <a href="#night">Se natten&nbsp;→</a></span></p>
+    <div class="scale">
+      <p class="scale-lead"><span lang="en">One server of your own serves the whole team: every developer connects their own agent to it, and several agents build at the same time.</span><span lang="sv">En egen server räcker till hela teamet: varje utvecklare ansluter sin egen agent till den, och flera agenter bygger samtidigt.</span></p>
+      <div class="scale-steps">
+        <div class="step">
+          <span class="hw"><span lang="en">Server · 48 GB</span><span lang="sv">Server · 48 GB</span></span>
+          <span class="ppl"><span lang="en">3–6 people</span><span lang="sv">3–6 personer</span></span>
+          <span class="ag"><span lang="en">2–3 agents building at once</span><span lang="sv">2–3 agenter bygger samtidigt</span></span>
+        </div>
+        <span class="step-arrow" aria-hidden="true">→</span>
+        <div class="step">
+          <span class="hw"><span lang="en">Server · 72 GB</span><span lang="sv">Server · 72 GB</span></span>
+          <span class="ppl"><span lang="en">6–12 people</span><span lang="sv">6–12 personer</span></span>
+          <span class="ag"><span lang="en">about 3 agents building at once</span><span lang="sv">ungefär 3 agenter bygger samtidigt</span></span>
+        </div>
+        <span class="step-arrow" aria-hidden="true">→</span>
+        <div class="step">
+          <span class="hw"><span lang="en">Server · 96 GB</span><span lang="sv">Server · 96 GB</span></span>
+          <span class="ppl"><span lang="en">10–20 people</span><span lang="sv">10–20 personer</span></span>
+          <span class="ag"><span lang="en">4–5 agents building at once</span><span lang="sv">4–5 agenter bygger samtidigt</span></span>
+        </div>
+      </div>
+      <p class="scale-foot"><span lang="en">Our estimates. <a href="#server">See the setups and prices&nbsp;→</a></span><span lang="sv">Våra uppskattningar. <a href="#server">Se uppsättningar och priser&nbsp;→</a></span></p>
+    </div>
     <div class="cta">
       <span lang="en"><a class="btn" href="mailto:Johan.wahlsten@outlook.com?subject=Demo%20of%20Varde%20Code%20Agent">Book a demo&nbsp;→</a></span><span lang="sv"><a class="btn" href="mailto:Johan.wahlsten@outlook.com?subject=Demo%20av%20Varde%20Code%20Agent">Boka en demo&nbsp;→</a></span>
       <p class="cta-note"><span lang="en">Or try it on your own code first: <a href="#start">a 2-week pilot for 12,000 SEK</a>, credited if you continue. The first three pilot partners get 30% off the first year.</span><span lang="sv">Eller prova den på er egen kod först: <a href="#start">en pilot i 2 veckor för 12 000 kr</a>, som avräknas om ni går vidare. De tre första pilotpartnerna får 30&nbsp;% rabatt första året.</span></p>
@@ -335,7 +375,7 @@
       <span class="chip"><span lang="en">Fully offline</span><span lang="sv">Helt offline</span></span>
       <span class="chip"><span lang="en">The code it writes is yours</span><span lang="sv">Koden den skriver är er</span></span>
       <span class="chip"><span lang="en">No usage limits</span><span lang="sv">Inga användningsgränser</span></span>
-      <span class="chip plain"><span lang="en">Runs on one 16 GB GPU</span><span lang="sv">Körs på ett grafikkort med 16 GB</span></span>
+      <span class="chip plain"><span lang="en">One server for the whole team</span><span lang="sv">En server för hela teamet</span></span>
     </div>
   </div>
 </header>
@@ -346,11 +386,11 @@
     <h2><span lang="en">What it is</span><span lang="sv">Vad det är</span></h2>
     <div lang="en">
       <p class="prose">An agent that reads and edits files, runs commands and tests, and reports what actually happened. The model runs on your own hardware, for places where cloud assistants are not permitted, such as defence, healthcare, legal and industry.</p>
-      <p class="prose"><strong>The code it writes is yours,</strong> made by an open model under the Apache 2.0 licence, on one 16 GB card or a shared server.</p>
+      <p class="prose"><strong>The code it writes is yours,</strong> made by an open model under the Apache 2.0 licence, on a server of your own that the whole team shares.</p>
     </div>
     <div lang="sv">
       <p class="prose">En agent som läser och ändrar filer, kör kommandon och tester och rapporterar vad som faktiskt hände. Modellen körs på er egen hårdvara, för miljöer där molnassistenter inte är tillåtna, som försvar, vård, juridik och industri.</p>
-      <p class="prose"><strong>Koden den skriver är er,</strong> skapad av en öppen modell under licensen Apache 2.0, på ett 16 GB-kort eller en delad server.</p>
+      <p class="prose"><strong>Koden den skriver är er,</strong> skapad av en öppen modell under licensen Apache 2.0, på en egen server som hela teamet delar.</p>
     </div>
     <div class="surfaces" style="margin-top:20px">
       <div class="item"><span class="t">VS Code</span><p lang="en">A chat panel in the sidebar.</p><p lang="sv">En chattpanel i sidofältet.</p></div>
@@ -535,26 +575,26 @@
       <div class="tier">
         <span class="t"><span lang="en">Desktop · 16 GB card</span><span lang="sv">Skrivbord · 16 GB-kort</span></span>
         <span class="who"><span lang="en">1 developer</span><span lang="sv">1 utvecklare</span></span>
-        <p lang="en">The tested setup, about 24 tokens per second.</p>
-        <p lang="sv">Den testade uppsättningen, ungefär 24 token per sekund.</p>
+        <p lang="en">The smallest setup: one agent, about 24 tokens per second.</p>
+        <p lang="sv">Den minsta uppsättningen: en agent, ungefär 24 token per sekund.</p>
       </div>
       <div class="tier">
         <span class="t"><span lang="en">Starter · 48 GB</span><span lang="sv">Start · 48 GB</span></span>
         <span class="who"><span lang="en">3–6 people</span><span lang="sv">3–6 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">Machine ≈ 106,000–113,000 SEK incl. VAT, about 26 tokens per second.</p>
-        <p lang="sv">Dator ≈ 106 000–113 000 kr inkl. moms, ungefär 26 token per sekund.</p>
+        <p lang="en">2–3 agents building at once. Machine ≈ 106,000–113,000 SEK incl. VAT.</p>
+        <p lang="sv">2–3 agenter bygger samtidigt. Dator ≈ 106 000–113 000 kr inkl. moms.</p>
       </div>
       <div class="tier">
         <span class="t"><span lang="en">Mid · 72 GB</span><span lang="sv">Mellan · 72 GB</span></span>
         <span class="who"><span lang="en">6–12 people</span><span lang="sv">6–12 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">Machine ≈ 145,000–152,000 SEK incl. VAT, about 26 tokens per second.</p>
-        <p lang="sv">Dator ≈ 145 000–152 000 kr inkl. moms, ungefär 26 token per sekund.</p>
+        <p lang="en">About 3 agents building at once. Machine ≈ 145,000–152,000 SEK incl. VAT.</p>
+        <p lang="sv">Ungefär 3 agenter bygger samtidigt. Dator ≈ 145 000–152 000 kr inkl. moms.</p>
       </div>
       <div class="tier">
         <span class="t"><span lang="en">Team · 96 GB</span><span lang="sv">Team · 96 GB</span></span>
         <span class="who"><span lang="en">10–20 people</span><span lang="sv">10–20 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">Machine ≈ 191,000–198,000 SEK incl. VAT, about 35 tokens per second.</p>
-        <p lang="sv">Dator ≈ 191 000–198 000 kr inkl. moms, ungefär 35 token per sekund.</p>
+        <p lang="en">4–5 agents building at once. Machine ≈ 191,000–198,000 SEK incl. VAT.</p>
+        <p lang="sv">4–5 agenter bygger samtidigt. Dator ≈ 191 000–198 000 kr inkl. moms.</p>
       </div>
     </div>
     <p class="note"><span lang="en">Prices from Swedish stores on 2026-09-26 for the complete machine with free Linux. Speeds and people per build are our estimates from a measured A100 run. You buy the hardware yourself. For occasional heavy work, renting an A100 80 GB costs about 11–12 SEK an hour.</span><span lang="sv">Priser från svenska butiker 2026-09-26 för hela datorn med gratis Linux. Hastigheter och personer per bygge är våra uppskattningar utifrån en uppmätt A100-körning. Hårdvaran köper ni själva. För tillfälligt tungt arbete kostar det ungefär 11–12 kr i timmen att hyra ett A100 80 GB.</span></p>
