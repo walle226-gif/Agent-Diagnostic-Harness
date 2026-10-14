@@ -278,6 +278,10 @@
   .where-node { background: var(--surface); border: 1px solid var(--line); padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; }
   .where-node .t { font-weight: 640; color: var(--ink); }
   .where-node .i { color: var(--ink-2); font-size: 0.94rem; }
+  .where-clients { display: flex; flex-direction: column; gap: 8px; }
+  .where-clients .where-node { padding: 10px 14px; }
+  .where-node.more { background: transparent; border-style: dashed; align-items: center; }
+  .where-node.server { border: 1px solid var(--accent); padding: 18px 18px; }
   .where-link { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .where-link .arrow { font-size: 1.5rem; line-height: 1; color: var(--accent); }
   .where-link .cap { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); text-align: center; max-width: 13ch; }
@@ -488,25 +492,34 @@
 
   <section id="server">
     <h2><span lang="en">From one desk to a team server</span><span lang="sv">Från ett skrivbord till en teamserver</span></h2>
-    <p class="prose" lang="en">Start on one computer with a 16 GB card. For a team, only the model moves to a shared server; the agent, files and git stay on each developer's computer.</p>
-    <p class="prose" lang="sv">Börja på en dator med ett 16 GB-kort. För ett team flyttar bara modellen till en delad server; agenten, filerna och git stannar på varje utvecklares dator.</p>
+    <p class="prose" lang="en">The smallest setup is one computer with a 16 GB card. For a team, the model runs on your own shared server; the agent, files and git stay on each developer's computer.</p>
+    <p class="prose" lang="sv">Den minsta uppsättningen är en dator med ett 16 GB-kort. För ett team körs modellen på er egen delade server; agenten, filerna och git stannar på varje utvecklares dator.</p>
 
     <h3 class="sub"><span lang="en">What stays where</span><span lang="sv">Vad som stannar var</span></h3>
     <div class="where">
       <div class="where-lan">
         <span class="where-tag"><span lang="en">Your local network</span><span lang="sv">Ert lokala nätverk</span></span>
         <div class="where-row">
-          <div class="where-node">
-            <span class="t"><span lang="en">Each developer's computer</span><span lang="sv">Varje utvecklares dator</span></span>
-            <span class="i"><span lang="en">The agent, your files and git</span><span lang="sv">Agenten, era filer och git</span></span>
+          <div class="where-clients">
+            <div class="where-node">
+              <span class="t"><span lang="en">Developer computer</span><span lang="sv">Utvecklardator</span></span>
+              <span class="i"><span lang="en">The agent, your files and git</span><span lang="sv">Agenten, era filer och git</span></span>
+            </div>
+            <div class="where-node">
+              <span class="t"><span lang="en">Developer computer</span><span lang="sv">Utvecklardator</span></span>
+              <span class="i"><span lang="en">The agent, your files and git</span><span lang="sv">Agenten, era filer och git</span></span>
+            </div>
+            <div class="where-node more">
+              <span class="i"><span lang="en">+ one for each developer</span><span lang="sv">+ en för varje utvecklare</span></span>
+            </div>
           </div>
           <div class="where-link" aria-hidden="true">
             <span class="arrow">⇄</span>
             <span class="cap"><span lang="en">Prompts and answers</span><span lang="sv">Frågor och svar</span></span>
           </div>
-          <div class="where-node">
-            <span class="t"><span lang="en">Model server</span><span lang="sv">Modellserver</span></span>
-            <span class="i"><span lang="en">The model, on a 16 GB card or a shared server</span><span lang="sv">Modellen, på ett 16 GB-kort eller en delad server</span></span>
+          <div class="where-node server">
+            <span class="t"><span lang="en">Your model server</span><span lang="sv">Er modellserver</span></span>
+            <span class="i"><span lang="en">The model, on your own hardware. One shared server with 48–96 GB serves about 3–20 people.</span><span lang="sv">Modellen, på er egen hårdvara. En delad server med 48–96 GB räcker till ungefär 3–20 personer.</span></span>
           </div>
         </div>
       </div>
@@ -515,7 +528,7 @@
         <span><s>Internet</s> <span lang="en">No code, keys or prompts leave the network.</span><span lang="sv">Ingen kod, inga nycklar och inga frågor lämnar nätverket.</span></span>
       </div>
     </div>
-    <p class="note"><span lang="en">On a single desktop, the model runs on the same computer.</span><span lang="sv">På en enskild dator körs modellen på samma dator.</span></p>
+    <p class="note"><span lang="en">Smallest setup: one developer, with the model on the same computer's 16 GB card. People per server are our estimates.</span><span lang="sv">Minsta uppsättning: en utvecklare, med modellen på samma dators 16 GB-kort. Personer per server är våra uppskattningar.</span></p>
 
     <div class="tiers" style="margin-top:22px">
       <div class="tier">
