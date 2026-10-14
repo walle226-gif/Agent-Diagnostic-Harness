@@ -274,15 +274,12 @@
     <div class="credo">
       <p lang="en">Built on one rule: nothing gets to misreport, not the agent, the tests, the instruments or us.</p>
       <p lang="sv">Byggd på en enda regel: ingenting får rapportera fel, varken agenten, testerna, mätverktygen eller vi.</p>
-      <span class="who"><span lang="en">the design principle behind all 428 findings</span><span lang="sv">designprincipen bakom alla 428 fynd</span></span>
     </div>
     <div class="deploy">
       <span class="chip"><span lang="en">Fully offline</span><span lang="sv">Helt offline</span></span>
-      <span class="chip"><span lang="en">Local network only</span><span lang="sv">Endast lokalt nätverk</span></span>
       <span class="chip"><span lang="en">The code it writes is yours</span><span lang="sv">Koden den skriver är er</span></span>
       <span class="chip"><span lang="en">No usage limits</span><span lang="sv">Inga användningsgränser</span></span>
       <span class="chip plain"><span lang="en">Runs on one 16 GB GPU</span><span lang="sv">Körs på ett grafikkort med 16 GB</span></span>
-      <span class="chip plain"><span lang="en">Scales to server class</span><span lang="sv">Skalar upp till serverklass</span></span>
     </div>
   </div>
 </header>
@@ -292,12 +289,12 @@
   <section>
     <h2><span lang="en">What it is</span><span lang="sv">Vad det är</span></h2>
     <div lang="en">
-      <p class="prose">An agent that reads and edits files, runs commands and tests, and reports what actually happened. The model runs locally, for places where cloud assistants are not permitted, such as defence, healthcare, legal and industry.</p>
-      <p class="prose"><strong>The code it writes is yours,</strong> made on your machine by a model under the open Apache 2.0 licence. The tested setup fits one 16 GB card; larger cards run larger models.</p>
+      <p class="prose">An agent that reads and edits files, runs commands and tests, and reports what actually happened. The model runs on your own hardware, for places where cloud assistants are not permitted, such as defence, healthcare, legal and industry.</p>
+      <p class="prose"><strong>The code it writes is yours,</strong> made by an open model under the Apache 2.0 licence, on one 16 GB card or a shared server.</p>
     </div>
     <div lang="sv">
-      <p class="prose">En agent som läser och ändrar filer, kör kommandon och tester och rapporterar vad som faktiskt hände. Modellen körs lokalt, för miljöer där molnassistenter inte är tillåtna, som försvar, vård, juridik och industri.</p>
-      <p class="prose"><strong>Koden den skriver är er,</strong> skapad på er maskin av en modell under den öppna licensen Apache 2.0. Den testade uppsättningen ryms på ett 16 GB-kort; större kort kör större modeller.</p>
+      <p class="prose">En agent som läser och ändrar filer, kör kommandon och tester och rapporterar vad som faktiskt hände. Modellen körs på er egen hårdvara, för miljöer där molnassistenter inte är tillåtna, som försvar, vård, juridik och industri.</p>
+      <p class="prose"><strong>Koden den skriver är er,</strong> skapad av en öppen modell under licensen Apache 2.0, på ett 16 GB-kort eller en delad server.</p>
     </div>
     <div class="surfaces" style="margin-top:20px">
       <div class="item"><span class="t">VS Code</span><p lang="en">A chat panel in the sidebar.</p><p lang="sv">En chattpanel i sidofältet.</p></div>
@@ -306,10 +303,61 @@
     </div>
   </section>
 
+  <section id="night">
+    <h2><span lang="en">One night's work, unattended</span><span lang="sv">En natts arbete, utan tillsyn</span></h2>
+    <p class="prose" lang="en">Give the agent a list of work orders and leave. It takes them one at a time, each in a fresh conversation, and runs the project's own tests after every step; a step that passes is saved at once. On the night of 13 October it got eight orders for a small web application.</p>
+    <p class="prose" lang="sv">Ge agenten en lista med arbetsorder och gå därifrån. Den tar dem en i taget, var och en i en ny konversation, och kör projektets egna tester efter varje steg; ett steg som går igenom sparas direkt. Natten till den 13 oktober fick den åtta order för en liten webbapplikation.</p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr lang="en"><th>That night</th><th>Figure</th></tr>
+          <tr lang="sv"><th>Den natten</th><th>Siffra</th></tr>
+        </thead>
+        <tbody lang="en">
+          <tr><td>Time worked without a person at the computer</td><td class="num">10 h 39 min</td></tr>
+          <tr><td>Steps that passed the project's tests and were saved</td><td class="num">16 of 18</td></tr>
+          <tr><td>Orders finished</td><td class="num">6 of 8</td></tr>
+          <tr><td>Tests in the project, before and after</td><td class="num">38 → 95</td></tr>
+          <tr><td>Time the line stood still, waiting for a person</td><td class="num">20 min</td></tr>
+          <tr><td>The same work by a senior developer <span class="est">estimate</span></td><td class="num">1–2 working days</td></tr>
+        </tbody>
+        <tbody lang="sv">
+          <tr><td>Arbetad tid utan någon vid datorn</td><td class="num">10 h 39 min</td></tr>
+          <tr><td>Steg som klarade projektets tester och sparades</td><td class="num">16 av 18</td></tr>
+          <tr><td>Avslutade order</td><td class="num">6 av 8</td></tr>
+          <tr><td>Tester i projektet, före och efter</td><td class="num">38 → 95</td></tr>
+          <tr><td>Tid som arbetet stod stilla i väntan på en människa</td><td class="num">20 min</td></tr>
+          <tr><td>Samma arbete för en senior utvecklare <span class="est">uppskattning</span></td><td class="num">1–2 arbetsdagar</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="prose" lang="en">The agent is not faster than a developer. What changes is whose hours they are: these ran from half past two at night to one in the afternoon, on one 16 GB card, and nothing left the computer.</p>
+    <p class="prose" lang="sv">Agenten är inte snabbare än en utvecklare. Det som ändras är vems timmar det är: de här gick från halv tre på natten till ett på eftermiddagen, på ett 16 GB-kort, och ingenting lämnade datorn.</p>
+
+    <h3 class="sub"><span lang="en">What happens when something goes wrong</span><span lang="sv">Vad som händer när något går fel</span></h3>
+    <ul class="prose" lang="en">
+      <li><strong>An order fails its tests.</strong> Its work is set aside under the order's name, the project goes back to the last saved state, and the next order starts.</li>
+      <li><strong>It asks for permission and nobody answers.</strong> It is never answered for you; after ten minutes the order waits for you and the next one starts.</li>
+      <li><strong>You step in.</strong> A message or Stop takes over at once and pauses the list.</li>
+      <li><strong>Every order starts clean:</strong> nothing unsaved and all tests passing, so one order cannot break the next.</li>
+    </ul>
+    <ul class="prose" lang="sv">
+      <li><strong>En order klarar inte testerna.</strong> Arbetet läggs undan under orderns namn, projektet går tillbaka till det senast sparade läget och nästa order börjar.</li>
+      <li><strong>Den ber om tillstånd och ingen svarar.</strong> Den får aldrig ett svar i ditt ställe; efter tio minuter väntar ordern på dig och nästa börjar.</li>
+      <li><strong>Du kliver in.</strong> Ett meddelande eller Stopp tar över direkt och pausar listan.</li>
+      <li><strong>Varje order börjar rent:</strong> inget osparat och alla tester gröna, så en order kan inte förstöra nästa.</li>
+    </ul>
+
+    <p class="prose" lang="en"><strong>Stated plainly.</strong> Tests show that the work runs, not that it is what you had in mind; you read the result in the morning. Two of the eight orders stopped to wait for a person, and the night exposed a fault of ours (a changed file left out of the saved history), now corrected.</p>
+    <p class="prose" lang="sv"><strong>Sagt rakt ut.</strong> Testerna visar att arbetet fungerar, inte att det är det du tänkte dig; du läser resultatet på morgonen. Två av de åtta orderna stannade och väntade på en människa, och natten avslöjade ett eget fel (en ändrad fil kom inte med i den sparade historiken), som nu är rättat.</p>
+  </section>
+
   <section id="evening">
     <h2><span lang="en">One day's work, graded</span><span lang="sv">En dags arbete, rättat</span></h2>
-    <p class="prose" lang="en">On 27 September the agent built ten features in a row in a business system for a fictional small renovation company, which we use as a realistic test project. A person approved each step; each change was graded on a fresh copy against checks written in advance. Agent time is measured; developer time is our estimate.</p>
-    <p class="prose" lang="sv">Den 27 september byggde agenten tio funktioner i rad i ett affärssystem för ett påhittat litet renoveringsföretag, som vi använder som realistiskt testprojekt. En människa godkände varje steg; varje ändring rättades på en ny kopia mot kontroller skrivna i förväg. Agentens tid är uppmätt; utvecklartiden är vår uppskattning.</p>
+    <p class="prose" lang="en">On 27 September the agent built ten features in a row in a realistic test project: the business system of a fictional small renovation company. A person approved each step, and each change was graded on a fresh copy against checks written in advance.</p>
+    <p class="prose" lang="sv">Den 27 september byggde agenten tio funktioner i rad i ett realistiskt testprojekt: affärssystemet för ett påhittat litet renoveringsföretag. En människa godkände varje steg, och varje ändring rättades på en ny kopia mot kontroller skrivna i förväg.</p>
     <div class="scroll">
       <table>
         <thead>
@@ -344,92 +392,22 @@
         </tbody>
       </table>
     </div>
-    <p class="note"><span lang="en">Every check passed except two, both errors in the written task. The model ran on a rented A100, the agent on an ordinary PC, in one conversation of about four and a half hours.</span><span lang="sv">Alla kontroller gick igenom utom två, båda fel i den skrivna uppgiften. Modellen kördes på ett hyrt A100, agenten på en vanlig dator, i en och samma konversation på ungefär fyra och en halv timme.</span></p>
+    <p class="note"><span lang="en">Every check passed except two, both errors in the written task. Agent time is measured; developer time is our estimate. The model ran on a rented A100 that day.</span><span lang="sv">Alla kontroller gick igenom utom två, båda fel i den skrivna uppgiften. Agentens tid är uppmätt; utvecklartiden är vår uppskattning. Modellen kördes på ett hyrt A100 den dagen.</span></p>
     <div class="case">
       <span class="t"><span lang="en">Example · 29 September</span><span lang="sv">Exempel · 29 september</span></span>
     <p class="prose" lang="en"><strong>It proves its own fixes.</strong> Website enquiries were saved as "Website Form" instead of the customer's name, and the tests passed both before and after the fix. The agent flagged this and added the case; with the old code, 4 of the new checks fail.</p>
     <p class="prose" lang="sv"><strong>Den bevisar sina egna rättningar.</strong> Förfrågningar från hemsidan sparades som "Website Form" i stället för kundens namn, och testerna gick igenom både före och efter rättningen. Agenten påpekade detta och lade till fallet; med den gamla koden fallerar 4 av de nya kontrollerna.</p>
     </div>
-    <div class="case" style="margin-top:16px">
-      <span class="t"><span lang="en">Example · 4 October</span><span lang="sv">Exempel · 4 oktober</span></span>
-    <p class="prose" lang="en"><strong>Large jobs are done one part at a time, and each part is checked.</strong> Three features (a project history, a month calendar and staff notes) were built in ten numbered parts. Each part started only after the project's own test suite had passed on the part before. All ten finished, in about 3 hours 20 minutes of agent time, on a 16 GB graphics card. One of the three, given first as a single job in eight parts, had run out of steps twice.</p>
-    <p class="prose" lang="sv"><strong>Stora jobb görs en del i taget, och varje del kontrolleras.</strong> Tre funktioner (en projekthistorik, en månadskalender och personalens anteckningar) byggdes i tio numrerade delar. Varje del påbörjades först när projektets egen testsvit hade gått igenom för delen före. Alla tio blev klara, på ungefär 3 timmar och 20 minuter agenttid, på ett grafikkort med 16 GB. En av de tre hade först getts som ett enda jobb i åtta delar, och då tog stegen slut två gånger.</p>
-    </div>
   </section>
 
-  <section id="night">
-    <h2><span lang="en">One night's work, unattended</span><span lang="sv">En natts arbete, utan tillsyn</span></h2>
-
-    <p class="prose" lang="en">You can give the agent a list of work orders and leave. Each order is written in plain words; a larger one is a numbered list, and each number runs as its own step. The agent works through the list by itself, starts every order in a fresh conversation, and runs the project's own tests after each step. A step that passes is saved at once. On the night of 13 October it was given eight orders for a small web application and was left alone.</p>
-    <p class="prose" lang="sv">Du kan ge agenten en lista med arbetsorder och gå därifrån. Varje order skrivs med vanliga ord; en större order är en numrerad lista, och varje nummer körs som ett eget steg. Agenten arbetar sig igenom listan själv, börjar varje order i en ny konversation och kör projektets egna tester efter varje steg. Ett steg som går igenom sparas direkt. Natten till den 13 oktober fick den åtta order för en liten webbapplikation och lämnades ensam.</p>
-
-    <div class="scroll">
-      <table>
-        <thead>
-          <tr lang="en"><th>That night</th><th>Figure</th></tr>
-          <tr lang="sv"><th>Den natten</th><th>Siffra</th></tr>
-        </thead>
-        <tbody lang="en">
-          <tr><td>Time worked without a person at the computer</td><td class="num">10 h 39 min</td></tr>
-          <tr><td>Steps that passed the project's tests and were saved</td><td class="num">16 of 18</td></tr>
-          <tr><td>Orders finished</td><td class="num">6 of 8</td></tr>
-          <tr><td>Tests in the project, before and after</td><td class="num">38 → 95</td></tr>
-          <tr><td>Time the line stood still, waiting for a person</td><td class="num">20 min</td></tr>
-          <tr><td>The same work by a senior developer <span class="est">estimate</span></td><td class="num">1–2 working days</td></tr>
-        </tbody>
-        <tbody lang="sv">
-          <tr><td>Arbetad tid utan någon vid datorn</td><td class="num">10 h 39 min</td></tr>
-          <tr><td>Steg som klarade projektets tester och sparades</td><td class="num">16 av 18</td></tr>
-          <tr><td>Avslutade order</td><td class="num">6 av 8</td></tr>
-          <tr><td>Tester i projektet, före och efter</td><td class="num">38 → 95</td></tr>
-          <tr><td>Tid som arbetet stod stilla i väntan på en människa</td><td class="num">20 min</td></tr>
-          <tr><td>Samma arbete för en senior utvecklare <span class="est">uppskattning</span></td><td class="num">1–2 arbetsdagar</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p class="prose" lang="en">The agent is not faster than a developer. What changes is whose hours they are: these were between half past two at night and one in the afternoon. It ran on one desktop graphics card with 16 GB of memory, and nothing left the computer.</p>
-    <p class="prose" lang="sv">Agenten är inte snabbare än en utvecklare. Det som ändras är vems timmar det är: de här låg mellan halv tre på natten och ett på eftermiddagen. Den kördes på ett vanligt grafikkort med 16 GB minne, och ingenting lämnade datorn.</p>
-
-    <h3 class="sub"><span lang="en">What happens when something goes wrong</span><span lang="sv">Vad som händer när något går fel</span></h3>
-    <ul class="prose" lang="en">
-      <li><strong>An order fails its tests.</strong> Its unfinished work is saved under the order's name, the project is put back to the last saved state, and the next order starts. You can put the work back later and continue from it.</li>
-      <li><strong>The agent asks for permission and nobody answers.</strong> It is never answered for you. After ten minutes that order is set down as waiting for you, and the next one starts. This happened twice that night.</li>
-      <li><strong>You send a message of your own, or press Stop.</strong> You take over at once and the list pauses until you start it again.</li>
-      <li><strong>An order starts only from clean ground:</strong> nothing unsaved in the project and all tests passing. One order's leftovers cannot break the next.</li>
-    </ul>
-    <ul class="prose" lang="sv">
-      <li><strong>En order klarar inte testerna.</strong> Det ofärdiga arbetet sparas under orderns namn, projektet återställs till det senast sparade läget och nästa order börjar. Du kan lägga tillbaka arbetet senare och fortsätta därifrån.</li>
-      <li><strong>Agenten ber om tillstånd och ingen svarar.</strong> Den får aldrig ett svar i ditt ställe. Efter tio minuter ställs den ordern åt sidan i väntan på dig, och nästa börjar. Det hände två gånger den natten.</li>
-      <li><strong>Du skickar ett eget meddelande eller trycker på Stopp.</strong> Du tar över direkt och listan pausar tills du startar den igen.</li>
-      <li><strong>En order börjar bara från ren grund:</strong> inget osparat i projektet och alla tester gröna. Rester från en order kan inte förstöra nästa.</li>
-    </ul>
-
-    <p class="prose" lang="en"><strong>Stated plainly.</strong> The tests show that the work runs, not that it is what you had in mind; you read the result in the morning. Two of the eight orders stopped and waited for a person. That night also showed us a fault of our own: one changed file was left out of the saved history although the tests on the computer passed. We found it by testing a clean copy, and it is corrected.</p>
-    <p class="prose" lang="sv"><strong>Sagt rakt ut.</strong> Testerna visar att arbetet fungerar, inte att det är det du tänkte dig; du läser resultatet på morgonen. Två av de åtta orderna stannade och väntade på en människa. Den natten visade oss också ett eget fel: en ändrad fil kom inte med i den sparade historiken trots att testerna på datorn gick igenom. Vi hittade det genom att testa en ren kopia, och det är rättat.</p>
-</section>
-
   <section>
-    <h2><span lang="en">How it is built and checked</span><span lang="sv">Hur den är byggd och kontrollerad</span></h2>
-    <div class="figures">
-      <div class="fig"><span class="n">50</span><span class="k"><span lang="en">tools available</span><span lang="sv">verktyg tillgängliga</span></span><span class="src"><span lang="en">counted 2026-10-13</span><span lang="sv">räknade 2026-10-13</span></span></div>
-      <div class="fig"><span class="n">355</span><span class="k"><span lang="en">fast tests passing</span><span lang="sv">snabba tester godkända</span></span><span class="src"><span lang="en">plus live and end-to-end suites</span><span lang="sv">plus integrations- och e2e-sviter</span></span></div>
-      <div class="fig"><span class="n">2,481</span><span class="k"><span lang="en">mutation anchors</span><span lang="sv">mutationsankare</span></span><span class="src"><span lang="en">catch faked test success, 0 broken</span><span lang="sv">fångar tester som låtsas, 0 trasiga</span></span></div>
-      <div class="fig"><span class="n">65</span><span class="k"><span lang="en">self-testing sensors</span><span lang="sv">självtestande mätverktyg</span></span><span class="src"><span lang="en">each checks its own reading</span><span lang="sv">vart och ett kontrollerar sig självt</span></span></div>
-      <div class="fig"><span class="n">428</span><span class="k"><span lang="en">logged findings</span><span lang="sv">loggade fynd</span></span><span class="src"><span lang="en">rejections included</span><span lang="sv">förkastade inräknade</span></span></div>
-      <div class="fig"><span class="n">117</span><span class="k"><span lang="en">pre-registered studies</span><span lang="sv">förhandsregistrerade studier</span></span><span class="src"><span lang="en">frozen before the run</span><span lang="sv">låsta före körningen</span></span></div>
-      <div class="fig"><span class="n">3</span><span class="k"><span lang="en">interfaces, one engine</span><span lang="sv">gränssnitt, en motor</span></span><span class="src"><span lang="en">no drift between them</span><span lang="sv">ingen glidning dem emellan</span></span></div>
-    </div>
-    <div class="prose" style="margin-top:20px">
-      <p lang="en">Every figure can be recomputed from the repository, and rejected ideas are logged too. Since late August a <strong>separate workbench</strong> has measured the agent, with 3 frozen bug cases, studies repeated at 2 sites and blind analysis in every study.</p>
-      <p lang="sv">Varje siffra kan räknas om från kodbasen, och förkastade idéer loggas också. Sedan slutet av augusti mäter en <strong>separat verkstad</strong> agenten, med 3 frysta buggfall, studier upprepade på 2 platser och blind analys i varje studie.</p>
-    </div>
-    <div class="rows" style="margin-top:20px">
+    <h2><span lang="en">Safety and checks</span><span lang="sv">Säkerhet och kontroller</span></h2>
+    <div class="rows">
       <div class="row">
         <div class="label"><span lang="en">Nothing risky runs unapproved</span><span lang="sv">Inget riskabelt körs utan godkännande</span></div>
         <div>
-          <p lang="en">Anything that reaches outside the project or cannot be undone always asks first. You choose whether ordinary changes inside the project also ask. A denied action is explained, not retried.</p>
-          <p lang="sv">Allt som når utanför projektet eller inte går att ångra frågar alltid först. Ni väljer själva om vanliga ändringar inne i projektet också ska fråga. Ett nekat steg förklaras i stället för att försökas igen.</p>
+          <p lang="en">Anything that reaches outside the project or cannot be undone, such as mail or desktop control, always asks first. You choose whether ordinary changes inside the project also ask.</p>
+          <p lang="sv">Allt som når utanför projektet eller inte går att ångra, som e-post eller skrivbordsstyrning, frågar alltid först. Ni väljer själva om vanliga ändringar inne i projektet också ska fråga.</p>
         </div>
       </div>
       <div class="row">
@@ -442,8 +420,8 @@
       <div class="row">
         <div class="label"><span lang="en">Claims are checked</span><span lang="sv">Påståenden kontrolleras</span></div>
         <div>
-          <p lang="en">Code is compile-checked at once, tests that never import their module do not count, and the agent predicts each command's result first.</p>
-          <p lang="sv">Kod kompileringskontrolleras direkt, tester som aldrig importerar sin modul räknas inte, och agenten förutsäger varje kommandos resultat först.</p>
+          <p lang="en">Code is compile-checked at once, tests that never import their module do not count, and a separate referee runs the finished code against answers fixed in advance.</p>
+          <p lang="sv">Kod kompileringskontrolleras direkt, tester som aldrig importerar sin modul räknas inte, och en separat domare kör den färdiga koden mot facit som bestämts i förväg.</p>
         </div>
       </div>
       <div class="row">
@@ -453,159 +431,48 @@
           <p lang="sv">Den kör och iakttar program och matar in färdiga rader, och fångar fel där enhetstesterna går igenom men programmet inte gör någonting.</p>
         </div>
       </div>
-      <div class="row">
-        <div class="label"><span lang="en">It tunes the machine</span><span lang="sv">Den trimmar maskinen</span></div>
-        <div>
-          <p lang="en">GPU memory per model is measured, not guessed: we measured a 13× spread that parameter counts do not predict, and settings follow from it.</p>
-          <p lang="sv">Grafikminnet per modell mäts i stället för att gissas: vi mätte 13 gångers spridning, som antalet parametrar inte förutsäger, och inställningarna följer av det.</p>
-        </div>
-      </div>
     </div>
-    <div class="tools">
-      <span class="tool"><span lang="en">read / write / edit files</span><span lang="sv">läsa / skriva / ändra filer</span></span>
-      <span class="tool"><span lang="en">ranged reads</span><span lang="sv">läsning av radintervall</span></span>
-      <span class="tool"><span lang="en">line-ranged edits</span><span lang="sv">ändring av radintervall</span></span>
-      <span class="tool"><span lang="en">run commands</span><span lang="sv">köra kommandon</span></span>
-      <span class="tool"><span lang="en">run &amp; watch programs</span><span lang="sv">köra och bevaka program</span></span>
-      <span class="tool"><span lang="en">scripted stdin</span><span lang="sv">skriptad inmatning</span></span>
-      <span class="tool"><span lang="en">semantic search</span><span lang="sv">semantisk sökning</span></span>
-      <span class="tool"><span lang="en">text search</span><span lang="sv">textsökning</span></span>
-      <span class="tool">git status / diff / commit</span>
-      <span class="tool"><span lang="en">checkpoints &amp; restore</span><span lang="sv">återställningspunkter</span></span>
-      <span class="tool"><span lang="en">screen capture</span><span lang="sv">skärmbild</span></span>
-      <span class="tool"><span lang="en">GPU &amp; system info</span><span lang="sv">GPU- och systeminfo</span></span>
-      <span class="tool"><span lang="en">document reading</span><span lang="sv">dokumentläsning</span></span>
-      <span class="tool"><span lang="en">desktop control</span><span lang="sv">skrivbordsstyrning</span></span>
-      <span class="tool"><span lang="en">mail</span><span lang="sv">e-post</span></span>
-    </div>
-    <p class="prose"><span lang="en">Mail, desktop control and screen capture reach outside the project, so they always ask first.</span><span lang="sv">E-post, skrivbordsstyrning och skärmbild når utanför projektet, så de frågar alltid först.</span></p>
-  </section>
-
-  <section>
-    <h2><span lang="en">What the measurements showed</span><span lang="sv">Vad mätningarna visade</span></h2>
-    <p class="prose"><span lang="en">Thousands of recorded sessions, each run as a small experiment: predict, run once, read everything.</span><span lang="sv">Tusentals inspelade arbetspass, vart och ett kört som ett litet experiment: förutsäg, kör en gång, läs allt.</span></p>
-    <div class="rows">
-      <div class="row">
-        <div class="label"><span lang="en">An independent referee</span><span lang="sv">En oberoende domare</span></div>
-        <div>
-          <p lang="en">A separate referee <strong>runs the finished code</strong> against answers fixed in advance.</p>
-          <p lang="sv">En separat domare <strong>kör den färdiga koden</strong> mot facit som bestämts i förväg.</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="label"><span lang="en">Proven work is saved instantly</span><span lang="sv">Bevisat arbete sparas direkt</span></div>
-        <div>
-          <p lang="en">A fix proven correct is copied automatically out of the agent's reach.</p>
-          <p lang="sv">En lagning som bevisats korrekt kopieras automatiskt utom räckhåll för agenten.</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="label"><span lang="en">Its reasoning is on record</span><span lang="sv">Dess resonemang sparas</span></div>
-        <div>
-          <p lang="en">The agent's reasoning is saved to disk, so failures can be read, not guessed.</p>
-          <p lang="sv">Agentens resonemang sparas till disk, så att fel kan läsas i stället för att gissas.</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="label"><span lang="en">Models chosen by measurement</span><span lang="sv">Modeller väljs efter mätning</span></div>
-        <div>
-          <p lang="en">A small, fast model solved a hard bug that a model four times its size did not, so models are chosen by measurement.</p>
-          <p lang="sv">En liten, snabb modell löste en svår bugg som en modell fyra gånger så stor inte klarade, så modeller väljs efter mätning.</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="label"><span lang="en">How you write the task changes the work</span><span lang="sv">Hur uppgiften skrivs ändrar arbetet</span></div>
-        <div>
-          <p lang="en">Removing one contradiction from a task <strong>halved</strong> the planning reply, on a second machine too, so the agent now asks about two measured kinds of self-contradicting request.</p>
-          <p lang="sv">När en motsägelse togs bort ur en uppgift <strong>halverades</strong> planeringssvaret, även på en andra maskin, så agenten frågar nu om två uppmätta sorters motsägelsefulla beställningar.</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="label"><span lang="en">Its own verification was audited</span><span lang="sv">Dess egen verifiering granskades</span></div>
-        <div>
-          <p lang="en">We audited every firing of the rule that reminds the agent to run its fixes, and rewrote it to look for a test of <strong>that specific edit</strong>.</p>
-          <p lang="sv">Vi granskade varje utlösning av regeln som påminner agenten om att köra sina lagningar, och skrev om den så att den letar efter ett test av <strong>just den ändringen</strong>.</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="label"><span lang="en">Existing code costs more</span><span lang="sv">Befintlig kod kostar mer</span></div>
-        <div>
-          <p lang="en">The same requirements cost <strong>3.5× more</strong> in existing code than in an empty folder, because the work avoids the old code; the benchmark now includes such tasks.</p>
-          <p lang="sv">Samma krav kostar <strong>3,5 gånger mer</strong> i befintlig kod än i en tom mapp, eftersom arbetet undviker den gamla koden; testunderlaget innehåller nu sådana uppgifter.</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="label"><span lang="en">The tooling is measured too</span><span lang="sv">Verktygen mäts också</span></div>
-        <div>
-          <p lang="en">Much lost time was in the tooling, not the model; each such case becomes a fixed defect with a test.</p>
-          <p lang="sv">Mycket tid förlorades i verktygen, inte i modellen; varje sådant fall blir ett åtgärdat fel med ett test.</p>
-        </div>
-      </div>
-    </div>
+    <p class="prose" style="margin-top:20px"><span lang="en">Behind it: 355 fast tests, 2,481 mutation anchors that catch faked test success, 428 logged findings and 117 pre-registered studies. Every figure can be recomputed from the repository.</span><span lang="sv">Bakom det: 355 snabba tester, 2 481 mutationsankare som fångar tester som låtsas, 428 loggade fynd och 117 förhandsregistrerade studier. Varje siffra kan räknas om från kodbasen.</span></p>
   </section>
 
   <section id="server">
     <h2><span lang="en">From one desk to a team server</span><span lang="sv">Från ett skrivbord till en teamserver</span></h2>
-    <p class="prose" lang="en">Only the model moves to a shared server; the agent, files and git stay on each developer's computer. On 2026-09-26 we ran the unchanged product on a rented NVIDIA A100 80 GB with the same 27-billion-parameter model at 8-bit precision.</p>
-    <p class="prose" lang="sv">Bara modellen flyttar till en delad server; agenten, filerna och git stannar på varje utvecklares dator. Den 26 september 2026 körde vi den oförändrade produkten på ett hyrt NVIDIA A100 80 GB med samma modell på 27 miljarder parametrar i 8-bitars precision.</p>
+    <p class="prose" lang="en">Start on one computer with a 16 GB card. For a team, only the model moves to a shared server; the agent, files and git stay on each developer's computer.</p>
+    <p class="prose" lang="sv">Börja på en dator med ett 16 GB-kort. För ett team flyttar bara modellen till en delad server; agenten, filerna och git stannar på varje utvecklares dator.</p>
 
-    <div class="figures">
-      <div class="fig"><span class="n">262,144</span><span class="k"><span lang="en">tokens of context per agent</span><span lang="sv">token kontext per agent</span></span><span class="src"><span lang="en">the model's full window, 4× the desktop card</span><span lang="sv">modellens fulla fönster, 4× skrivbordskortet</span></span></div>
-      <div class="fig"><span class="n">43.5 GB</span><span class="k"><span lang="en">of 80 GB in use</span><span lang="sv">av 80 GB används</span></span><span class="src"><span lang="en">model, full window and image reading</span><span lang="sv">modell, fullt fönster och bildläsning</span></span></div>
-      <div class="fig"><span class="n">≈ 40</span><span class="k"><span lang="en">tokens per second, one agent</span><span lang="sv">token per sekund, en agent</span></span><span class="src"><span lang="en">measured by the model server itself</span><span lang="sv">uppmätt av modellservern själv</span></span></div>
-      <div class="fig"><span class="n">67,596</span><span class="k"><span lang="en">tokens held by one real ticket</span><span lang="sv">token i en enda verklig uppgift</span></span><span class="src"><span lang="en">more than a 16 GB card's whole window</span><span lang="sv">mer än ett 16 GB-korts hela fönster</span></span></div>
-    </div>
-    <p class="note"><span lang="en">A token is about three quarters of a word; 30 tokens a second is faster than most people read. Measured 2026-09-26 on a rented A100 SXM 80 GB, which no Swedish store sells; the builds use NVIDIA workstation cards.</span><span lang="sv">En token är ungefär tre fjärdedelar av ett ord; 30 token i sekunden är snabbare än de flesta läser. Uppmätt 2026-09-26 på ett hyrt A100 SXM 80 GB, som ingen svensk butik säljer; byggena använder NVIDIA:s arbetsstationskort.</span></p>
-
-    <div class="panel">
-      <div class="panel-head">
-        <span class="t"><span lang="en">Three builds, bought in Sweden</span><span lang="sv">Tre byggen, köpta i Sverige</span></span>
-        <p lang="en">Prices include 25% VAT, from the stores' pages on 2026-09-26, for the complete machine with 64 GB memory and a 2 TB drive, running free Linux. Assembly is not included.</p>
-        <p lang="sv">Priserna är inklusive moms, från butikernas sidor 2026-09-26, för hela datorn med 64 GB minne och 2 TB lagring, med gratis Linux. Montering ingår inte.</p>
+    <div class="tiers" style="margin-top:22px">
+      <div class="tier">
+        <span class="t"><span lang="en">Desktop · 16 GB card</span><span lang="sv">Skrivbord · 16 GB-kort</span></span>
+        <span class="who"><span lang="en">1 developer</span><span lang="sv">1 utvecklare</span></span>
+        <p lang="en">The tested setup, about 24 tokens per second.</p>
+        <p lang="sv">Den testade uppsättningen, ungefär 24 token per sekund.</p>
       </div>
-      <div class="builds">
-        <div class="build">
-          <span class="t"><span lang="en">Starter</span><span lang="sv">Start</span></span>
-          <span class="gpu">RTX PRO 5000 · 48 GB</span>
-          <span class="big">≈ <span lang="en">106,000–113,000</span><span lang="sv">106 000–113 000</span></span>
-          <span class="unit"><span lang="en">SEK incl. VAT</span><span lang="sv">kr inkl. moms</span></span>
-          <dl>
-            <dt><span lang="en">Graphics card</span><span lang="sv">Grafikkort</span></dt><dd><span lang="en">84,990</span><span lang="sv">84 990</span></dd>
-            <dt><span lang="en">Rest of the machine</span><span lang="sv">Resten av datorn</span></dt><dd><span lang="en">21,000–28,000</span><span lang="sv">21 000–28 000</span></dd>
-            <dt><span lang="en">Speed, one agent</span><span lang="sv">Hastighet, en agent</span></dt><dd><span lang="en">≈ 26 tok/s</span><span lang="sv">≈ 26 token/s</span></dd>
-          </dl>
-        </div>
-        <div class="build">
-          <span class="t"><span lang="en">Mid</span><span lang="sv">Mellan</span></span>
-          <span class="gpu">RTX PRO 5000 · 72 GB</span>
-          <span class="big">≈ <span lang="en">145,000–152,000</span><span lang="sv">145 000–152 000</span></span>
-          <span class="unit"><span lang="en">SEK incl. VAT</span><span lang="sv">kr inkl. moms</span></span>
-          <dl>
-            <dt><span lang="en">Graphics card</span><span lang="sv">Grafikkort</span></dt><dd><span lang="en">124,378</span><span lang="sv">124 378</span></dd>
-            <dt><span lang="en">Rest of the machine</span><span lang="sv">Resten av datorn</span></dt><dd><span lang="en">21,000–28,000</span><span lang="sv">21 000–28 000</span></dd>
-            <dt><span lang="en">Speed, one agent</span><span lang="sv">Hastighet, en agent</span></dt><dd><span lang="en">≈ 26 tok/s</span><span lang="sv">≈ 26 token/s</span></dd>
-          </dl>
-        </div>
-        <div class="build">
-          <span class="t"><span lang="en">Team</span><span lang="sv">Team</span></span>
-          <span class="gpu">RTX PRO 6000 Max-Q · 96 GB</span>
-          <span class="big">≈ <span lang="en">191,000–198,000</span><span lang="sv">191 000–198 000</span></span>
-          <span class="unit"><span lang="en">SEK incl. VAT</span><span lang="sv">kr inkl. moms</span></span>
-          <dl>
-            <dt><span lang="en">Graphics card</span><span lang="sv">Grafikkort</span></dt><dd><span lang="en">169,990</span><span lang="sv">169 990</span></dd>
-            <dt><span lang="en">Rest of the machine</span><span lang="sv">Resten av datorn</span></dt><dd><span lang="en">21,000–28,000</span><span lang="sv">21 000–28 000</span></dd>
-            <dt><span lang="en">Speed, one agent</span><span lang="sv">Hastighet, en agent</span></dt><dd><span lang="en">≈ 35 tok/s</span><span lang="sv">≈ 35 token/s</span></dd>
-          </dl>
-        </div>
+      <div class="tier">
+        <span class="t"><span lang="en">Starter · 48 GB</span><span lang="sv">Start · 48 GB</span></span>
+        <span class="who"><span lang="en">3–6 people</span><span lang="sv">3–6 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
+        <p lang="en">Machine ≈ 106,000–113,000 SEK incl. VAT, about 26 tokens per second.</p>
+        <p lang="sv">Dator ≈ 106 000–113 000 kr inkl. moms, ungefär 26 token per sekund.</p>
       </div>
-      <p class="panel-foot"><span lang="en">Rest of the machine, in stock: AMD Ryzen 7 9700X, Thermalright Peerless Assassin 120 SE, Gigabyte B650 Eagle AX, 64 GB DDR5 (half this line's cost: memory prices rose four- to sixfold in 2026), 2 TB NVMe, Corsair RM1000e 1000 W with 16-pin connector, airflow case. Range: cheapest stores (Prisjakt) to all parts from Inet. Speed is our estimate from memory bandwidth against the measured A100. Ready-built: HP Z2 G1i with the 96 GB card, 96 GB RAM and three years of on-site service, 194,990 kr at Proshop.</span><span lang="sv">Resten av datorn, i lager: AMD Ryzen 7 9700X, Thermalright Peerless Assassin 120 SE, Gigabyte B650 Eagle AX, 64 GB DDR5 (halva radens kostnad: minnespriserna steg fyra till sex gånger under 2026), 2 TB NVMe, Corsair RM1000e 1000 W med 16-polig kontakt, chassi med bra luftflöde. Spann: billigaste butikerna (Prisjakt) till alla delar från Inet. Hastigheten är vår uppskattning från minnesbandbredden jämfört med uppmätt A100. Färdigbyggt: HP Z2 G1i med 96 GB-kortet, 96 GB RAM och tre års service på plats, 194 990 kr hos Proshop.</span></p>
+      <div class="tier">
+        <span class="t"><span lang="en">Mid · 72 GB</span><span lang="sv">Mellan · 72 GB</span></span>
+        <span class="who"><span lang="en">6–12 people</span><span lang="sv">6–12 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
+        <p lang="en">Machine ≈ 145,000–152,000 SEK incl. VAT, about 26 tokens per second.</p>
+        <p lang="sv">Dator ≈ 145 000–152 000 kr inkl. moms, ungefär 26 token per sekund.</p>
+      </div>
+      <div class="tier">
+        <span class="t"><span lang="en">Team · 96 GB</span><span lang="sv">Team · 96 GB</span></span>
+        <span class="who"><span lang="en">10–20 people</span><span lang="sv">10–20 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
+        <p lang="en">Machine ≈ 191,000–198,000 SEK incl. VAT, about 35 tokens per second.</p>
+        <p lang="sv">Dator ≈ 191 000–198 000 kr inkl. moms, ungefär 35 token per sekund.</p>
+      </div>
     </div>
+    <p class="note"><span lang="en">Prices from Swedish stores on 2026-09-26 for the complete machine with free Linux. Speeds and people per build are our estimates from a measured A100 run. You buy the hardware yourself. For occasional heavy work, renting an A100 80 GB costs about 11–12 SEK an hour.</span><span lang="sv">Priser från svenska butiker 2026-09-26 för hela datorn med gratis Linux. Hastigheter och personer per bygge är våra uppskattningar utifrån en uppmätt A100-körning. Hårdvaran köper ni själva. För tillfälligt tungt arbete kostar det ungefär 11–12 kr i timmen att hyra ett A100 80 GB.</span></p>
 
     <div class="panel">
       <div class="panel-head">
         <span class="t"><span lang="en">Against a cloud subscription</span><span lang="sv">Jämfört med en molnprenumeration</span></span>
-        <p lang="en">A typical top cloud coding plan costs $200 per user per month: at 9.92 SEK per USD, <strong>1,984 SEK per month</strong> or <strong>23,808 SEK per year</strong> per seat. The $20 to $40 plans suit chat, and daily agent work can reach the caps of the $100 plans. A build has <strong>no usage limits</strong>.</p>
-        <p lang="sv">En typisk högsta molnplan för kodassistans kostar 200 dollar per användare och månad: vid 9,92 kr per dollar <strong>1 984 kr i månaden</strong> eller <strong>23 808 kr om året</strong> per plats. Planerna på 20 till 40 dollar passar för chatt, och dagligt agentarbete kan nå taken för 100-dollarsplanerna. Ett bygge har <strong>inga användningsgränser</strong>.</p>
+        <p lang="en">A top cloud coding plan costs $200 per user per month, about <strong>1,984 SEK</strong>. A build has <strong>no usage limits</strong>.</p>
+        <p lang="sv">En högsta molnplan för kodassistans kostar 200 dollar per användare och månad, ungefär <strong>1 984 kr</strong>. Ett bygge har <strong>inga användningsgränser</strong>.</p>
       </div>
       <div class="scroll">
         <table class="grid">
@@ -625,69 +492,7 @@
           </tbody>
         </table>
       </div>
-      <p class="panel-foot"><span lang="en">Excluding VAT (the build price above divided by 1.25), with installation and software fee. Break-even = one-time cost ÷ (users × 1,984 SEK − monthly fee). Starter pays back in about 46 months with 5 users, and not on cost alone with 4. After that: the fee, electricity (about 400 to 450 W while working) and upkeep. This compares cost, not capability: cloud models are larger.</span><span lang="sv">Exklusive moms (byggpriset ovan delat med 1,25), med installation och mjukvaruavgift. Break-even = engångskostnad ÷ (användare × 1 984 kr − månadsavgift). Start betalar sig på ungefär 46 månader med 5 användare, och inte på kostnad enbart med 4. Därefter: avgiften, el (ungefär 400 till 450 W under arbete) och underhåll. Det här jämför kostnad, inte förmåga: molnmodellerna är större.</span></p>
-    </div>
-
-    <div class="panel">
-      <div class="panel-head">
-        <span class="t"><span lang="en">How many people each build serves</span><span lang="sv">Hur många varje bygge räcker till</span></span>
-        <p lang="en"><strong>Memory</strong> sets how many agents can hold a conversation: the model takes about 29 GB, plus more per seat the larger its context. <strong>Speed</strong> is shared, but people pause between tasks, so a card serves more people than agents running at once.</p>
-        <p lang="sv"><strong>Minnet</strong> avgör hur många agenter som kan hålla en konversation: modellen tar ungefär 29 GB, plus mer per plats ju större kontext. <strong>Hastigheten</strong> delas, men människor pausar mellan uppgifter, så ett kort räcker till fler personer än agenter som körs samtidigt.</p>
-      </div>
-      <div class="scroll">
-        <table class="grid">
-          <thead>
-            <tr lang="en"><th>Seats that fit in memory</th><th>48 GB</th><th>72 GB</th><th>96 GB</th><th>A100 80 GB</th></tr>
-            <tr lang="sv"><th>Platser som ryms i minnet</th><th>48 GB</th><th>72 GB</th><th>96 GB</th><th>A100 80 GB</th></tr>
-          </thead>
-          <tbody lang="en">
-            <tr><td>Full window, 262,144 tokens</td><td class="num">1</td><td class="num">2</td><td class="num">4</td><td class="num">3</td></tr>
-            <tr><td>131,072 tokens</td><td class="num">2</td><td class="num">5</td><td class="num">8</td><td class="num">6</td></tr>
-            <tr><td>65,536 tokens, the desktop window</td><td class="num">4</td><td class="num">10</td><td class="num">16</td><td class="num">12</td></tr>
-            <tr><td>65,536, compressed cache</td><td class="num">9</td><td class="num">21</td><td class="num">33</td><td class="num">25</td></tr>
-          </tbody>
-          <tbody lang="sv">
-            <tr><td>Fullt fönster, 262 144 token</td><td class="num">1</td><td class="num">2</td><td class="num">4</td><td class="num">3</td></tr>
-            <tr><td>131 072 token</td><td class="num">2</td><td class="num">5</td><td class="num">8</td><td class="num">6</td></tr>
-            <tr><td>65 536 token, skrivbordets fönster</td><td class="num">4</td><td class="num">10</td><td class="num">16</td><td class="num">12</td></tr>
-            <tr><td>65 536, komprimerad cache</td><td class="num">9</td><td class="num">21</td><td class="num">33</td><td class="num">25</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="panel-foot"><span lang="en">From the measured A100 run: about 29 GB for model and image reading, plus 16 GB per seat at the full window (8 GB at 131,072, 4 GB at 65,536; half with the compressed 8-bit cache the desktop uses). People per build are our estimates from this, memory bandwidth and one earlier measurement of agents sharing a card.</span><span lang="sv">Från den uppmätta A100-körningen: ungefär 29 GB för modell och bildläsning, plus 16 GB per plats vid fullt fönster (8 GB vid 131 072, 4 GB vid 65 536; hälften med den komprimerade 8-bitarscache som skrivbordet använder). Personer per bygge är våra uppskattningar utifrån detta, minnesbandbredden och en tidigare mätning av agenter som delar ett kort.</span></p>
-    </div>
-
-<div class="tiers" style="margin-top:22px">
-      <div class="tier">
-        <span class="t"><span lang="en">Desktop · 16 GB card</span><span lang="sv">Skrivbord · 16 GB-kort</span></span>
-        <span class="who"><span lang="en">1 developer</span><span lang="sv">1 utvecklare</span></span>
-        <p lang="en">One agent, 65,536 tokens of context, about 24 tokens per second. The tested setup.</p>
-        <p lang="sv">En agent, 65 536 token kontext, ungefär 24 token per sekund. Den testade uppsättningen.</p>
-      </div>
-      <div class="tier">
-        <span class="t"><span lang="en">Starter · 48 GB</span><span lang="sv">Start · 48 GB</span></span>
-        <span class="who"><span lang="en">3–6 people</span><span lang="sv">3–6 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">About 2 to 3 agents at once, 65,536 tokens each. ≈ 18,000–38,000 kr per person.</p>
-        <p lang="sv">Ungefär 2 till 3 agenter samtidigt, 65 536 token var. ≈ 18 000–38 000 kr per person.</p>
-      </div>
-      <div class="tier">
-        <span class="t"><span lang="en">Mid · 72 GB</span><span lang="sv">Mellan · 72 GB</span></span>
-        <span class="who"><span lang="en">6–12 people</span><span lang="sv">6–12 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">About 3 agents at once, memory for 10 seats at 65,536. ≈ 12,000–25,000 kr per person.</p>
-        <p lang="sv">Ungefär 3 agenter samtidigt, minne för 10 platser à 65 536. ≈ 12 000–25 000 kr per person.</p>
-      </div>
-      <div class="tier">
-        <span class="t"><span lang="en">Team · 96 GB</span><span lang="sv">Team · 96 GB</span></span>
-        <span class="who"><span lang="en">10–20 people</span><span lang="sv">10–20 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">About 4 to 5 agents at once, memory for 16 seats at 65,536. ≈ 10,000–20,000 kr per person.</p>
-        <p lang="sv">Ungefär 4 till 5 agenter samtidigt, minne för 16 platser à 65 536. ≈ 10 000–20 000 kr per person.</p>
-      </div>
-      <div class="tier">
-        <span class="t"><span lang="en">Rent instead</span><span lang="sv">Hyr i stället</span></span>
-        <span class="who"><span lang="en">≈ 11–12 SEK / hour</span><span lang="sv">≈ 11–12 kr / timme</span></span>
-        <p lang="en">An A100 80 GB on demand, as measured above. Cheaper than a build for occasional heavy work.</p>
-        <p lang="sv">Ett A100 80 GB vid behov, som i mätningen ovan. Billigare än ett bygge för tillfälligt tungt arbete.</p>
-      </div>
+            <p class="panel-foot"><span lang="en">Excluding VAT: hardware plus installation, and the monthly software fee. Starter pays back in about 46 months with 5 users. This compares cost, not capability: cloud models are larger.</span><span lang="sv">Exklusive moms: hårdvara plus installation, och mjukvaruavgiften per månad. Start betalar sig på ungefär 46 månader med 5 användare. Det här jämför kostnad, inte förmåga: molnmodellerna är större.</span></p>
     </div>
   </section>
 
@@ -719,19 +524,11 @@
         <p lang="en">The studies used one 27-billion-parameter model sized for a 16 GB card; other models will differ, and null results are reported.</p>
         <p lang="sv">Studierna gjordes med en modell på 27 miljarder parametrar anpassad för ett 16 GB-kort; andra modeller beter sig annorlunda, och nollresultat redovisas.</p>
       </div>
-    </div>
-  </section>
-
-  <section>
-    <h2><span lang="en">What is included</span><span lang="sv">Det här ingår</span></h2>
-    <div class="surfaces">
-      <div class="item"><span class="t"><span lang="en">Three front-ends</span><span lang="sv">Tre gränssnitt</span></span><p lang="en">VS Code, desktop and CLI.</p><p lang="sv">VS Code, skrivbord och kommandorad.</p></div>
-      <div class="item"><span class="t"><span lang="en">Test suites</span><span lang="sv">Testsviter</span></span><p lang="en">Fast, integration, end-to-end and mutation tests.</p><p lang="sv">Snabba tester, integrations-, e2e- och mutationstester.</p></div>
-      <div class="item"><span class="t"><span lang="en">Benchmark</span><span lang="sv">Testunderlag</span></span><p lang="en">Frozen bug cases with scoring oracles.</p><p lang="sv">Frysta buggfall med bedömare.</p></div>
-      <div class="item"><span class="t"><span lang="en">Instrumentation</span><span lang="sv">Mätverktyg</span></span><p lang="en">Sensors showing where turns are spent and lost.</p><p lang="sv">Sensorer som visar var turer används och går förlorade.</p></div>
-      <div class="item"><span class="t"><span lang="en">Engineering log</span><span lang="sv">Utvecklingslogg</span></span><p lang="en">428 findings with reasons.</p><p lang="sv">428 fynd med skäl.</p></div>
-      <div class="item"><span class="t"><span lang="en">Hardware profiles</span><span lang="sv">Hårdvaruprofiler</span></span><p lang="en">Measured model settings from day one.</p><p lang="sv">Uppmätta modellinställningar från dag ett.</p></div>
-      <div class="item"><span class="t"><span lang="en">The study record</span><span lang="sv">Studieprotokollen</span></span><p lang="en">117 pre-registrations and write-ups, null results and the one voided study included.</p><p lang="sv">117 förhandsregistreringar och rapporter, nollresultat och den ogiltigförklarade studien inräknade.</p></div>
+      <div class="limit">
+        <div class="label"><span lang="en">Existing code is harder</span><span lang="sv">Befintlig kod är svårare</span></div>
+        <p lang="en">The same requirements cost <strong>3.5× more</strong> in existing code than in an empty folder; our benchmark includes such tasks.</p>
+        <p lang="sv">Samma krav kostar <strong>3,5 gånger mer</strong> i befintlig kod än i en tom mapp; vårt testunderlag innehåller sådana uppgifter.</p>
+      </div>
     </div>
   </section>
 
@@ -755,8 +552,8 @@
       <div class="row">
         <div class="label"><span lang="en">A 12-month partnership</span><span lang="sv">Ett samarbete i 12 månader</span></div>
         <div>
-          <p lang="en">Over twelve months we help your team until it builds software with the agent on its own: a follow-up of about 45 minutes every month, a joint review of the quarterly measurement report, and task-writing guidance. Only what you choose to share, never your source code, feeds improvements.</p>
-          <p lang="sv">Under tolv månader hjälper vi ert team tills det bygger programvara med agenten på egen hand: en uppföljning på ungefär 45 minuter varje månad, en gemensam genomgång av den kvartalsvisa mätrapporten och vägledning i att formulera uppgifter. Bara det ni väljer att dela, aldrig er källkod, blir förbättringar.</p>
+          <p lang="en">A monthly follow-up of about 45 minutes, the quarterly measurement report reviewed together, and help writing good work orders, until your team works with the agent on its own. Your source code never reaches us.</p>
+          <p lang="sv">En uppföljning på ungefär 45 minuter varje månad, den kvartalsvisa mätrapporten som vi går igenom tillsammans och hjälp att skriva bra arbetsorder, tills ert team arbetar med agenten på egen hand. Er källkod når aldrig oss.</p>
         </div>
       </div>
       <div class="row">
@@ -784,8 +581,8 @@
               </tbody>
             </table>
           </div>
-          <p lang="en" class="price-note">Each month includes updates, next-working-day support, the follow-up and a quarterly measurement report. Organisation adds security documentation, on-site installation and priority support, for more than 20 users or regulated sectors. Extra work: 1,150 SEK per hour. <strong>Pilot partners:</strong> the first three companies get 30% off the monthly fee for the first year, in return for feedback and being a reference.</p>
-          <p lang="sv" class="price-note">Varje månad ingår uppdateringar, support senast nästa arbetsdag, uppföljningen och en kvartalsvis mätrapport. Organisation lägger till säkerhetsdokumentation, installation på plats och prioriterad support, för fler än 20 användare eller reglerade miljöer. Tilläggsarbete: 1 150 kr per timme. <strong>Pilotpartner:</strong> de tre första företagen får 30 % rabatt på månadsavgiften första året, mot återkoppling och att de ställer upp som referens.</p>
+          <p lang="en" class="price-note">Each month includes updates, next-working-day support, the follow-up and the quarterly report. Organisation adds security documentation, on-site installation and priority support. Extra work: 1,150 SEK per hour. <strong>Pilot partners:</strong> the first three companies get 30% off the monthly fee for the first year, in return for feedback and being a reference.</p>
+          <p lang="sv" class="price-note">Varje månad ingår uppdateringar, support senast nästa arbetsdag, uppföljningen och kvartalsrapporten. Organisation lägger till säkerhetsdokumentation, installation på plats och prioriterad support. Tilläggsarbete: 1 150 kr per timme. <strong>Pilotpartner:</strong> de tre första företagen får 30 % rabatt på månadsavgiften första året, mot återkoppling och att de ställer upp som referens.</p>
         </div>
       </div>
     </div>
@@ -882,8 +679,6 @@
     <span><a href="#privacy"><span lang="en">Privacy</span><span lang="sv">Integritet</span></a></span>
     <span lang="en">Offline · local network only</span><span lang="sv">Offline · endast lokalt nätverk</span>
     <span lang="en">Figures counted 2026-10-13</span><span lang="sv">Siffror räknade 2026-10-13</span>
-    <span lang="en">Server figures measured 2026-09-26</span><span lang="sv">Serversiffror uppmätta 2026-09-26</span>
-    <span lang="en">428 findings · 117 pre-registered studies · measured on in-house and rented hardware</span><span lang="sv">428 fynd · 117 förhandsregistrerade studier · uppmätt på egen och hyrd hårdvara</span>
   </footer>
 </div>
 
