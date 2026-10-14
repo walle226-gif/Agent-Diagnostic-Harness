@@ -642,6 +642,223 @@
     </div>
   </section>
 
+  <section id="details">
+    <details class="fold" id="details-fold">
+    <summary>
+      <h2><span lang="en">The details</span><span lang="sv">Detaljerna</span></h2>
+      <p class="prose"><span lang="en">Every measurement, tool, build and study behind this page.</span><span lang="sv">Alla mätningar, verktyg, byggen och studier bakom den här sidan.</span> <span class="fold-hint"><span lang="en">Show</span><span lang="sv">Visa</span></span></p>
+    </summary>
+
+      <h3 class="sub"><span lang="en">How it is built and checked</span><span lang="sv">Hur den är byggd och kontrollerad</span></h3>
+    <div class="figures">
+      <div class="fig"><span class="n">50</span><span class="k"><span lang="en">tools available</span><span lang="sv">verktyg tillgängliga</span></span><span class="src"><span lang="en">counted 2026-10-13</span><span lang="sv">räknade 2026-10-13</span></span></div>
+      <div class="fig"><span class="n">355</span><span class="k"><span lang="en">fast tests passing</span><span lang="sv">snabba tester godkända</span></span><span class="src"><span lang="en">plus live and end-to-end suites</span><span lang="sv">plus integrations- och e2e-sviter</span></span></div>
+      <div class="fig"><span class="n">2,481</span><span class="k"><span lang="en">mutation anchors</span><span lang="sv">mutationsankare</span></span><span class="src"><span lang="en">catch faked test success, 0 broken</span><span lang="sv">fångar tester som låtsas, 0 trasiga</span></span></div>
+      <div class="fig"><span class="n">65</span><span class="k"><span lang="en">self-testing sensors</span><span lang="sv">självtestande mätverktyg</span></span><span class="src"><span lang="en">each checks its own reading</span><span lang="sv">vart och ett kontrollerar sig självt</span></span></div>
+      <div class="fig"><span class="n">428</span><span class="k"><span lang="en">logged findings</span><span lang="sv">loggade fynd</span></span><span class="src"><span lang="en">rejections included</span><span lang="sv">förkastade inräknade</span></span></div>
+      <div class="fig"><span class="n">117</span><span class="k"><span lang="en">pre-registered studies</span><span lang="sv">förhandsregistrerade studier</span></span><span class="src"><span lang="en">frozen before the run</span><span lang="sv">låsta före körningen</span></span></div>
+      <div class="fig"><span class="n">3</span><span class="k"><span lang="en">interfaces, one engine</span><span lang="sv">gränssnitt, en motor</span></span><span class="src"><span lang="en">no drift between them</span><span lang="sv">ingen glidning dem emellan</span></span></div>
+    </div>
+    <div class="prose" style="margin-top:20px">
+      <p lang="en">Every figure can be recomputed from the repository, and rejected ideas are logged too. Since late August a <strong>separate workbench</strong> has measured the agent, with 3 frozen bug cases, studies repeated at 2 sites and blind analysis in every study.</p>
+      <p lang="sv">Varje siffra kan räknas om från kodbasen, och förkastade idéer loggas också. Sedan slutet av augusti mäter en <strong>separat verkstad</strong> agenten, med 3 frysta buggfall, studier upprepade på 2 platser och blind analys i varje studie.</p>
+    </div>
+    <div class="rows" style="margin-top:20px">
+      <div class="row">
+        <div class="label"><span lang="en">It tunes the machine</span><span lang="sv">Den trimmar maskinen</span></div>
+        <div>
+          <p lang="en">GPU memory per model is measured, not guessed: we measured a 13× spread that parameter counts do not predict, and settings follow from it.</p>
+          <p lang="sv">Grafikminnet per modell mäts i stället för att gissas: vi mätte 13 gångers spridning, som antalet parametrar inte förutsäger, och inställningarna följer av det.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tools">
+      <span class="tool"><span lang="en">read / write / edit files</span><span lang="sv">läsa / skriva / ändra filer</span></span>
+      <span class="tool"><span lang="en">ranged reads</span><span lang="sv">läsning av radintervall</span></span>
+      <span class="tool"><span lang="en">line-ranged edits</span><span lang="sv">ändring av radintervall</span></span>
+      <span class="tool"><span lang="en">run commands</span><span lang="sv">köra kommandon</span></span>
+      <span class="tool"><span lang="en">run &amp; watch programs</span><span lang="sv">köra och bevaka program</span></span>
+      <span class="tool"><span lang="en">scripted stdin</span><span lang="sv">skriptad inmatning</span></span>
+      <span class="tool"><span lang="en">semantic search</span><span lang="sv">semantisk sökning</span></span>
+      <span class="tool"><span lang="en">text search</span><span lang="sv">textsökning</span></span>
+      <span class="tool">git status / diff / commit</span>
+      <span class="tool"><span lang="en">checkpoints &amp; restore</span><span lang="sv">återställningspunkter</span></span>
+      <span class="tool"><span lang="en">screen capture</span><span lang="sv">skärmbild</span></span>
+      <span class="tool"><span lang="en">GPU &amp; system info</span><span lang="sv">GPU- och systeminfo</span></span>
+      <span class="tool"><span lang="en">document reading</span><span lang="sv">dokumentläsning</span></span>
+      <span class="tool"><span lang="en">desktop control</span><span lang="sv">skrivbordsstyrning</span></span>
+      <span class="tool"><span lang="en">mail</span><span lang="sv">e-post</span></span>
+    </div>
+    <p class="prose" style="margin-top:12px"><span lang="en">Mail, desktop control and screen capture reach outside the project, so they always ask first.</span><span lang="sv">E-post, skrivbordsstyrning och skärmbild når utanför projektet, så de frågar alltid först.</span></p>
+
+      <h3 class="sub"><span lang="en">What the measurements showed</span><span lang="sv">Vad mätningarna visade</span></h3>
+    <p class="prose"><span lang="en">Thousands of recorded sessions, each run as a small experiment: predict, run once, read everything.</span><span lang="sv">Tusentals inspelade arbetspass, vart och ett kört som ett litet experiment: förutsäg, kör en gång, läs allt.</span></p>
+    <div class="rows">
+      <div class="row">
+        <div class="label"><span lang="en">An independent referee</span><span lang="sv">En oberoende domare</span></div>
+        <div>
+          <p lang="en">A separate referee <strong>runs the finished code</strong> against answers fixed in advance.</p>
+          <p lang="sv">En separat domare <strong>kör den färdiga koden</strong> mot facit som bestämts i förväg.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Proven work is saved instantly</span><span lang="sv">Bevisat arbete sparas direkt</span></div>
+        <div>
+          <p lang="en">A fix proven correct is copied automatically out of the agent's reach.</p>
+          <p lang="sv">En lagning som bevisats korrekt kopieras automatiskt utom räckhåll för agenten.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Its reasoning is on record</span><span lang="sv">Dess resonemang sparas</span></div>
+        <div>
+          <p lang="en">The agent's reasoning is saved to disk, so failures can be read, not guessed.</p>
+          <p lang="sv">Agentens resonemang sparas till disk, så att fel kan läsas i stället för att gissas.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Models chosen by measurement</span><span lang="sv">Modeller väljs efter mätning</span></div>
+        <div>
+          <p lang="en">A small, fast model solved a hard bug that a model four times its size did not, so models are chosen by measurement.</p>
+          <p lang="sv">En liten, snabb modell löste en svår bugg som en modell fyra gånger så stor inte klarade, så modeller väljs efter mätning.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">How you write the task changes the work</span><span lang="sv">Hur uppgiften skrivs ändrar arbetet</span></div>
+        <div>
+          <p lang="en">Removing one contradiction from a task <strong>halved</strong> the planning reply, on a second machine too, so the agent now asks about two measured kinds of self-contradicting request.</p>
+          <p lang="sv">När en motsägelse togs bort ur en uppgift <strong>halverades</strong> planeringssvaret, även på en andra maskin, så agenten frågar nu om två uppmätta sorters motsägelsefulla beställningar.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Its own verification was audited</span><span lang="sv">Dess egen verifiering granskades</span></div>
+        <div>
+          <p lang="en">We audited every firing of the rule that reminds the agent to run its fixes, and rewrote it to look for a test of <strong>that specific edit</strong>.</p>
+          <p lang="sv">Vi granskade varje utlösning av regeln som påminner agenten om att köra sina lagningar, och skrev om den så att den letar efter ett test av <strong>just den ändringen</strong>.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">Existing code costs more</span><span lang="sv">Befintlig kod kostar mer</span></div>
+        <div>
+          <p lang="en">The same requirements cost <strong>3.5× more</strong> in existing code than in an empty folder, because the work avoids the old code; the benchmark now includes such tasks.</p>
+          <p lang="sv">Samma krav kostar <strong>3,5 gånger mer</strong> i befintlig kod än i en tom mapp, eftersom arbetet undviker den gamla koden; testunderlaget innehåller nu sådana uppgifter.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="label"><span lang="en">The tooling is measured too</span><span lang="sv">Verktygen mäts också</span></div>
+        <div>
+          <p lang="en">Much lost time was in the tooling, not the model; each such case becomes a fixed defect with a test.</p>
+          <p lang="sv">Mycket tid förlorades i verktygen, inte i modellen; varje sådant fall blir ett åtgärdat fel med ett test.</p>
+        </div>
+      </div>
+    </div>
+
+      <h3 class="sub"><span lang="en">The A100 run</span><span lang="sv">Körningen på A100</span></h3>
+    <p class="prose" lang="en">On 2026-09-26 we ran the unchanged product on a rented NVIDIA A100 80 GB with the same 27-billion-parameter model at 8-bit precision.</p>
+    <p class="prose" lang="sv">Den 26 september 2026 körde vi den oförändrade produkten på ett hyrt NVIDIA A100 80 GB med samma modell på 27 miljarder parametrar i 8-bitars precision.</p>
+    <div class="figures">
+      <div class="fig"><span class="n">262,144</span><span class="k"><span lang="en">tokens of context per agent</span><span lang="sv">token kontext per agent</span></span><span class="src"><span lang="en">the model's full window, 4× the desktop card</span><span lang="sv">modellens fulla fönster, 4× skrivbordskortet</span></span></div>
+      <div class="fig"><span class="n">43.5 GB</span><span class="k"><span lang="en">of 80 GB in use</span><span lang="sv">av 80 GB används</span></span><span class="src"><span lang="en">model, full window and image reading</span><span lang="sv">modell, fullt fönster och bildläsning</span></span></div>
+      <div class="fig"><span class="n">≈ 40</span><span class="k"><span lang="en">tokens per second, one agent</span><span lang="sv">token per sekund, en agent</span></span><span class="src"><span lang="en">measured by the model server itself</span><span lang="sv">uppmätt av modellservern själv</span></span></div>
+      <div class="fig"><span class="n">67,596</span><span class="k"><span lang="en">tokens held by one real ticket</span><span lang="sv">token i en enda verklig uppgift</span></span><span class="src"><span lang="en">more than a 16 GB card's whole window</span><span lang="sv">mer än ett 16 GB-korts hela fönster</span></span></div>
+    </div>
+    <p class="note"><span lang="en">A token is about three quarters of a word; 30 tokens a second is faster than most people read. Measured 2026-09-26 on a rented A100 SXM 80 GB, which no Swedish store sells; the builds use NVIDIA workstation cards.</span><span lang="sv">En token är ungefär tre fjärdedelar av ett ord; 30 token i sekunden är snabbare än de flesta läser. Uppmätt 2026-09-26 på ett hyrt A100 SXM 80 GB, som ingen svensk butik säljer; byggena använder NVIDIA:s arbetsstationskort.</span></p>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span class="t"><span lang="en">Three builds, bought in Sweden</span><span lang="sv">Tre byggen, köpta i Sverige</span></span>
+        <p lang="en">Prices include 25% VAT, from the stores' pages on 2026-09-26, for the complete machine with 64 GB memory and a 2 TB drive, running free Linux. Assembly is not included.</p>
+        <p lang="sv">Priserna är inklusive moms, från butikernas sidor 2026-09-26, för hela datorn med 64 GB minne och 2 TB lagring, med gratis Linux. Montering ingår inte.</p>
+      </div>
+      <div class="builds">
+        <div class="build">
+          <span class="t"><span lang="en">Starter</span><span lang="sv">Start</span></span>
+          <span class="gpu">RTX PRO 5000 · 48 GB</span>
+          <span class="big">≈ <span lang="en">106,000–113,000</span><span lang="sv">106 000–113 000</span></span>
+          <span class="unit"><span lang="en">SEK incl. VAT</span><span lang="sv">kr inkl. moms</span></span>
+          <dl>
+            <dt><span lang="en">Graphics card</span><span lang="sv">Grafikkort</span></dt><dd><span lang="en">84,990</span><span lang="sv">84 990</span></dd>
+            <dt><span lang="en">Rest of the machine</span><span lang="sv">Resten av datorn</span></dt><dd><span lang="en">21,000–28,000</span><span lang="sv">21 000–28 000</span></dd>
+            <dt><span lang="en">Speed, one agent</span><span lang="sv">Hastighet, en agent</span></dt><dd><span lang="en">≈ 26 tok/s</span><span lang="sv">≈ 26 token/s</span></dd>
+          </dl>
+        </div>
+        <div class="build">
+          <span class="t"><span lang="en">Mid</span><span lang="sv">Mellan</span></span>
+          <span class="gpu">RTX PRO 5000 · 72 GB</span>
+          <span class="big">≈ <span lang="en">145,000–152,000</span><span lang="sv">145 000–152 000</span></span>
+          <span class="unit"><span lang="en">SEK incl. VAT</span><span lang="sv">kr inkl. moms</span></span>
+          <dl>
+            <dt><span lang="en">Graphics card</span><span lang="sv">Grafikkort</span></dt><dd><span lang="en">124,378</span><span lang="sv">124 378</span></dd>
+            <dt><span lang="en">Rest of the machine</span><span lang="sv">Resten av datorn</span></dt><dd><span lang="en">21,000–28,000</span><span lang="sv">21 000–28 000</span></dd>
+            <dt><span lang="en">Speed, one agent</span><span lang="sv">Hastighet, en agent</span></dt><dd><span lang="en">≈ 26 tok/s</span><span lang="sv">≈ 26 token/s</span></dd>
+          </dl>
+        </div>
+        <div class="build">
+          <span class="t"><span lang="en">Team</span><span lang="sv">Team</span></span>
+          <span class="gpu">RTX PRO 6000 Max-Q · 96 GB</span>
+          <span class="big">≈ <span lang="en">191,000–198,000</span><span lang="sv">191 000–198 000</span></span>
+          <span class="unit"><span lang="en">SEK incl. VAT</span><span lang="sv">kr inkl. moms</span></span>
+          <dl>
+            <dt><span lang="en">Graphics card</span><span lang="sv">Grafikkort</span></dt><dd><span lang="en">169,990</span><span lang="sv">169 990</span></dd>
+            <dt><span lang="en">Rest of the machine</span><span lang="sv">Resten av datorn</span></dt><dd><span lang="en">21,000–28,000</span><span lang="sv">21 000–28 000</span></dd>
+            <dt><span lang="en">Speed, one agent</span><span lang="sv">Hastighet, en agent</span></dt><dd><span lang="en">≈ 35 tok/s</span><span lang="sv">≈ 35 token/s</span></dd>
+          </dl>
+        </div>
+      </div>
+      <p class="panel-foot"><span lang="en">Rest of the machine, in stock: AMD Ryzen 7 9700X, Thermalright Peerless Assassin 120 SE, Gigabyte B650 Eagle AX, 64 GB DDR5 (half this line's cost: memory prices rose four- to sixfold in 2026), 2 TB NVMe, Corsair RM1000e 1000 W with 16-pin connector, airflow case. Range: cheapest stores (Prisjakt) to all parts from Inet. Speed is our estimate from memory bandwidth against the measured A100. Ready-built: HP Z2 G1i with the 96 GB card, 96 GB RAM and three years of on-site service, 194,990 kr at Proshop.</span><span lang="sv">Resten av datorn, i lager: AMD Ryzen 7 9700X, Thermalright Peerless Assassin 120 SE, Gigabyte B650 Eagle AX, 64 GB DDR5 (halva radens kostnad: minnespriserna steg fyra till sex gånger under 2026), 2 TB NVMe, Corsair RM1000e 1000 W med 16-polig kontakt, chassi med bra luftflöde. Spann: billigaste butikerna (Prisjakt) till alla delar från Inet. Hastigheten är vår uppskattning från minnesbandbredden jämfört med uppmätt A100. Färdigbyggt: HP Z2 G1i med 96 GB-kortet, 96 GB RAM och tre års service på plats, 194 990 kr hos Proshop.</span></p>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span class="t"><span lang="en">How many people each build serves</span><span lang="sv">Hur många varje bygge räcker till</span></span>
+        <p lang="en"><strong>Memory</strong> sets how many agents can hold a conversation: the model takes about 29 GB, plus more per seat the larger its context. <strong>Speed</strong> is shared, but people pause between tasks, so a card serves more people than agents running at once.</p>
+        <p lang="sv"><strong>Minnet</strong> avgör hur många agenter som kan hålla en konversation: modellen tar ungefär 29 GB, plus mer per plats ju större kontext. <strong>Hastigheten</strong> delas, men människor pausar mellan uppgifter, så ett kort räcker till fler personer än agenter som körs samtidigt.</p>
+      </div>
+      <div class="scroll">
+        <table class="grid">
+          <thead>
+            <tr lang="en"><th>Seats that fit in memory</th><th>48 GB</th><th>72 GB</th><th>96 GB</th><th>A100 80 GB</th></tr>
+            <tr lang="sv"><th>Platser som ryms i minnet</th><th>48 GB</th><th>72 GB</th><th>96 GB</th><th>A100 80 GB</th></tr>
+          </thead>
+          <tbody lang="en">
+            <tr><td>Full window, 262,144 tokens</td><td class="num">1</td><td class="num">2</td><td class="num">4</td><td class="num">3</td></tr>
+            <tr><td>131,072 tokens</td><td class="num">2</td><td class="num">5</td><td class="num">8</td><td class="num">6</td></tr>
+            <tr><td>65,536 tokens, the desktop window</td><td class="num">4</td><td class="num">10</td><td class="num">16</td><td class="num">12</td></tr>
+            <tr><td>65,536, compressed cache</td><td class="num">9</td><td class="num">21</td><td class="num">33</td><td class="num">25</td></tr>
+          </tbody>
+          <tbody lang="sv">
+            <tr><td>Fullt fönster, 262 144 token</td><td class="num">1</td><td class="num">2</td><td class="num">4</td><td class="num">3</td></tr>
+            <tr><td>131 072 token</td><td class="num">2</td><td class="num">5</td><td class="num">8</td><td class="num">6</td></tr>
+            <tr><td>65 536 token, skrivbordets fönster</td><td class="num">4</td><td class="num">10</td><td class="num">16</td><td class="num">12</td></tr>
+            <tr><td>65 536, komprimerad cache</td><td class="num">9</td><td class="num">21</td><td class="num">33</td><td class="num">25</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="panel-foot"><span lang="en">From the measured A100 run: about 29 GB for model and image reading, plus 16 GB per seat at the full window (8 GB at 131,072, 4 GB at 65,536; half with the compressed 8-bit cache the desktop uses). People per build are our estimates from this, memory bandwidth and one earlier measurement of agents sharing a card.</span><span lang="sv">Från den uppmätta A100-körningen: ungefär 29 GB för modell och bildläsning, plus 16 GB per plats vid fullt fönster (8 GB vid 131 072, 4 GB vid 65 536; hälften med den komprimerade 8-bitarscache som skrivbordet använder). Personer per bygge är våra uppskattningar utifrån detta, minnesbandbredden och en tidigare mätning av agenter som delar ett kort.</span></p>
+    </div>
+
+      <h3 class="sub"><span lang="en">How the cost comparison is calculated</span><span lang="sv">Så räknas kostnadsjämförelsen</span></h3>
+    <p class="note"><span lang="en">Excluding VAT (the build price above divided by 1.25), with installation and software fee. Break-even = one-time cost ÷ (users × 1,984 SEK − monthly fee). Starter pays back in about 46 months with 5 users, and not on cost alone with 4. After that: the fee, electricity (about 400 to 450 W while working) and upkeep. This compares cost, not capability: cloud models are larger.</span><span lang="sv">Exklusive moms (byggpriset ovan delat med 1,25), med installation och mjukvaruavgift. Break-even = engångskostnad ÷ (användare × 1 984 kr − månadsavgift). Start betalar sig på ungefär 46 månader med 5 användare, och inte på kostnad enbart med 4. Därefter: avgiften, el (ungefär 400 till 450 W under arbete) och underhåll. Det här jämför kostnad, inte förmåga: molnmodellerna är större.</span></p>
+
+      <h3 class="sub"><span lang="en">Large jobs, one part at a time</span><span lang="sv">Stora jobb, en del i taget</span></h3>
+    <div class="case" style="margin-top:16px">
+      <span class="t"><span lang="en">Example · 4 October</span><span lang="sv">Exempel · 4 oktober</span></span>
+    <p class="prose" lang="en"><strong>Large jobs are done one part at a time, and each part is checked.</strong> Three features (a project history, a month calendar and staff notes) were built in ten numbered parts. Each part started only after the project's own test suite had passed on the part before. All ten finished, in about 3 hours 20 minutes of agent time, on a 16 GB graphics card. One of the three, given first as a single job in eight parts, had run out of steps twice.</p>
+    <p class="prose" lang="sv"><strong>Stora jobb görs en del i taget, och varje del kontrolleras.</strong> Tre funktioner (en projekthistorik, en månadskalender och personalens anteckningar) byggdes i tio numrerade delar. Varje del påbörjades först när projektets egen testsvit hade gått igenom för delen före. Alla tio blev klara, på ungefär 3 timmar och 20 minuter agenttid, på ett grafikkort med 16 GB. En av de tre hade först getts som ett enda jobb i åtta delar, och då tog stegen slut två gånger.</p>
+    </div>
+
+      <h3 class="sub"><span lang="en">What is included</span><span lang="sv">Det här ingår</span></h3>
+    <div class="surfaces">
+      <div class="item"><span class="t"><span lang="en">Three front-ends</span><span lang="sv">Tre gränssnitt</span></span><p lang="en">VS Code, desktop and CLI.</p><p lang="sv">VS Code, skrivbord och kommandorad.</p></div>
+      <div class="item"><span class="t"><span lang="en">Test suites</span><span lang="sv">Testsviter</span></span><p lang="en">Fast, integration, end-to-end and mutation tests.</p><p lang="sv">Snabba tester, integrations-, e2e- och mutationstester.</p></div>
+      <div class="item"><span class="t"><span lang="en">Benchmark</span><span lang="sv">Testunderlag</span></span><p lang="en">Frozen bug cases with scoring oracles.</p><p lang="sv">Frysta buggfall med bedömare.</p></div>
+      <div class="item"><span class="t"><span lang="en">Instrumentation</span><span lang="sv">Mätverktyg</span></span><p lang="en">Sensors showing where turns are spent and lost.</p><p lang="sv">Sensorer som visar var turer används och går förlorade.</p></div>
+      <div class="item"><span class="t"><span lang="en">Engineering log</span><span lang="sv">Utvecklingslogg</span></span><p lang="en">428 findings with reasons.</p><p lang="sv">428 fynd med skäl.</p></div>
+      <div class="item"><span class="t"><span lang="en">Hardware profiles</span><span lang="sv">Hårdvaruprofiler</span></span><p lang="en">Measured model settings from day one.</p><p lang="sv">Uppmätta modellinställningar från dag ett.</p></div>
+      <div class="item"><span class="t"><span lang="en">The study record</span><span lang="sv">Studieprotokollen</span></span><p lang="en">117 pre-registrations and write-ups, null results and the one voided study included.</p><p lang="sv">117 förhandsregistreringar och rapporter, nollresultat och den ogiltigförklarade studien inräknade.</p></div>
+    </div>
+    </details>
+  </section>
+
   <section id="start">
     <h2><span lang="en">Getting started</span><span lang="sv">Kom igång</span></h2>
     <div class="rows">
@@ -818,14 +1035,22 @@
     en.addEventListener("click", function () { set("en"); });
     sv.addEventListener("click", function () { set("sv"); });
 
-    // Privacy starts folded; the footer link, a #privacy address and printing open it.
-    var fold = document.getElementById("privacy-fold");
-    function openPrivacy() { if (fold) fold.open = true; }
-    if (location.hash === "#privacy") openPrivacy();
-    window.addEventListener("hashchange", function () { if (location.hash === "#privacy") openPrivacy(); });
-    var links = document.querySelectorAll('a[href="#privacy"]');
-    for (var k = 0; k < links.length; k++) links[k].addEventListener("click", openPrivacy);
-    window.addEventListener("beforeprint", openPrivacy);
+    // Folded sections start closed; a link or address pointing into one, and printing, open it.
+    function openFor(hash) {
+      if (!hash || hash.length < 2) return;
+      var el = document.getElementById(hash.slice(1));
+      if (!el) return;
+      var fold = el.querySelector("details.fold") || el.closest("details.fold");
+      if (fold) fold.open = true;
+    }
+    openFor(location.hash);
+    window.addEventListener("hashchange", function () { openFor(location.hash); });
+    var links = document.querySelectorAll('a[href^="#"]');
+    for (var k = 0; k < links.length; k++) links[k].addEventListener("click", function () { openFor(this.getAttribute("href")); });
+    window.addEventListener("beforeprint", function () {
+      var folds = document.querySelectorAll("details.fold");
+      for (var f = 0; f < folds.length; f++) folds[f].open = true;
+    });
 
     // Column names for the phone layout: each body cell gets its header's text in its own language, without the
     // small sub-lines, with an "estimate" badge kept as "(estimate)".
