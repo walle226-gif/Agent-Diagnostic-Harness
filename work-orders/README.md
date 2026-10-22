@@ -39,7 +39,7 @@ Each project's skeleton is sent in the daytime before its first night: A before 
 
 1. **Daytime, once per project:** make an empty folder, `git init`, open it in Varde and send `00 Skeleton - <name>.txt`. Watch it, because the skeleton installs packages and may ask for approval. Check that the project check is green, then commit.
 2. **Evening:** copy that night's `Night NN` files into the project's inbox. Check that Keep going is on and press Run.
-3. **Morning:** fill in one row of `nightly-log.csv` and read the set-aside orders.
+3. **Morning:** record the night with `track-record\end-night.ps1` and fill in its rows in `track-record\orders.csv` (see `../track-record/README.md`; start each night with `start-night.ps1`). Then read the set-aside orders.
 4. **Do not edit an order to suit the agent once the run has started.** A failed order is data. Write a new order instead, outside this set.
 
 ## Built into every order
@@ -64,4 +64,4 @@ Each project's skeleton is sent in the daytime before its first night: A before 
 - `<project>/00 Skeleton - <name>.txt`: the first prompt for each project.
 - `<project>/Night NN/*.txt`: the work orders, numbered per project.
 - `orders-index.csv`: every order with night, type, parts and red-first status (semicolon separated, opens in Swedish Excel).
-- `nightly-log.csv`: an empty log with one column per measurement, to fill in each morning.
+- The nightly log lives in `../track-record/`, shared with the company-code kit, so all phases end up in one report.
