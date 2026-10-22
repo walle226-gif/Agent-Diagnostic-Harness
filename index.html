@@ -122,6 +122,7 @@
 
   .surfaces { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
   .surfaces .item { border: 1px solid var(--line); background: var(--surface); padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
+  .strengths { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
   .surfaces .item .t { font-family: var(--mono); font-size: 12px; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
   .surfaces .item p { margin: 0; font-size: 0.94rem; color: var(--ink-2); }
 
@@ -162,6 +163,11 @@
   .measured { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
   tr.total td { font-weight: 640; color: var(--ink); border-top: 1px solid var(--line); border-bottom: 0; }
   td.dim { color: var(--ink-2); }
+  .note a { color: var(--accent); }
+  .honest { border-left: 2px solid var(--caveat); background: var(--caveat-soft); padding: 14px 18px; margin-top: 18px; max-width: 74ch; }
+  .honest p { margin: 0; color: var(--ink-2); }
+  .honest strong { color: var(--caveat); }
+  .honest a, .sheet a { color: var(--accent); }
   .note { font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.02em; margin: 12px 0 0; max-width: 90ch; }
   .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
   .tier { background: var(--surface); padding: 18px; display: flex; flex-direction: column; gap: 6px; }
@@ -321,6 +327,16 @@
   .fold[open] > summary .fold-hint { display: none; }
   .fold > summary:hover h2::after, .fold > summary:hover .fold-hint { opacity: 0.75; }
   .fold > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
+  /* ---------- timeline: how it got here ---------- */
+  .timeline { list-style: none; margin: 16px 0 0; padding: 0; border-left: 2px solid var(--line); max-width: 860px; }
+  .timeline li { position: relative; display: grid; grid-template-columns: 8.5em minmax(0, 1fr); gap: 2px 18px; padding: 11px 0 11px 20px; }
+  .timeline li::before { content: ""; position: absolute; left: -7px; top: 17px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--line); box-sizing: border-box; }
+  .timeline li.now::before { background: var(--accent); border-color: var(--accent); }
+  .timeline .when { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); padding-top: 4px; white-space: nowrap; }
+  .timeline li.now .when { color: var(--accent); }
+  .timeline p { margin: 0; max-width: 66ch; }
+  .timeline li.now p strong { color: var(--accent); }
+  @media (max-width: 560px) { .timeline li { grid-template-columns: minmax(0, 1fr); } }
 </style>
 </head>
 <body>
@@ -337,23 +353,23 @@
       </div>
     </div>
     <h1>Varde Code Agent</h1>
-    <p class="lede"><span lang="en">A coding agent that reads, writes and runs your code with a model on your own server. One server serves the whole team, and no code, keys or prompts leave the network.</span><span lang="sv">En utvecklingsagent som läser, skriver och kör er kod med en modell på er egen server. En server räcker till hela teamet, och ingen kod, inga nycklar och inga frågor lämnar nätverket.</span></p>
+    <p class="lede"><span lang="en">A coding agent that works on your own hardware. Give it numbered work orders and it builds, tests and saves each step, by day or overnight. No code, keys or prompts leave your network.</span><span lang="sv">En utvecklingsagent som arbetar på er egen hårdvara. Ge den numrerade arbetsorder, så bygger, testar och sparar den varje steg, på dagen eller över natten. Ingen kod, inga nycklar och inga frågor lämnar nätverket.</span></p>
     <div class="actions">
       <span lang="en"><a class="btn" href="mailto:Johan.wahlsten@outlook.com?subject=Demo%20of%20Varde%20Code%20Agent">Book a demo&nbsp;→</a></span><span lang="sv"><a class="btn" href="mailto:Johan.wahlsten@outlook.com?subject=Demo%20av%20Varde%20Code%20Agent">Boka en demo&nbsp;→</a></span>
-      <a class="act-link" href="#start"><span lang="en">or start with a 2-week pilot, 12,000 SEK</span><span lang="sv">eller börja med en pilot i 2 veckor, 12 000 kr</span></a>
+      <a class="act-link" href="#start"><span lang="en">Or start with a 2-week pilot, 12,000 SEK</span><span lang="sv">Eller börja med en pilot i 2 veckor, 12 000 kr</span></a>
     </div>
     <div class="facts">
       <div class="fact">
         <span class="big">10 h 39 min</span>
-        <span class="small"><span lang="en">alone overnight, 6 of 8 work orders done. <a href="#night">See the night&nbsp;→</a></span><span lang="sv">ensam under natten, 6 av 8 arbetsorder klara. <a href="#night">Se natten&nbsp;→</a></span></span>
+        <span class="small"><span lang="en">Alone overnight, 6 of 8 work orders done. <a href="#night">See the night&nbsp;→</a></span><span lang="sv">Ensam under natten, 6 av 8 arbetsorder klara. <a href="#night">Se natten&nbsp;→</a></span></span>
       </div>
       <div class="fact">
-        <span class="big"><span lang="en">3–20 people</span><span lang="sv">3–20 personer</span></span>
-        <span class="small"><span lang="en">on one server of your own</span><span lang="sv">på en egen server</span> <span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
+        <span class="big">16 GB</span>
+        <span class="small"><span lang="en">One graphics card is the floor: one developer. <a href="#scale">See the steps up&nbsp;→</a></span><span lang="sv">Ett grafikkort är golvet: en utvecklare. <a href="#scale">Se stegen upp&nbsp;→</a></span></span>
       </div>
       <div class="fact">
-        <span class="big"><span lang="en">4–5 at once</span><span lang="sv">4–5 samtidigt</span></span>
-        <span class="small"><span lang="en">people working with a 96 GB server by day, then leaving work orders for the night</span><span lang="sv">personer arbetar med en 96 GB-server på dagen och lämnar sedan arbetsorder till natten</span> <span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
+        <span class="big"><span lang="en">Up to 20 people</span><span lang="sv">Upp till 20 personer</span></span>
+        <span class="small"><span lang="en">On one 96 GB server of your own, with the same agent</span><span lang="sv">På en egen server med 96 GB, med samma agent</span> <span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
       </div>
     </div>
   </div>
@@ -363,19 +379,55 @@
 
   <section>
     <h2><span lang="en">What it is</span><span lang="sv">Vad det är</span></h2>
-    <div lang="en">
-      <p class="prose">An agent that reads and edits files, runs commands and tests, and reports what actually happened. The model runs on your own hardware, for places where cloud assistants are not permitted, such as defence, healthcare, legal and industry.</p>
-      <p class="prose"><strong>The code it writes is yours,</strong> made by an open model under the Apache 2.0 licence, on a server of your own that the whole team shares.</p>
+    <p class="prose" lang="en">An agent that reads and edits your code, runs commands and tests, and reports what actually happened. Built for places where cloud assistants are not permitted, such as Defence, Healthcare, Legal and Industry.</p>
+    <p class="prose" lang="sv">En agent som läser och ändrar er kod, kör kommandon och tester och rapporterar vad som faktiskt hände. Byggd för miljöer där molnassistenter inte är tillåtna, som Försvar, Vård, Juridik och Industri.</p>
+    <div class="surfaces strengths" style="margin-top:20px">
+      <div class="item"><span class="t"><span lang="en">Nothing leaves your network</span><span lang="sv">Inget lämnar ert nätverk</span></span><p lang="en">The model runs on your own hardware. No code, keys or prompts are sent anywhere, and there is no cloud fallback.</p><p lang="sv">Modellen körs på er egen hårdvara. Ingen kod, inga nycklar och inga frågor skickas någonstans, och det finns ingen reservväg till molnet.</p></div>
+      <div class="item"><span class="t"><span lang="en">Works while you are out of office</span><span lang="sv">Arbetar när ni är borta från kontoret</span></span><p lang="en">Leave a list of work orders before you go: at the end of the day, before a weekend or a holiday. Each step is tested and saved on its own, and a report waits when you are back.</p><p lang="sv">Lämna en lista med arbetsorder innan ni går: efter arbetsdagen, inför en helg eller en semester. Varje steg testas och sparas för sig, och en rapport väntar när ni är tillbaka.</p></div>
+      <div class="item"><span class="t"><span lang="en">Every claim is checked</span><span lang="sv">Varje påstående kontrolleras</span></span><p lang="en">The project's own tests run after every step, and a separate referee runs the finished code. A claim the tools cannot back up does not count.</p><p lang="sv">Projektets egna tester körs efter varje steg, och en separat domare kör den färdiga koden. Ett påstående som verktygen inte kan styrka räknas inte.</p></div>
+      <div class="item"><span class="t"><span lang="en">Safe by default</span><span lang="sv">Säker från början</span></span><p lang="en">Anything outside the project, or that cannot be undone, asks a person first. There is always a saved state to go back to.</p><p lang="sv">Allt utanför projektet, eller som inte går att ångra, frågar en människa först. Det finns alltid ett sparat läge att gå tillbaka till.</p></div>
+      <div class="item"><span class="t"><span lang="en">Grows with your team</span><span lang="sv">Växer med teamet</span></span><p lang="en">Start on one 16 GB card for one developer. Move the model to a shared 48, 72 or 96 GB server, and the same agent serves up to 20 people.</p><p lang="sv">Börja på ett 16 GB-kort för en utvecklare. Flytta modellen till en delad server med 48, 72 eller 96 GB, så räcker samma agent till upp till 20 personer.</p></div>
+      <div class="item"><span class="t"><span lang="en">Yours to keep</span><span lang="sv">Er att behålla</span></span><p lang="en">The code it writes is yours, made by an open model under the Apache 2.0 licence. Fixed prices and no usage limits.</p><p lang="sv">Koden den skriver är er, skapad av en öppen modell under licensen Apache 2.0. Fasta priser och inga användningsgränser.</p></div>
     </div>
-    <div lang="sv">
-      <p class="prose">En agent som läser och ändrar filer, kör kommandon och tester och rapporterar vad som faktiskt hände. Modellen körs på er egen hårdvara, för miljöer där molnassistenter inte är tillåtna, som försvar, vård, juridik och industri.</p>
-      <p class="prose"><strong>Koden den skriver är er,</strong> skapad av en öppen modell under licensen Apache 2.0, på en egen server som hela teamet delar.</p>
+    <div class="honest">
+      <p lang="en"><strong>Good to know.</strong> It runs a smaller model than the cloud services, so it is slower, and it does best with work you can describe in clear steps. Proven so far on JavaScript, TypeScript and Python: web applications, business systems and desktop tools. <span class="nw">C, C++, C#</span> and embedded code are not yet measured, so a pilot measures it on your own code first. More under <a href="#plainly">Stated plainly</a>.</p>
+      <p lang="sv"><strong>Bra att veta.</strong> Den kör en mindre modell än molntjänsterna, så den är långsammare, och den gör bäst ifrån sig med arbete som går att beskriva i tydliga steg. Hittills bevisad på JavaScript, TypeScript och Python: webbapplikationer, affärssystem och skrivbordsverktyg. <span class="nw">C, C++, C#</span> och inbyggd kod är ännu inte uppmätta, så en pilot mäter den på er egen kod först. Mer under <a href="#plainly">Sagt rakt ut</a>.</p>
     </div>
-    <div class="surfaces" style="margin-top:20px">
-      <div class="item"><span class="t">VS Code</span><p lang="en">A chat panel in the sidebar.</p><p lang="sv">En chattpanel i sidofältet.</p></div>
-      <div class="item"><span class="t"><span lang="en">Desktop</span><span lang="sv">Skrivbord</span></span><p lang="en">A standalone window, no editor needed.</p><p lang="sv">Ett eget fönster, ingen editor behövs.</p></div>
-      <div class="item"><span class="t"><span lang="en">Terminal</span><span lang="sv">Terminal</span></span><p lang="en">A CLI for servers.</p><p lang="sv">En kommandorad för servrar.</p></div>
+    <p class="prose" style="margin-top:18px" lang="en">Use it in VS Code, in its own desktop window, or from a terminal.</p>
+    <p class="prose" style="margin-top:18px" lang="sv">Använd den i VS Code, i ett eget skrivbordsfönster eller från en terminal.</p>
+  </section>
+
+  <section id="scale">
+    <h2><span lang="en">Start with one card, grow to a team server</span><span lang="sv">Börja med ett kort, väx till en teamserver</span></h2>
+    <p class="prose" lang="en">The agent is the same at every step; only the model server grows. Start where you are, and add the next step when the team needs it.</p>
+    <p class="prose" lang="sv">Agenten är densamma i varje steg; det är bara modellservern som växer. Börja där ni är, och ta nästa steg när teamet behöver det.</p>
+    <div class="tiers" style="margin-top:18px">
+      <div class="tier">
+        <span class="t"><span lang="en">Desktop · 16 GB card</span><span lang="sv">Skrivbord · 16 GB-kort</span></span>
+        <span class="who"><span lang="en">1 developer</span><span lang="sv">1 utvecklare</span><span class="est measured"><span lang="en">measured</span><span lang="sv">uppmätt</span></span></span>
+        <p lang="en">The floor: one person at a time, about 30 tokens per second, averaged over a full day and night of work. Plan Desk: 3,900 SEK a month.</p>
+        <p lang="sv">Golvet: en person åt gången, ungefär 30 token per sekund, i snitt över ett helt dygns arbete. Paketet Desk: 3 900 kr i månaden.</p>
+      </div>
+      <div class="tier">
+        <span class="t"><span lang="en">Small · 48 GB</span><span lang="sv">Liten · 48 GB</span></span>
+        <span class="who"><span lang="en">3–6 people</span><span lang="sv">3–6 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
+        <p lang="en">2–3 people using it at the same time. Machine <span class="nw">≈ 106,000–113,000 SEK</span> incl. VAT.</p>
+        <p lang="sv">2–3 personer använder den samtidigt. Dator <span class="nw">≈ 106 000–113 000 kr</span> inkl. moms.</p>
+      </div>
+      <div class="tier">
+        <span class="t"><span lang="en">Medium · 72 GB</span><span lang="sv">Mellan · 72 GB</span></span>
+        <span class="who"><span lang="en">6–12 people</span><span lang="sv">6–12 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
+        <p lang="en">About 3 people using it at the same time. Machine <span class="nw">≈ 145,000–152,000 SEK</span> incl. VAT.</p>
+        <p lang="sv">Ungefär 3 personer använder den samtidigt. Dator <span class="nw">≈ 145 000–152 000 kr</span> inkl. moms.</p>
+      </div>
+      <div class="tier">
+        <span class="t"><span lang="en">Team · 96 GB</span><span lang="sv">Team · 96 GB</span></span>
+        <span class="who"><span lang="en">10–20 people</span><span lang="sv">10–20 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
+        <p lang="en">4–5 people using it at the same time. Machine <span class="nw">≈ 191,000–198,000 SEK</span> incl. VAT.</p>
+        <p lang="sv">4–5 personer använder den samtidigt. Dator <span class="nw">≈ 191 000–198 000 kr</span> inkl. moms.</p>
+      </div>
     </div>
+    <p class="note"><span lang="en">By day, that many people work with the agent at the same time; at night, the server works through the work orders they leave. The desktop speed was measured by the model server across all the work orders of 17 October, about 19 hours of writing. Server speeds and people per build are our estimates from a measured A100 run; prices are from Swedish stores on 2026-09-26 for the complete machine with free Linux. You buy the hardware yourself.</span><span lang="sv">På dagen arbetar så många personer med agenten samtidigt; på natten arbetar servern sig igenom de arbetsorder de lämnar. Skrivbordets hastighet mättes av modellservern över alla arbetsorder den 17 oktober, ungefär 19 timmars skrivande. Serverhastigheter och personer per bygge är våra uppskattningar utifrån en uppmätt A100-körning; priserna är från svenska butiker 2026-09-26 för hela datorn med gratis Linux. Hårdvaran köper ni själva.</span></p>
   </section>
 
   <section id="night">
@@ -430,44 +482,46 @@
   </section>
 
   <section id="evening">
-    <h2><span lang="en">One day's work, graded</span><span lang="sv">En dags arbete, rättat</span></h2>
-    <p class="prose" lang="en">On 27 September the agent built ten features in a row in a realistic test project: the business system of a fictional small renovation company. A person approved each step, and each change was graded on a fresh copy against checks written in advance.</p>
-    <p class="prose" lang="sv">Den 27 september byggde agenten tio funktioner i rad i ett realistiskt testprojekt: affärssystemet för ett påhittat litet renoveringsföretag. En människa godkände varje steg, och varje ändring rättades på en ny kopia mot kontroller skrivna i förväg.</p>
-    <div class="scroll">
+    <h2><span lang="en">Ten features, graded against fixed answers</span><span lang="sv">Tio funktioner, rättade mot facit</span></h2>
+    <p class="prose" lang="en">On 27 September the agent built ten features in a row in a realistic test project: the business system of a fictional small renovation company. <strong>Each change was graded on a fresh copy against checks written in advance.</strong> Every check passed except two, and both of those were mistakes in our own written task, not in the agent's work.</p>
+    <p class="prose" lang="sv">Den 27 september byggde agenten tio funktioner i rad i ett realistiskt testprojekt: affärssystemet för ett påhittat litet renoveringsföretag. <strong>Varje ändring rättades på en ny kopia mot kontroller skrivna i förväg.</strong> Alla kontroller gick igenom utom två, och båda var fel i vår egen skrivna uppgift, inte i agentens arbete.</p>
+    <div class="scroll" style="max-width:760px">
       <table>
         <thead>
-          <tr lang="en"><th>Feature</th><th>Agent time</th><th>Senior developer <span class="est">estimate</span></th></tr>
-          <tr lang="sv"><th>Funktion</th><th>Agentens tid</th><th>Senior utvecklare <span class="est">uppskattning</span></th></tr>
+          <tr lang="en"><th>Feature</th><th>Agent time <span class="est measured">measured</span></th></tr>
+          <tr lang="sv"><th>Funktion</th><th>Agentens tid <span class="est measured">uppmätt</span></th></tr>
         </thead>
         <tbody lang="en">
-          <tr><td>Server settings for an office server: port, address and clear error messages</td><td class="num">19 min</td><td class="num">1–2 hours</td></tr>
-          <tr><td>A desktop app for the staff's computers</td><td class="num">45 min</td><td class="num">1–2 days</td></tr>
-          <tr><td>A nightly backup, with a restore that is proven to work</td><td class="num">63 min</td><td class="num">1 day</td></tr>
-          <tr><td>A customer register, moved over from the existing projects</td><td class="num">13 min</td><td class="num">3–5 hours</td></tr>
-          <tr><td>A customer page: change a detail once and it is updated everywhere</td><td class="num">12 min</td><td class="num">2–4 hours</td></tr>
-          <tr><td>Closing enquiries that go nowhere, with a reason</td><td class="num">15 min</td><td class="num">3–5 hours</td></tr>
-          <tr><td>Recognising a returning customer from the web form</td><td class="num">13 min</td><td class="num">2–4 hours</td></tr>
-          <tr><td>Customers enter their own ROT details, stored and shown masked</td><td class="num">28 min</td><td class="num">1 day</td></tr>
-          <tr><td>Recording the signed contract</td><td class="num">21 min</td><td class="num">2–4 hours</td></tr>
-          <tr><td>A hand-off card for the project leader</td><td class="num">14 min</td><td class="num">2–4 hours</td></tr>
-          <tr class="total"><td>Together</td><td class="num">≈ 4 hours</td><td class="num">5–8 working days</td></tr>
+          <tr><td>Server settings: port, address and clear errors</td><td class="num">19 min</td></tr>
+          <tr><td>A desktop app for the staff</td><td class="num">45 min</td></tr>
+          <tr><td>Nightly backup, with a proven restore</td><td class="num">63 min</td></tr>
+          <tr><td>Customer register, moved from existing projects</td><td class="num">13 min</td></tr>
+          <tr><td>Customer page: change once, updated everywhere</td><td class="num">12 min</td></tr>
+          <tr><td>Closing dead-end enquiries, with a reason</td><td class="num">15 min</td></tr>
+          <tr><td>Recognising a returning customer</td><td class="num">13 min</td></tr>
+          <tr><td>Customers enter ROT details, stored masked</td><td class="num">28 min</td></tr>
+          <tr><td>Recording the signed contract</td><td class="num">21 min</td></tr>
+          <tr><td>Hand-off card for the project leader</td><td class="num">14 min</td></tr>
+          <tr class="total"><td>Together</td><td class="num">≈ 4 hours</td></tr>
         </tbody>
         <tbody lang="sv">
-          <tr><td>Serverinställningar för en kontorsserver: port, adress och tydliga felmeddelanden</td><td class="num">19 min</td><td class="num">1–2 timmar</td></tr>
-          <tr><td>En skrivbordsapp för personalens datorer</td><td class="num">45 min</td><td class="num">1–2 dagar</td></tr>
-          <tr><td>En nattlig säkerhetskopia, med en återställning som bevisat fungerar</td><td class="num">63 min</td><td class="num">1 dag</td></tr>
-          <tr><td>Ett kundregister, flyttat över från de befintliga projekten</td><td class="num">13 min</td><td class="num">3–5 timmar</td></tr>
-          <tr><td>En kundsida: ändra en uppgift en gång så uppdateras den överallt</td><td class="num">12 min</td><td class="num">2–4 timmar</td></tr>
-          <tr><td>Avsluta förfrågningar som inte blir något, med en orsak</td><td class="num">15 min</td><td class="num">3–5 timmar</td></tr>
-          <tr><td>Känna igen en återkommande kund från webbformuläret</td><td class="num">13 min</td><td class="num">2–4 timmar</td></tr>
-          <tr><td>Kunden fyller själv i sina ROT-uppgifter, som lagras och visas maskerade</td><td class="num">28 min</td><td class="num">1 dag</td></tr>
-          <tr><td>Registrera det signerade avtalet</td><td class="num">21 min</td><td class="num">2–4 timmar</td></tr>
-          <tr><td>Ett överlämningskort till projektledaren</td><td class="num">14 min</td><td class="num">2–4 timmar</td></tr>
-          <tr class="total"><td>Tillsammans</td><td class="num">≈ 4 timmar</td><td class="num">5–8 arbetsdagar</td></tr>
+          <tr><td>Serverinställningar: port, adress och tydliga fel</td><td class="num">19 min</td></tr>
+          <tr><td>En skrivbordsapp för personalen</td><td class="num">45 min</td></tr>
+          <tr><td>Nattlig säkerhetskopia, med bevisad återställning</td><td class="num">63 min</td></tr>
+          <tr><td>Kundregister, flyttat från befintliga projekt</td><td class="num">13 min</td></tr>
+          <tr><td>Kundsida: ändra en gång, uppdaterad överallt</td><td class="num">12 min</td></tr>
+          <tr><td>Avsluta förfrågningar som inte blir något, med orsak</td><td class="num">15 min</td></tr>
+          <tr><td>Känna igen en återkommande kund</td><td class="num">13 min</td></tr>
+          <tr><td>Kunden fyller i ROT-uppgifter, lagras maskerat</td><td class="num">28 min</td></tr>
+          <tr><td>Registrera det signerade avtalet</td><td class="num">21 min</td></tr>
+          <tr><td>Överlämningskort till projektledaren</td><td class="num">14 min</td></tr>
+          <tr class="total"><td>Tillsammans</td><td class="num">≈ 4 timmar</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note"><span lang="en">Every check passed except two, both errors in the written task. Agent time is measured; developer time is our estimate. The model ran on a rented A100 that day.</span><span lang="sv">Alla kontroller gick igenom utom två, båda fel i den skrivna uppgiften. Agentens tid är uppmätt; utvecklartiden är vår uppskattning. Modellen kördes på ett hyrt A100 den dagen.</span></p>
+    <p class="prose" lang="en">A person approved each step. Our rough estimate for a senior developer doing the same list is 5–8 working days; judge for yourself from the list.</p>
+    <p class="prose" lang="sv">En människa godkände varje steg. Vår grova uppskattning för en senior utvecklare som gör samma lista är 5–8 arbetsdagar; bedöm själva utifrån listan.</p>
+    <p class="note"><span lang="en">The model ran on a rented A100 that day, the large-server class. The same kind of work also runs on the 16 GB floor: on 4 October, ten numbered parts took about 3 hours 20 minutes on a 16 GB card (see <a href="#details">The details</a>).</span><span lang="sv">Modellen kördes på ett hyrt A100 den dagen, klassen för stora servrar. Samma slags arbete går också på golvet med 16 GB: den 4 oktober tog tio numrerade delar ungefär 3 timmar och 20 minuter på ett 16 GB-kort (se <a href="#details">Detaljerna</a>).</span></p>
     <div class="case">
       <span class="t"><span lang="en">Example · 29 September</span><span lang="sv">Exempel · 29 september</span></span>
     <p class="prose" lang="en"><strong>It proves its own fixes.</strong> Website enquiries were saved as "Website Form" instead of the customer's name, and the tests passed both before and after the fix. The agent flagged this and added the case; with the old code, 4 of the new checks fail.</p>
@@ -511,13 +565,14 @@
         </div>
       </div>
     </div>
-    <p class="prose" style="margin-top:20px"><span lang="en">Behind it: 355 fast tests, 2,481 mutation anchors that catch faked test success, 428 logged findings and 117 pre-registered studies. Every figure can be recomputed from the repository.</span><span lang="sv">Bakom det: 355 snabba tester, 2 481 mutationsankare som fångar tester som låtsas, 428 loggade fynd och 117 förhandsregistrerade studier. Varje siffra kan räknas om från kodbasen.</span></p>
+    <p class="prose" style="margin-top:20px"><span lang="en">Behind it: 365 fast tests, 2,599 mutation anchors that catch faked test success, 428 logged findings and 119 pre-registered studies. Every figure can be recomputed from the repository.</span><span lang="sv">Bakom det: 365 snabba tester, 2 599 mutationsankare som fångar tester som låtsas, 428 loggade fynd och 119 förhandsregistrerade studier. Varje siffra kan räknas om från kodbasen.</span></p>
+    <p class="prose sheet" style="margin-top:14px"><span lang="en"><strong>For your security review:</strong> a one-page security sheet covering where data lives, the model and its licences, what the agent may do, what is stored, and its known limitations, stated plainly. Currently in Swedish. <a href="#contact">Ask for it</a>.</span><span lang="sv"><strong>Till er säkerhetsgranskning:</strong> ett säkerhetsblad på en sida om var data finns, modellen och dess licenser, vad agenten får göra, vad som sparas och dess kända begränsningar, sagt rakt ut. <a href="#contact">Be om det</a>.</span></p>
   </section>
 
   <section id="server">
-    <h2><span lang="en">From one desk to a team server</span><span lang="sv">Från ett skrivbord till en teamserver</span></h2>
-    <p class="prose" lang="en">The smallest setup is one computer with a 16 GB card. For a team, the model runs on your own shared server; the agent, files and git stay on each developer's computer.</p>
-    <p class="prose" lang="sv">Den minsta uppsättningen är en dator med ett 16 GB-kort. För ett team körs modellen på er egen delade server; agenten, filerna och git stannar på varje utvecklares dator.</p>
+    <h2><span lang="en">Your own server, and what it costs</span><span lang="sv">Er egen server, och vad den kostar</span></h2>
+    <p class="prose" lang="en">For a team, the model runs on your own shared server; the agent, the files and git stay on each developer's computer.</p>
+    <p class="prose" lang="sv">För ett team körs modellen på er egen delade server; agenten, filerna och git stannar på varje utvecklares dator.</p>
 
     <h3 class="sub"><span lang="en">What stays where</span><span lang="sv">Vad som stannar var</span></h3>
     <div class="where">
@@ -552,65 +607,39 @@
         <span><s>Internet</s> <span lang="en">No code, keys or prompts leave the network.</span><span lang="sv">Ingen kod, inga nycklar och inga frågor lämnar nätverket.</span></span>
       </div>
     </div>
-    <p class="note"><span lang="en">Smallest setup: one developer, with the model on the same computer's 16 GB card. People per server are our estimates.</span><span lang="sv">Minsta uppsättning: en utvecklare, med modellen på samma dators 16 GB-kort. Personer per server är våra uppskattningar.</span></p>
-
-    <div class="tiers" style="margin-top:22px">
-      <div class="tier">
-        <span class="t"><span lang="en">Desktop · 16 GB card</span><span lang="sv">Skrivbord · 16 GB-kort</span></span>
-        <span class="who"><span lang="en">1 developer</span><span lang="sv">1 utvecklare</span></span>
-        <p lang="en">The smallest setup: one person at a time, about 24 tokens per second.</p>
-        <p lang="sv">Den minsta uppsättningen: en person åt gången, ungefär 24 token per sekund.</p>
-      </div>
-      <div class="tier">
-        <span class="t"><span lang="en">Starter · 48 GB</span><span lang="sv">Start · 48 GB</span></span>
-        <span class="who"><span lang="en">3–6 people</span><span lang="sv">3–6 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">2–3 people using it at the same time. Machine <span class="nw">≈ 106,000–113,000 SEK</span> incl. VAT.</p>
-        <p lang="sv">2–3 personer använder den samtidigt. Dator <span class="nw">≈ 106 000–113 000 kr</span> inkl. moms.</p>
-      </div>
-      <div class="tier">
-        <span class="t"><span lang="en">Mid · 72 GB</span><span lang="sv">Mellan · 72 GB</span></span>
-        <span class="who"><span lang="en">6–12 people</span><span lang="sv">6–12 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">About 3 people using it at the same time. Machine <span class="nw">≈ 145,000–152,000 SEK</span> incl. VAT.</p>
-        <p lang="sv">Ungefär 3 personer använder den samtidigt. Dator <span class="nw">≈ 145 000–152 000 kr</span> inkl. moms.</p>
-      </div>
-      <div class="tier">
-        <span class="t"><span lang="en">Team · 96 GB</span><span lang="sv">Team · 96 GB</span></span>
-        <span class="who"><span lang="en">10–20 people</span><span lang="sv">10–20 personer</span><span class="est"><span lang="en">estimate</span><span lang="sv">uppskattning</span></span></span>
-        <p lang="en">4–5 people using it at the same time. Machine <span class="nw">≈ 191,000–198,000 SEK</span> incl. VAT.</p>
-        <p lang="sv">4–5 personer använder den samtidigt. Dator <span class="nw">≈ 191 000–198 000 kr</span> inkl. moms.</p>
-      </div>
-    </div>
-    <p class="note"><span lang="en">Prices from Swedish stores on 2026-09-26 for the complete machine with free Linux. Speeds and people per build are our estimates from a measured A100 run. By day, that many people work with the agent at the same time; at night, the server works through the work orders they leave. You buy the hardware yourself. For occasional heavy work, renting an A100 80 GB costs about 11–12 SEK an hour.</span><span lang="sv">Priser från svenska butiker 2026-09-26 för hela datorn med gratis Linux. Hastigheter och personer per bygge är våra uppskattningar utifrån en uppmätt A100-körning. På dagen arbetar så många personer med agenten samtidigt; på natten arbetar servern sig igenom de arbetsorder de lämnar. Hårdvaran köper ni själva. För tillfälligt tungt arbete kostar det ungefär 11–12 kr i timmen att hyra ett A100 80 GB.</span></p>
+    <p class="note"><span lang="en">Smallest setup: one developer, with the model on the same computer's 16 GB card. The steps up are <a href="#scale">above</a>; people per server are our estimates. For occasional heavy work, renting an A100 80 GB costs about 11–12 SEK an hour.</span><span lang="sv">Minsta uppsättning: en utvecklare, med modellen på samma dators 16 GB-kort. Stegen upp finns <a href="#scale">ovan</a>; personer per server är våra uppskattningar. För tillfälligt tungt arbete kostar det ungefär 11–12 kr i timmen att hyra ett A100 80 GB.</span></p>
 
     <div class="panel">
       <div class="panel-head">
-        <span class="t"><span lang="en">Against a cloud subscription</span><span lang="sv">Jämfört med en molnprenumeration</span></span>
-        <p lang="en">A top cloud coding plan costs $200 per user per month, about <strong>1,984 SEK</strong>. A build has <strong>no usage limits</strong>.</p>
-        <p lang="sv">En högsta molnplan för kodassistans kostar 200 dollar per användare och månad, ungefär <strong>1 984 kr</strong>. Ett bygge har <strong>inga användningsgränser</strong>.</p>
+        <span class="t"><span lang="en">Per person, per month</span><span lang="sv">Per person och månad</span></span>
+        <p lang="en">The agent adds a night shift to your team. <strong>Your developers write the work orders and judge the results</strong>.</p>
+        <p lang="sv">Agenten ger ert team ett nattskift. <strong>Era utvecklare skriver arbetsordrarna och bedömer resultaten</strong>.</p>
       </div>
       <div class="scroll">
         <table class="grid">
           <thead>
-            <tr lang="en"><th>Package</th><th>One-time cost<span class="sub-th">hardware + installation</span></th><th>Software<span class="sub-th">per month</span></th><th>Break-even<span class="sub-th">full team</span></th><th>Saved over 3 years<span class="sub-th">full team</span></th></tr>
-            <tr lang="sv"><th>Paket</th><th>Engångskostnad<span class="sub-th">hårdvara + installation</span></th><th>Mjukvara<span class="sub-th">per månad</span></th><th>Break-even<span class="sub-th">fullt team</span></th><th>Sparat på 3 år<span class="sub-th">fullt team</span></th></tr>
+            <tr lang="en"><th>Package</th><th>Year 1, all in<span class="sub-th">hardware, installation, 12 months</span></th><th>Per person, per month<span class="sub-th">year 1</span></th><th>Per person, per month<span class="sub-th">after year 1</span></th></tr>
+            <tr lang="sv"><th>Paket</th><th>År 1, allt inräknat<span class="sub-th">hårdvara, installation, 12 månader</span></th><th>Per person och månad<span class="sub-th">år 1</span></th><th>Per person och månad<span class="sub-th">efter år 1</span></th></tr>
           </thead>
           <tbody lang="en">
-            <tr><td>Starter <span class="dim">6 users</span></td><td class="num">≈ 111,600 SEK</td><td class="num">7,500 SEK</td><td class="num">≈ 25 months</td><td class="num">≈ 47,000 SEK</td></tr>
-            <tr><td>Mid <span class="dim">12 users</span></td><td class="num">≈ 154,800 SEK</td><td class="num">13,500 SEK</td><td class="num">≈ 15 months</td><td class="num">≈ 216,000 SEK</td></tr>
-            <tr><td>Team <span class="dim">20 users</span></td><td class="num">≈ 203,600 SEK</td><td class="num">19,500 SEK</td><td class="num hl">≈ 10 months</td><td class="num">≈ 523,000 SEK</td></tr>
+            <tr><td>Desk <span class="dim">2 users, own PC</span></td><td class="num">≈ 58,800 SEK</td><td class="num">≈ 2,450 SEK</td><td class="num">1,950 SEK</td></tr>
+            <tr><td>Small <span class="dim">6 users</span></td><td class="num">≈ 256,000 SEK</td><td class="num">≈ 3,550 SEK</td><td class="num">2,000 SEK</td></tr>
+            <tr><td>Medium <span class="dim">12 users</span></td><td class="num">≈ 389,000 SEK</td><td class="num">≈ 2,700 SEK</td><td class="num">1,625 SEK</td></tr>
+            <tr><td>Team <span class="dim">20 users</span></td><td class="num">≈ 528,000 SEK</td><td class="num">≈ 2,200 SEK</td><td class="num hl">1,350 SEK</td></tr>
           </tbody>
           <tbody lang="sv">
-            <tr><td>Start <span class="dim">6 användare</span></td><td class="num">≈ 111 600 kr</td><td class="num">7 500 kr</td><td class="num">≈ 25 månader</td><td class="num">≈ 47 000 kr</td></tr>
-            <tr><td>Mellan <span class="dim">12 användare</span></td><td class="num">≈ 154 800 kr</td><td class="num">13 500 kr</td><td class="num">≈ 15 månader</td><td class="num">≈ 216 000 kr</td></tr>
-            <tr><td>Team <span class="dim">20 användare</span></td><td class="num">≈ 203 600 kr</td><td class="num">19 500 kr</td><td class="num hl">≈ 10 månader</td><td class="num">≈ 523 000 kr</td></tr>
+            <tr><td>Desk <span class="dim">2 användare, egen dator</span></td><td class="num">≈ 58 800 kr</td><td class="num">≈ 2 450 kr</td><td class="num">1 950 kr</td></tr>
+            <tr><td>Liten <span class="dim">6 användare</span></td><td class="num">≈ 256 000 kr</td><td class="num">≈ 3 550 kr</td><td class="num">2 000 kr</td></tr>
+            <tr><td>Mellan <span class="dim">12 användare</span></td><td class="num">≈ 389 000 kr</td><td class="num">≈ 2 700 kr</td><td class="num">1 625 kr</td></tr>
+            <tr><td>Team <span class="dim">20 användare</span></td><td class="num">≈ 528 000 kr</td><td class="num">≈ 2 200 kr</td><td class="num hl">1 350 kr</td></tr>
           </tbody>
         </table>
       </div>
-            <p class="panel-foot"><span lang="en">Excluding VAT: hardware plus installation, and the monthly software fee. Starter pays back in about 46 months with 5 users. This compares cost, not capability: cloud models are larger.</span><span lang="sv">Exklusive moms: hårdvara plus installation, och mjukvaruavgiften per månad. Start betalar sig på ungefär 46 månader med 5 användare. Det här jämför kostnad, inte förmåga: molnmodellerna är större.</span></p>
+      <p class="panel-foot"><span lang="en">Excluding VAT, from the prices on this page, with full teams. Desk runs on a computer you already have or buy yourself, so it is not counted. After the first year the hardware is paid and only the monthly fee remains. Whether the night shift earns its place in your team is what the pilot measures.</span><span lang="sv">Exklusive moms, från priserna på den här sidan, med fulla team. Desk körs på en dator ni redan har eller köper själva, så den räknas inte in. Efter första året är hårdvaran betald och bara månadsavgiften återstår. Om nattskiftet förtjänar sin plats i ert team är det piloten mäter.</span></p>
     </div>
   </section>
 
-  <section>
+  <section id="plainly">
     <div class="limits">
       <h2><span lang="en">Stated plainly</span><span lang="sv">Sagt rakt ut</span></h2>
       <div class="limit">
@@ -646,6 +675,42 @@
     </div>
   </section>
 
+  <section id="timeline">
+    <h2><span lang="en">How it got here</span><span lang="sv">Så kom vi hit</span></h2>
+    <p class="prose" lang="en">Two and a half months, from the first measurement to nights that run alone.</p>
+    <p class="prose" lang="sv">Två och en halv månad, från den första mätningen till nätter som går av sig själva.</p>
+    <ol class="timeline">
+      <li>
+        <span class="when"><span lang="en">August</span><span lang="sv">Augusti</span></span>
+        <div><p lang="en">The first agent, and a test bench that grades every run against a referee instead of the model's own word.</p><p lang="sv">Den första agenten, och en testbänk som rättar varje körning mot en domare i stället för modellens eget ord.</p></div>
+      </li>
+      <li>
+        <span class="when"><span lang="en">September</span><span lang="sv">September</span></span>
+        <div><p lang="en">A long series of controlled studies on what helps a local model. Most ideas that sounded good were measured, made no difference, and were dropped.</p><p lang="sv">En lång rad kontrollerade studier av vad som hjälper en lokal modell. De flesta idéer som lät bra mättes, gjorde ingen skillnad och ströks.</p></div>
+      </li>
+      <li>
+        <span class="when"><span lang="en">5 Oct</span><span lang="sv">5 okt</span></span>
+        <div><p lang="en">From an empty folder to a checked and saved program, with one approval.</p><p lang="sv">Från en tom mapp till ett kontrollerat och sparat program, med ett enda godkännande.</p></div>
+      </li>
+      <li>
+        <span class="when"><span lang="en">6 Oct</span><span lang="sv">6 okt</span></span>
+        <div><p lang="en">Install kits: one desk, a team server, and an offline kit for sites without internet.</p><p lang="sv">Installationspaket: ett skrivbord, en teamserver och ett offlinepaket för platser utan internet.</p></div>
+      </li>
+      <li>
+        <span class="when"><span lang="en">13 Oct</span><span lang="sv">13 okt</span></span>
+        <div><p lang="en">The first night of work orders: 10 h 39 min alone, 16 of 18 steps passed the tests and were saved.</p><p lang="sv">Den första natten med arbetsorder: 10 h 39 min ensam, 16 av 18 steg klarade testerna och sparades.</p></div>
+      </li>
+      <li>
+        <span class="when"><span lang="en">16 Oct</span><span lang="sv">16 okt</span></span>
+        <div><p lang="en">The night carries on through a crash or a Windows restart, and a report of everything it did waits in the morning. Tested in rehearsal; not yet needed in a real night.</p><p lang="sv">Natten fortsätter efter en krasch eller en omstart av Windows, och en rapport över allt den gjort väntar på morgonen. Provat i övning; ännu inte behövt en riktig natt.</p></div>
+      </li>
+      <li class="now">
+        <span class="when"><span lang="en">17 Oct</span><span lang="sv">17 okt</span></span>
+        <div><p lang="en"><strong>From midnight to morning, not one idle minute.</strong> Each order started the second the previous one ended, including after one that failed.</p><p lang="sv"><strong>Från midnatt till morgon, inte en enda stillastående minut.</strong> Varje order startade i samma sekund som den förra slutade, också efter en som misslyckades.</p></div>
+      </li>
+    </ol>
+  </section>
+
   <section id="details">
     <details class="fold" id="details-fold">
     <summary>
@@ -656,11 +721,11 @@
       <h3 class="sub"><span lang="en">How it is built and checked</span><span lang="sv">Hur den är byggd och kontrollerad</span></h3>
     <div class="figures">
       <div class="fig"><span class="n">50</span><span class="k"><span lang="en">tools available</span><span lang="sv">verktyg tillgängliga</span></span><span class="src"><span lang="en">counted 2026-10-13</span><span lang="sv">räknade 2026-10-13</span></span></div>
-      <div class="fig"><span class="n">355</span><span class="k"><span lang="en">fast tests passing</span><span lang="sv">snabba tester godkända</span></span><span class="src"><span lang="en">plus live and end-to-end suites</span><span lang="sv">plus integrations- och e2e-sviter</span></span></div>
-      <div class="fig"><span class="n"><span lang="en">2,481</span><span lang="sv">2 481</span></span><span class="k"><span lang="en">mutation anchors</span><span lang="sv">mutationsankare</span></span><span class="src"><span lang="en">catch faked test success, 0 broken</span><span lang="sv">fångar tester som låtsas, 0 trasiga</span></span></div>
-      <div class="fig"><span class="n">65</span><span class="k"><span lang="en">self-testing sensors</span><span lang="sv">självtestande mätverktyg</span></span><span class="src"><span lang="en">each checks its own reading</span><span lang="sv">vart och ett kontrollerar sig självt</span></span></div>
+      <div class="fig"><span class="n">365</span><span class="k"><span lang="en">fast tests passing</span><span lang="sv">snabba tester godkända</span></span><span class="src"><span lang="en">plus live and end-to-end suites</span><span lang="sv">plus integrations- och e2e-sviter</span></span></div>
+      <div class="fig"><span class="n"><span lang="en">2,599</span><span lang="sv">2 599</span></span><span class="k"><span lang="en">mutation anchors</span><span lang="sv">mutationsankare</span></span><span class="src"><span lang="en">catch faked test success, 0 broken</span><span lang="sv">fångar tester som låtsas, 0 trasiga</span></span></div>
+      <div class="fig"><span class="n">67</span><span class="k"><span lang="en">self-testing sensors</span><span lang="sv">självtestande mätverktyg</span></span><span class="src"><span lang="en">each checks its own reading</span><span lang="sv">vart och ett kontrollerar sig självt</span></span></div>
       <div class="fig"><span class="n">428</span><span class="k"><span lang="en">logged findings</span><span lang="sv">loggade fynd</span></span><span class="src"><span lang="en">rejections included</span><span lang="sv">förkastade inräknade</span></span></div>
-      <div class="fig"><span class="n">117</span><span class="k"><span lang="en">pre-registered studies</span><span lang="sv">förhandsregistrerade studier</span></span><span class="src"><span lang="en">frozen before the run</span><span lang="sv">låsta före körningen</span></span></div>
+      <div class="fig"><span class="n">119</span><span class="k"><span lang="en">pre-registered studies</span><span lang="sv">förhandsregistrerade studier</span></span><span class="src"><span lang="en">frozen before the run</span><span lang="sv">låsta före körningen</span></span></div>
       <div class="fig"><span class="n">3</span><span class="k"><span lang="en">interfaces, one engine</span><span lang="sv">gränssnitt, en motor</span></span><span class="src"><span lang="en">no drift between them</span><span lang="sv">ingen glidning dem emellan</span></span></div>
     </div>
     <div class="prose" style="margin-top:20px">
@@ -775,7 +840,7 @@
       </div>
       <div class="builds">
         <div class="build">
-          <span class="t"><span lang="en">Starter</span><span lang="sv">Start</span></span>
+          <span class="t"><span lang="en">Small</span><span lang="sv">Liten</span></span>
           <span class="gpu">RTX PRO 5000 · 48 GB</span>
           <span class="big">≈ <span lang="en">106,000–113,000</span><span lang="sv">106 000–113 000</span></span>
           <span class="unit"><span lang="en">SEK incl. VAT</span><span lang="sv">kr inkl. moms</span></span>
@@ -786,7 +851,7 @@
           </dl>
         </div>
         <div class="build">
-          <span class="t"><span lang="en">Mid</span><span lang="sv">Mellan</span></span>
+          <span class="t"><span lang="en">Medium</span><span lang="sv">Mellan</span></span>
           <span class="gpu">RTX PRO 5000 · 72 GB</span>
           <span class="big">≈ <span lang="en">145,000–152,000</span><span lang="sv">145 000–152 000</span></span>
           <span class="unit"><span lang="en">SEK incl. VAT</span><span lang="sv">kr inkl. moms</span></span>
@@ -840,8 +905,8 @@
       <p class="panel-foot"><span lang="en">From the measured A100 run: about 29 GB for model and image reading, plus 16 GB per seat at the full window (8 GB at 131,072, 4 GB at 65,536; half with the compressed 8-bit cache the desktop uses). People per build are our estimates from this, memory bandwidth and one earlier measurement of agents sharing a card.</span><span lang="sv">Från den uppmätta A100-körningen: ungefär 29 GB för modell och bildläsning, plus 16 GB per plats vid fullt fönster (8 GB vid 131 072, 4 GB vid 65 536; hälften med den komprimerade 8-bitarscache som skrivbordet använder). Personer per bygge är våra uppskattningar utifrån detta, minnesbandbredden och en tidigare mätning av agenter som delar ett kort.</span></p>
     </div>
 
-      <h3 class="sub"><span lang="en">How the cost comparison is calculated</span><span lang="sv">Så räknas kostnadsjämförelsen</span></h3>
-    <p class="note"><span lang="en">Excluding VAT (the build price above divided by 1.25), with installation and software fee. Break-even = one-time cost ÷ (users × 1,984 SEK − monthly fee). Starter pays back in about 46 months with 5 users, and not on cost alone with 4. After that: the fee, electricity (about 400 to 450 W while working) and upkeep. This compares cost, not capability: cloud models are larger.</span><span lang="sv">Exklusive moms (byggpriset ovan delat med 1,25), med installation och mjukvaruavgift. Break-even = engångskostnad ÷ (användare × 1 984 kr − månadsavgift). Start betalar sig på ungefär 46 månader med 5 användare, och inte på kostnad enbart med 4. Därefter: avgiften, el (ungefär 400 till 450 W under arbete) och underhåll. Det här jämför kostnad, inte förmåga: molnmodellerna är större.</span></p>
+      <h3 class="sub"><span lang="en">How the cost per person is calculated</span><span lang="sv">Så räknas kostnaden per person</span></h3>
+    <p class="note"><span lang="en">Excluding VAT. Year 1: the build price above divided by 1.25, plus installation and twelve monthly fees, divided by the users and by 12 months. After year 1: the monthly fee divided by the users. Desk: installation and twelve monthly fees, divided by two users and 12 months; the computer is not counted. Not included: electricity (about 400 to 450 W while working) and upkeep of the machine.</span><span lang="sv">Exklusive moms. År 1: byggpriset ovan delat med 1,25, plus installation och tolv månadsavgifter, delat med antalet användare och med 12 månader. Efter år 1: månadsavgiften delad med antalet användare. Desk: installation och tolv månadsavgifter, delat med två användare och 12 månader; datorn räknas inte in. Ingår inte: el (ungefär 400 till 450 W under arbete) och underhåll av datorn.</span></p>
 
       <h3 class="sub"><span lang="en">Large jobs, one part at a time</span><span lang="sv">Stora jobb, en del i taget</span></h3>
     <div class="case" style="margin-top:16px">
@@ -858,7 +923,7 @@
       <div class="item"><span class="t"><span lang="en">Instrumentation</span><span lang="sv">Mätverktyg</span></span><p lang="en">Sensors showing where turns are spent and lost.</p><p lang="sv">Sensorer som visar var turer används och går förlorade.</p></div>
       <div class="item"><span class="t"><span lang="en">Engineering log</span><span lang="sv">Utvecklingslogg</span></span><p lang="en">428 findings with reasons.</p><p lang="sv">428 fynd med skäl.</p></div>
       <div class="item"><span class="t"><span lang="en">Hardware profiles</span><span lang="sv">Hårdvaruprofiler</span></span><p lang="en">Measured model settings from day one.</p><p lang="sv">Uppmätta modellinställningar från dag ett.</p></div>
-      <div class="item"><span class="t"><span lang="en">The study record</span><span lang="sv">Studieprotokollen</span></span><p lang="en">117 pre-registrations and write-ups, null results and the one voided study included.</p><p lang="sv">117 förhandsregistreringar och rapporter, nollresultat och den ogiltigförklarade studien inräknade.</p></div>
+      <div class="item"><span class="t"><span lang="en">The study record</span><span lang="sv">Studieprotokollen</span></span><p lang="en">119 pre-registrations and write-ups, null results and the one voided study included.</p><p lang="sv">119 förhandsregistreringar och rapporter, nollresultat och den ogiltigförklarade studien inräknade.</p></div>
     </div>
     </details>
   </section>
@@ -899,21 +964,23 @@
                 <tr lang="sv"><th>Paket</th><th>Installation<span class="sub-th">engångsavgift</span></th><th>Mjukvara<span class="sub-th">per månad</span></th></tr>
               </thead>
               <tbody lang="en">
-                <tr><td>Small <span class="dim">up to 6 users</span></td><td class="num">24,000 SEK</td><td class="num">7,500 SEK</td></tr>
-                <tr><td>Medium <span class="dim">up to 12 users</span></td><td class="num">36,000 SEK</td><td class="num">13,500 SEK</td></tr>
-                <tr><td>Team <span class="dim">up to 20 users</span></td><td class="num">48,000 SEK</td><td class="num">19,500 SEK</td></tr>
-                <tr><td>Organisation <span class="dim">20+ users or regulated</span></td><td class="num">On quote</td><td class="num">from 25,000 SEK</td></tr>
+                <tr><td>Desk <span class="dim">1–2 users, on their own 16 GB PC</span></td><td class="num">12,000 SEK</td><td class="num">3,900 SEK</td></tr>
+                <tr><td>Small <span class="dim">up to 6 users</span></td><td class="num">24,000 SEK</td><td class="num">12,000 SEK</td></tr>
+                <tr><td>Medium <span class="dim">up to 12 users</span></td><td class="num">36,000 SEK</td><td class="num">19,500 SEK</td></tr>
+                <tr><td>Team <span class="dim">up to 20 users</span></td><td class="num">48,000 SEK</td><td class="num">27,000 SEK</td></tr>
+                <tr><td>Organisation <span class="dim">20+ users or regulated</span></td><td class="num">On quote</td><td class="num">from 35,000 SEK</td></tr>
               </tbody>
               <tbody lang="sv">
-                <tr><td>Liten <span class="dim">upp till 6 användare</span></td><td class="num">24 000 kr</td><td class="num">7 500 kr</td></tr>
-                <tr><td>Mellan <span class="dim">upp till 12 användare</span></td><td class="num">36 000 kr</td><td class="num">13 500 kr</td></tr>
-                <tr><td>Team <span class="dim">upp till 20 användare</span></td><td class="num">48 000 kr</td><td class="num">19 500 kr</td></tr>
-                <tr><td>Organisation <span class="dim">fler än 20 eller reglerad miljö</span></td><td class="num">Enligt offert</td><td class="num">från 25 000 kr</td></tr>
+                <tr><td>Desk <span class="dim">1–2 användare, på egen dator med 16 GB-kort</span></td><td class="num">12 000 kr</td><td class="num">3 900 kr</td></tr>
+                <tr><td>Liten <span class="dim">upp till 6 användare</span></td><td class="num">24 000 kr</td><td class="num">12 000 kr</td></tr>
+                <tr><td>Mellan <span class="dim">upp till 12 användare</span></td><td class="num">36 000 kr</td><td class="num">19 500 kr</td></tr>
+                <tr><td>Team <span class="dim">upp till 20 användare</span></td><td class="num">48 000 kr</td><td class="num">27 000 kr</td></tr>
+                <tr><td>Organisation <span class="dim">fler än 20 eller reglerad miljö</span></td><td class="num">Enligt offert</td><td class="num">från 35 000 kr</td></tr>
               </tbody>
             </table>
           </div>
-          <p lang="en" class="price-note">Each month includes updates, next-working-day support, the follow-up and the quarterly report. Organisation adds security documentation, on-site installation and priority support. Extra work: 1,150 SEK per hour. <strong>Pilot partners:</strong> the first three companies get 30% off the monthly fee for the first year, in return for feedback and being a reference.</p>
-          <p lang="sv" class="price-note">Varje månad ingår uppdateringar, support senast nästa arbetsdag, uppföljningen och kvartalsrapporten. Organisation lägger till säkerhetsdokumentation, installation på plats och prioriterad support. Tilläggsarbete: 1 150 kr per timme. <strong>Pilotpartner:</strong> de tre första företagen får 30&nbsp;% rabatt på månadsavgiften första året, mot återkoppling och att de ställer upp som referens.</p>
+          <p lang="en" class="price-note">Each month includes updates, next-working-day support, the follow-up and the quarterly report. Desk is the small start: the model runs on the developer's own computer, with a quarterly follow-up instead of a monthly one, support by email and no site visits. Organisation adds security documentation, on-site installation and priority support. Extra work: 1,150 SEK per hour. <strong>Pilot partners:</strong> the first three companies get 30% off the monthly fee for the first year, in return for feedback and being a reference.</p>
+          <p lang="sv" class="price-note">Varje månad ingår uppdateringar, support senast nästa arbetsdag, uppföljningen och kvartalsrapporten. Desk är den lilla starten: modellen körs på utvecklarens egen dator, med uppföljning en gång per kvartal i stället för varje månad, support via e-post och inga besök på plats. Organisation lägger till säkerhetsdokumentation, installation på plats och prioriterad support. Tilläggsarbete: 1 150 kr per timme. <strong>Pilotpartner:</strong> de tre första företagen får 30&nbsp;% rabatt på månadsavgiften första året, mot återkoppling och att de ställer upp som referens.</p>
         </div>
       </div>
     </div>
