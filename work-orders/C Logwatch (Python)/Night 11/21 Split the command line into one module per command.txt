@@ -1,0 +1,14 @@
+Split the command line into one module per command
+
+Now: The command-line code has grown into one large file.
+
+Should: A commands/ package with one module per command, and a cli.py that only reads the command name and hands over. No file over 300 lines, and no change in behaviour.
+
+Part 1: Move each command into its own module.
+Done when: Every existing test passes unchanged.
+
+Part 2: A test that fails if any file in the package is over 300 lines.
+Done when: The new test passes.
+
+This order changes structure only. The existing tests are its check, and the new size test may already pass on today's code.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

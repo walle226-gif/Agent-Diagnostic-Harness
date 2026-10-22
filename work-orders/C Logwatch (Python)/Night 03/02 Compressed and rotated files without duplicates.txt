@@ -1,0 +1,17 @@
+Compressed and rotated files without duplicates
+
+Now: Running ingest twice stores every line twice, and .gz files cannot be read.
+
+Should: .gz files are read directly. The position in each file is remembered, so running ingest again only reads new lines. A rotated file (renamed, then a new file under the old name) is not read twice; it is recognised by a hash of its first line.
+
+Part 1: Reading .gz files.
+Done when: A test ingests a gzipped sample and gets the same events as from the plain file.
+
+Part 2: Remembering the position per file.
+Done when: A test ingests, appends three lines, ingests again and finds exactly three new events.
+
+Part 3: Recognising a rotated file.
+Done when: A test renames the file, creates a new one under the old name, ingests both, and finds no duplicates.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,272 @@
+=== C01 | 1 | edge | Local time and the October clock change
+Now: Timestamps without an offset are stored as if they were UTC.
+Should: Each source has a time zone (default Europe/Stockholm, using zoneinfo). Timestamps without an offset are converted to UTC. In the repeated hour on 2026-10-25 (02:00 to 03:00 happens twice), lines are given the first or second occurrence by their order in the file: when the clock goes backwards, switch to the second.
+P: Converting local timestamps to UTC.
+D: Tests cover a summer time, a winter time and a timestamp that already has an offset.
+P: The repeated hour in October.
+D: A test with a sample file running from 01:50 through the repeated hour to 03:10 gets strictly increasing UTC times.
+P: The hour that does not exist in March (2026-03-29 02:30) counts as an invalid line, with a warning.
+D: A test checks the warning count and that the line is not stored.
+
+=== C02 | 1 | feature | Compressed and rotated files without duplicates
+Now: Running ingest twice stores every line twice, and .gz files cannot be read.
+Should: .gz files are read directly. The position in each file is remembered, so running ingest again only reads new lines. A rotated file (renamed, then a new file under the old name) is not read twice; it is recognised by a hash of its first line.
+P: Reading .gz files.
+D: A test ingests a gzipped sample and gets the same events as from the plain file.
+P: Remembering the position per file.
+D: A test ingests, appends three lines, ingests again and finds exactly three new events.
+P: Recognising a rotated file.
+D: A test renames the file, creates a new one under the old name, ingests both, and finds no duplicates.
+
+=== C03 | 1 | feature | Error spikes per minute
+Now: A burst of server errors is only found by reading the log.
+Should: "logwatch analyze anomalies" counts 5xx responses per minute and compares each minute with the median and the median absolute deviation (MAD) of the previous 60 minutes. A minute is flagged when it is above median + 5 × MAD and has at least 5 errors. Flagged minutes go into an anomalies table and are listed.
+P: Counting errors per minute.
+D: A test checks the counts for a sample log, including minutes with no errors.
+P: The detector as a pure function on a list of counts.
+D: Tests with made-up series cover a flat series, a single spike and a slow rise that is not flagged.
+P: The table and the CLI command.
+D: A CLI test lists one flagged minute for a sample with one burst.
+
+=== C04 | 1 | feature | Latency percentiles per endpoint
+Now: There is no way to see which endpoints are slow.
+Should: "logwatch report latency --top 10" shows p50, p95 and p99 per endpoint, using the nearest-rank method. Paths are normalised first: numbers become {id} and UUIDs become {uuid}, so /users/123 and /users/456 count as one endpoint.
+P: Path normalisation.
+D: Tests cover numbers, UUIDs, query strings (removed) and a trailing slash.
+P: Nearest-rank percentiles.
+D: Tests with known lists check each percentile, including a list of one value.
+P: The CLI table, sorted by p95.
+D: A CLI test checks the first row for a sample.
+
+=== C05 | 1 | feature | Visitor sessions
+Now: Requests cannot be grouped into visits.
+Should: Requests are grouped by IP and user agent into sessions. A gap of more than 30 minutes starts a new session. "logwatch report sessions" shows the number of sessions, the median session length and the most common first pages.
+P: Grouping into sessions, as a pure function.
+D: Tests cover a gap of exactly 30 minutes (same session) and 30 minutes and 1 second (new session).
+P: The report.
+D: A CLI test checks the three figures for a sample.
+
+=== C06 | 1 | format | An HTML report
+Now: Results can only be read in the console.
+Should: "logwatch report html out.html" writes one static file with no external files: summary, anomalies, latency and sessions, plus a small inline SVG chart of requests per hour. Every piece of text that comes from a log is HTML-escaped.
+P: The page with the four sections.
+D: A test finds all four section headings in the output.
+P: The SVG chart of requests per hour.
+D: A test checks one point per hour in the chart.
+P: Escaping.
+D: A test with a request path containing "<script>alert(1)</script>" finds it escaped and finds no unescaped "<script>" in the file.
+
+=== C07 | 1 | feature | A configuration file
+Now: Every setting has to be given on the command line.
+Should: logwatch.toml (read with tomllib) lists sources (path patterns, format, time zone) and thresholds. "logwatch config check" validates it and reports problems with the setting's path, such as "sources[1].format: unknown format 'apache2'".
+P: Loading the file, with defaults for missing settings.
+D: Tests cover a full file and an empty one.
+P: Validation messages with setting paths.
+D: Tests cover an unknown format, a bad time zone and a negative threshold.
+P: Commands use the configuration when no options are given.
+D: A CLI test runs "ingest" with no file arguments and reads the sources from the file.
+
+=== C08 | 1 | edge | Bad lines never stop a run
+Now: It is unclear what happens to lines that cannot be parsed.
+Should: Lines that cannot be parsed are counted per file, and up to 5 examples per file are kept. Ingest still exits with code 0 and prints a warning summary. With "--strict", ingest stops at the first bad line, prints file and line number, and exits with code 2.
+P: Counting and keeping examples.
+D: A test with 7 bad lines keeps 5 examples and counts 7.
+P: The warning summary.
+D: A CLI test checks the summary text and exit code 0.
+P: "--strict".
+D: A CLI test gets exit code 2 and the right file and line number.
+
+=== C09 | 1 | security | A small query language
+Now: Finding events means writing SQL by hand.
+Should: "logwatch query 'status>=500 and path~\"/api\" since 2026-10-20T00:00'" works with the fields status, level, path, ip and latency_ms, the operators = != < <= > >= and ~ (contains), and/or/not with parentheses, and since/until. A query is turned into SQL with parameters; values are never pasted into the SQL text.
+P: A tokenizer and parser for the language.
+D: Tests cover precedence, parentheses and a syntax error that gives its position.
+P: Turning a query into SQL with parameters.
+D: A test queries the value "'; DROP TABLE events; --" and the events table is still there.
+P: The CLI output as a table, or as JSON with "--json".
+D: CLI tests for both outputs.
+
+=== C10 | 2 | performance | Large logs
+Now: Ingest inserts one row at a time, which is slow for big files.
+Should: Ingest streams the file and inserts in batches of 5,000 rows, with one transaction per batch, so memory use does not grow with file size. "logwatch bench --lines N" writes a synthetic log for testing.
+P: The synthetic log generator, the same output for the same seed.
+D: A test generates 1,000 lines twice and gets identical files.
+P: Batched inserts.
+D: A test ingests 200,000 generated lines in under 20 seconds.
+
+=== C11 | 2 | concurrency | Parsing files in parallel
+Now: Files are parsed one after another.
+Should: With "--jobs N", files are parsed in parallel worker processes while one process writes to the database. The result is the same as without "--jobs". It works on Windows, where worker processes start fresh.
+P: Parallel parsing with multiprocessing and a single writer.
+D: A test ingests four files with "--jobs 1" and "--jobs 4" into two databases and gets identical event tables.
+P: An error in one file does not stop the others.
+D: A test with one unreadable file still ingests the other three and reports the failure.
+
+=== C12 | 2 | feature | Alert rules
+Now: Someone has to look at reports to notice problems.
+Should: Rules in logwatch.toml: name, query (in the language from order 09), threshold, window in minutes and cooldown in minutes. "logwatch alerts run" checks each rule over its window and records an alert. A rule does not alert again during its cooldown. The clock can be set in tests.
+P: Rules in the configuration, validated.
+D: Tests cover a good rule and a rule with a bad query.
+P: Checking rules and recording alerts.
+D: A test with a settable clock triggers a rule once.
+P: The cooldown.
+D: A test runs the check three times in 10 minutes with a 30-minute cooldown and gets one alert.
+
+=== C13 | 2 | feature | Alerts as e-mail files, with no network
+Now: Alerts are only stored in the database.
+Should: Each new alert is written as an .eml file (built with the email package) into an outbox/ folder, with a subject, the rule name, the window and the matching count. Nothing is ever sent over the network.
+P: Writing the .eml files.
+D: A test parses a written file with the email package and checks the subject and body.
+P: File names that never collide, and å, ä and ö encoded correctly in the subject.
+D: Tests write two alerts in the same second and check a Swedish subject.
+
+=== C14 | 2 | security | Masking personal data
+Now: IP addresses and e-mail addresses are stored in plain text.
+Should: IPv4 and IPv6 addresses and e-mail addresses in stored fields and messages are replaced with a keyed hash (HMAC-SHA256, with the key from the configuration), so the same address always gets the same mask. An option keeps the first part of IPv4 addresses. "--no-mask" turns masking off for development.
+P: Finding and masking the three kinds of data.
+D: Tests cover IPv4, IPv6, an e-mail inside a message, and text that only looks like an address.
+P: Stable masks across runs, and the option to keep the first part of IPv4 addresses.
+D: Tests check that the same address gives the same mask in two runs, and check the kept part.
+P: Masking during ingest, and "--no-mask".
+D: A test ingests a sample and finds no plain IP address in the database.
+
+=== C15 | 2 | feature | Deleting old events
+Now: The database grows forever.
+Should: "logwatch retention apply --days 30" deletes older events in batches, then runs VACUUM. "--dry-run" shows how many events would be deleted.
+P: The dry run.
+D: A test with events of different ages checks the count.
+P: Deleting in batches, then VACUUM.
+D: A test deletes and checks that the newer events are all still there.
+
+=== C16 | 2 | feature | Comparing two days
+Now: There is no way to see what changed between two days.
+Should: "logwatch report diff --a 2026-10-19 --b 2026-10-20" lists the endpoints whose error rate and p95 latency changed the most, ignoring endpoints with fewer than 50 requests on either day.
+P: The comparison, as a pure function on two sets of numbers.
+D: Tests cover an endpoint that got worse, one that got better, and one under the volume limit.
+P: The CLI report.
+D: A CLI test checks the first row.
+
+=== C17 | 2 | format | Exporting events
+Now: Events cannot be taken to other tools.
+Should: "logwatch export --format csv|jsonl --query '...'" streams matching events to standard output or a file. The output carries a schema version: a comment line in CSV, a field in JSON lines.
+P: CSV export.
+D: A test checks the header, the schema line and one row.
+P: JSON lines export.
+D: A test parses every line and checks the schema version.
+
+=== C18 | 2 | feature | Parser plug-ins
+Now: A new log format means changing the program.
+Should: Python files in a parsers/ folder are loaded at start. Each exposes NAME, can_parse(line) and parse(line). A plug-in that fails to load or raises an error is turned off with a warning, and the run continues.
+P: Loading plug-ins from the folder.
+D: A test with a good plug-in parses a line in a new format.
+P: Turning off a broken plug-in.
+D: Tests with a plug-in that fails to import and one that raises in parse both give a warning, and other lines are still ingested.
+
+=== C18b | 2 | feature | Status groups and the slowest requests
+Now: The summary shows status classes but not which codes or which requests matter.
+Should: "logwatch report status" shows counts per status code within each class, and the 20 slowest requests above a threshold (default 2,000 ms) with time, path and latency.
+P: Counts per status code.
+D: A test checks the counts for a sample with 200, 301, 404 and 503 responses.
+P: The slowest requests above the threshold, with "--threshold".
+D: Tests cover the default threshold and a custom one, and that the list is sorted by latency.
+
+=== C18c | 2 | feature | Traffic by hour of the week
+Now: Nobody can see when during the week the load is highest.
+Should: A table of request counts by weekday (Monday to Sunday) and hour (00 to 23), in local time, shown in the console and as a colour-shaded table in the HTML report.
+P: The counts, in the source's local time zone.
+D: A test with requests on Monday 08:00 and Sunday 23:00 local time puts them in the right cells, also across the October clock change.
+P: The table in the console and in the HTML report.
+D: A test finds 7 rows and 24 columns in the HTML table, and the busiest cell shaded darkest.
+
+=== C19 | 3 | refactor | Split the command line into one module per command
+Now: The command-line code has grown into one large file.
+Should: A commands/ package with one module per command, and a cli.py that only reads the command name and hands over. No file over 300 lines, and no change in behaviour.
+P: Move each command into its own module.
+D: Every existing test passes unchanged.
+P: A test that fails if any file in the package is over 300 lines.
+D: The new test passes.
+N: This order changes structure only. The existing tests are its check, and the new size test may already pass on today's code.
+
+=== C20 | 3 | migration | Database migrations
+Now: Changing the database schema breaks existing databases.
+Should: A schema_version table, and migrations as numbered functions run in order at start. A database from before this order is upgraded automatically, and a database newer than the program is refused with a clear message.
+P: The version table and the migration runner.
+D: A test creates a database the way the skeleton did and upgrades it.
+P: Refusing a newer database.
+D: A test sets the version to 999 and gets the message.
+
+=== C21 | 3 | edge | Windows file names and text encodings
+Now: Unusual file names and encodings may break ingest.
+Should: Paths with å, ä, ö and spaces work. UTF-16 logs with a BOM are read. Windows line endings are handled. A file that is not valid UTF-8 is read as Latin-1, with a warning.
+P: Paths with å, ä, ö and spaces.
+D: A test ingests a file named "loggar för å.log".
+P: UTF-16 with a BOM, and Windows line endings.
+D: Tests ingest both and get the same events as from a plain UTF-8 file.
+P: The Latin-1 fallback.
+D: A test with Latin-1 bytes gets the right text and one warning.
+
+=== C22 | 3 | feature | Following a growing file
+Now: New lines are only seen when ingest is run again.
+Should: "logwatch tail --follow <path>" stores new lines within one second of being written. If the file is replaced (rotation), it continues with the new file. Ctrl+C stops it cleanly.
+P: Following appended lines.
+D: A test writes lines from a thread and finds them stored within 2 seconds.
+P: Handling rotation.
+D: A test replaces the file during the run and finds lines from both files.
+P: A clean stop.
+D: A test stops the follower and finds the position saved, so a later ingest does not read lines twice.
+
+=== C23 | 3 | feature | Message templates
+Now: Thousands of similar error messages cannot be seen as one problem.
+Should: Messages are grouped into templates by replacing numbers, hex values, UUIDs and IP addresses with placeholders and grouping by the resulting text. "logwatch report templates --top 20" shows each template with its count and one example.
+P: Turning a message into a template.
+D: Tests cover each kind of placeholder, and messages that must stay apart.
+P: The report.
+D: A CLI test checks the top template for a sample.
+
+=== C24 | 3 | feature | Deploy markers and likely causes
+Now: Error spikes are not linked to what changed.
+Should: A markers file (timestamp; text) records deploys. For each anomaly, the report shows the nearest marker within the 30 minutes before it, and the templates (order 25) that are new or at least five times more common than in the previous hour.
+P: Reading markers and finding the nearest one.
+D: Tests cover a marker in the window, one too early, and none at all.
+P: New and growing templates for an anomaly window.
+D: A test with a planted new error message finds it as the top cause.
+
+=== C25 | 3 | feature | Week over week in the HTML report
+Now: The HTML report only shows one period.
+Should: A section comparing this week with last week for volume, errors and p95 latency, with ▲ and ▼ arrows, and "no data" when last week is empty.
+P: The comparison numbers.
+D: Tests cover a rise, a fall and an empty previous week.
+P: The section in the report.
+D: A test finds the section with the arrows and the right numbers.
+
+=== C26 | 3 | ux | A self-check command
+Now: When something is wrong with the setup, the errors only show up later.
+Should: "logwatch doctor" checks database integrity (PRAGMA integrity_check), the configuration, write access to outbox/ and that time zone data is available. It prints OK or a problem per check, and exits with code 1 if any check fails.
+P: The four checks.
+D: A test with everything in order gets exit code 0.
+P: Problems reported clearly.
+D: Tests with a broken configuration and a read-only outbox get exit code 1 and the right messages.
+
+=== C27 | 3 | docs | Usage examples stay true
+Now: The README examples can drift from what the program prints.
+Should: Code blocks in the README marked "logwatch-example" are run by a test against tests/data, and the test fails if the output differs from the output shown in the README.
+P: Examples in the README for ingest, summary, query and report latency, with their real output.
+D: A test fails if the README has fewer than four marked examples or one of the four commands has none.
+P: The test that runs them.
+D: The test passes, and fails if an example's expected output is edited.
+
+=== C27b | 3 | feature | Bots and crawlers
+Now: Crawlers and scripts are counted as visitors and distort every report.
+Should: A request is marked as a bot if its user agent matches a list in logwatch.toml, or if its IP makes more than 100 requests in one minute. Reports leave bots out unless "--include-bots" is given.
+P: Marking bots by user agent and by request rate.
+D: Tests cover a listed user agent, a fast IP, and a normal visitor that stays unmarked.
+P: Leaving bots out of reports, and "--include-bots".
+D: A CLI test runs the sessions report with and without the option and gets different session counts.
+
+=== C27c | 3 | feature | Following one request across files
+Now: A request that passes through several services leaves lines in several files that cannot be put together.
+Should: JSON lines with a request_id field are stored with that id. "logwatch trace <request_id>" prints every line for that id from all files, in time order, with the time since the first line.
+P: Storing request ids, through a database migration (order 22).
+D: A test ingests two files that share a request id and finds both lines under it.
+P: The trace command.
+D: A CLI test prints the lines in time order with the right time offsets.

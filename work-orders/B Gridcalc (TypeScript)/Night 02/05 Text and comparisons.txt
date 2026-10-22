@@ -1,0 +1,17 @@
+Text and comparisons
+
+Now: Formulas only work with numbers.
+
+Should: String literals ("abc", with "" for a quote inside), & for joining text, the comparisons = <> < > <= >= giving TRUE or FALSE, and the functions LEN, UPPER and LOWER. Text compares case-insensitively, and any text is greater than any number.
+
+Part 1: String literals in the tokenizer.
+Done when: Tests cover an empty string and an embedded quote.
+
+Part 2: The & operator and the comparisons.
+Done when: Tests cover text against text, number against text, and TRUE/FALSE results.
+
+Part 3: LEN, UPPER and LOWER, correct for å, ä and ö.
+Done when: Tests include "=UPPER(\"åäö\")".
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

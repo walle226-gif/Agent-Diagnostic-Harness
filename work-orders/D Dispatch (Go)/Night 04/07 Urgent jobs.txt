@@ -1,0 +1,14 @@
+Urgent jobs
+
+Now: All jobs are treated the same.
+
+Should: Jobs with priority "urgent" are placed before normal jobs. If an urgent job cannot be placed, the plan lists it under "urgent_unassigned" and the CLI exits with code 4.
+
+Part 1: Placing urgent jobs first.
+Done when: A test where only one job fits places the urgent one.
+
+Part 2: Reporting urgent jobs that could not be placed.
+Done when: A CLI test gets exit code 4 and the job listed.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

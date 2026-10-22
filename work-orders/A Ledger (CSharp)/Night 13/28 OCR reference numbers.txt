@@ -1,0 +1,17 @@
+OCR reference numbers
+
+Now: Customer invoices have no payment reference.
+
+Should: Each K voucher gets an OCR number built from the voucher number, a length digit and a Luhn check digit. "ledger ocr check <number>" says whether a reference is valid.
+
+Part 1: Generating and validating OCR numbers.
+Done when: Tests cover valid numbers, a wrong check digit and a wrong length digit.
+
+Part 2: The OCR number shown in "ledger open" and stored with the invoice.
+Done when: A CLI test finds the reference on an open invoice.
+
+Part 3: The "ledger ocr check" command.
+Done when: CLI tests for a valid and an invalid number check the exit codes.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

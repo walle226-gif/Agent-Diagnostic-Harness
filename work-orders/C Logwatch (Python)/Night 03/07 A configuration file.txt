@@ -1,0 +1,17 @@
+A configuration file
+
+Now: Every setting has to be given on the command line.
+
+Should: logwatch.toml (read with tomllib) lists sources (path patterns, format, time zone) and thresholds. "logwatch config check" validates it and reports problems with the setting's path, such as "sources[1].format: unknown format 'apache2'".
+
+Part 1: Loading the file, with defaults for missing settings.
+Done when: Tests cover a full file and an empty one.
+
+Part 2: Validation messages with setting paths.
+Done when: Tests cover an unknown format, a bad time zone and a negative threshold.
+
+Part 3: Commands use the configuration when no options are given.
+Done when: A CLI test runs "ingest" with no file arguments and reads the sources from the file.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

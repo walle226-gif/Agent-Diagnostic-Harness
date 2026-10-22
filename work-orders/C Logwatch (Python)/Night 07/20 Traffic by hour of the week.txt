@@ -1,0 +1,14 @@
+Traffic by hour of the week
+
+Now: Nobody can see when during the week the load is highest.
+
+Should: A table of request counts by weekday (Monday to Sunday) and hour (00 to 23), in local time, shown in the console and as a colour-shaded table in the HTML report.
+
+Part 1: The counts, in the source's local time zone.
+Done when: A test with requests on Monday 08:00 and Sunday 23:00 local time puts them in the right cells, also across the October clock change.
+
+Part 2: The table in the console and in the HTML report.
+Done when: A test finds 7 rows and 24 columns in the HTML table, and the busiest cell shaded darkest.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,17 @@
+Saving to a journal with snapshots
+
+Now: The whole company file is rewritten on every save, which gets slow and risky as it grows.
+
+Should: Saves are appended to journal.jsonl. A snapshot is written every 1,000 vouchers, and loading reads the snapshot plus the journal after it. Companies in the old single-file format are converted once, and the old file is kept as a backup.
+
+Part 1: Appending to the journal and loading from it.
+Done when: A test saves 10 vouchers, reloads, and gets the same company.
+
+Part 2: Snapshots every 1,000 vouchers.
+Done when: A test with 2,500 vouchers finds two snapshots and loads correctly.
+
+Part 3: Converting old companies, and ignoring a half-written last journal line with a warning.
+Done when: Tests cover the conversion with its backup, and a truncated last line.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

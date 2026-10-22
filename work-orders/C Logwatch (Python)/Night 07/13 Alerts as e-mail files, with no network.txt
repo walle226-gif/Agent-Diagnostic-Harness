@@ -1,0 +1,14 @@
+Alerts as e-mail files, with no network
+
+Now: Alerts are only stored in the database.
+
+Should: Each new alert is written as an .eml file (built with the email package) into an outbox/ folder, with a subject, the rule name, the window and the matching count. Nothing is ever sent over the network.
+
+Part 1: Writing the .eml files.
+Done when: A test parses a written file with the email package and checks the subject and body.
+
+Part 2: File names that never collide, and å, ä and ö encoded correctly in the subject.
+Done when: Tests write two alerts in the same second and check a Swedish subject.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

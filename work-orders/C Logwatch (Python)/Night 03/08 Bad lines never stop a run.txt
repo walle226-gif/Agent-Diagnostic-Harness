@@ -1,0 +1,17 @@
+Bad lines never stop a run
+
+Now: It is unclear what happens to lines that cannot be parsed.
+
+Should: Lines that cannot be parsed are counted per file, and up to 5 examples per file are kept. Ingest still exits with code 0 and prints a warning summary. With "--strict", ingest stops at the first bad line, prints file and line number, and exits with code 2.
+
+Part 1: Counting and keeping examples.
+Done when: A test with 7 bad lines keeps 5 examples and counts 7.
+
+Part 2: The warning summary.
+Done when: A CLI test checks the summary text and exit code 0.
+
+Part 3: "--strict".
+Done when: A CLI test gets exit code 2 and the right file and line number.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

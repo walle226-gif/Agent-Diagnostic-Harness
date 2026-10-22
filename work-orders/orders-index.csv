@@ -1,0 +1,138 @@
+﻿night;project;language;order;title;type;parts;red_first;project_night;file
+1;Ledger;CSharp;01;Voucher numbers per series;feature;3;yes;1;A Ledger (CSharp)/Night 01/01 Voucher numbers per series.txt
+1;Ledger;CSharp;02;Locked months;feature;3;yes;1;A Ledger (CSharp)/Night 01/02 Locked months.txt
+1;Ledger;CSharp;03;Sales with 25 % VAT;feature;2;yes;1;A Ledger (CSharp)/Night 01/03 Sales with 25 % VAT.txt
+1;Ledger;CSharp;04;Purchases with input VAT;feature;3;yes;1;A Ledger (CSharp)/Night 01/04 Purchases with input VAT.txt
+1;Ledger;CSharp;05;Customer payments;feature;3;yes;1;A Ledger (CSharp)/Night 01/05 Customer payments.txt
+1;Ledger;CSharp;06;Trial balance as a CSV file for Excel;format;2;yes;1;A Ledger (CSharp)/Night 01/06 Trial balance as a CSV file for Excel.txt
+1;Ledger;CSharp;07;Correcting a voucher the right way;feature;3;yes;1;A Ledger (CSharp)/Night 01/07 Correcting a voucher the right way.txt
+1;Ledger;CSharp;08;Opening balances for a new year;feature;2;yes;1;A Ledger (CSharp)/Night 01/08 Opening balances for a new year.txt
+1;Ledger;CSharp;09;Importing vouchers from a CSV file;format;3;yes;1;A Ledger (CSharp)/Night 01/09 Importing vouchers from a CSV file.txt
+2;Gridcalc;TypeScript;01;Ranges and summary functions;feature;2;yes;1;B Gridcalc (TypeScript)/Night 02/01 Ranges and summary functions.txt
+2;Gridcalc;TypeScript;02;Recalculate only what changed;performance;2;yes;1;B Gridcalc (TypeScript)/Night 02/02 Recalculate only what changed.txt
+2;Gridcalc;TypeScript;03;Circular references;feature;2;yes;1;B Gridcalc (TypeScript)/Night 02/03 Circular references.txt
+2;Gridcalc;TypeScript;04;Error values;feature;2;yes;1;B Gridcalc (TypeScript)/Night 02/04 Error values.txt
+2;Gridcalc;TypeScript;05;Text and comparisons;feature;3;yes;1;B Gridcalc (TypeScript)/Night 02/05 Text and comparisons.txt
+2;Gridcalc;TypeScript;06;Lazy IF and logic functions;feature;2;yes;1;B Gridcalc (TypeScript)/Night 02/06 Lazy IF and logic functions.txt
+2;Gridcalc;TypeScript;07;Absolute references and copy-paste;feature;3;yes;1;B Gridcalc (TypeScript)/Night 02/07 Absolute references and copy-paste.txt
+2;Gridcalc;TypeScript;08;Saved files with a format version;migration;3;yes;1;B Gridcalc (TypeScript)/Night 02/08 Saved files with a format version.txt
+2;Gridcalc;TypeScript;09;Percent and power operators;feature;3;yes;1;B Gridcalc (TypeScript)/Night 02/09 Percent and power operators.txt
+2;Gridcalc;TypeScript;10;Formula bar and error styling;ui;2;yes;1;B Gridcalc (TypeScript)/Night 02/10 Formula bar and error styling.txt
+3;Logwatch;Python;01;Local time and the October clock change;edge;3;yes;1;C Logwatch (Python)/Night 03/01 Local time and the October clock change.txt
+3;Logwatch;Python;02;Compressed and rotated files without duplicates;feature;3;yes;1;C Logwatch (Python)/Night 03/02 Compressed and rotated files without duplicates.txt
+3;Logwatch;Python;03;Error spikes per minute;feature;3;yes;1;C Logwatch (Python)/Night 03/03 Error spikes per minute.txt
+3;Logwatch;Python;04;Latency percentiles per endpoint;feature;3;yes;1;C Logwatch (Python)/Night 03/04 Latency percentiles per endpoint.txt
+3;Logwatch;Python;05;Visitor sessions;feature;2;yes;1;C Logwatch (Python)/Night 03/05 Visitor sessions.txt
+3;Logwatch;Python;06;An HTML report;format;3;yes;1;C Logwatch (Python)/Night 03/06 An HTML report.txt
+3;Logwatch;Python;07;A configuration file;feature;3;yes;1;C Logwatch (Python)/Night 03/07 A configuration file.txt
+3;Logwatch;Python;08;Bad lines never stop a run;edge;3;yes;1;C Logwatch (Python)/Night 03/08 Bad lines never stop a run.txt
+3;Logwatch;Python;09;A small query language;security;3;yes;1;C Logwatch (Python)/Night 03/09 A small query language.txt
+4;Dispatch;Go;01;Time windows;feature;2;yes;1;D Dispatch (Go)/Night 04/01 Time windows.txt
+4;Dispatch;Go;02;Skills;feature;2;yes;1;D Dispatch (Go)/Night 04/02 Skills.txt
+4;Dispatch;Go;03;Shorter routes with 2-opt;feature;3;yes;1;D Dispatch (Go)/Night 04/03 Shorter routes with 2-opt.txt
+4;Dispatch;Go;04;A travel time model;feature;2;yes;1;D Dispatch (Go)/Night 04/04 A travel time model.txt
+4;Dispatch;Go;05;Lunch breaks;feature;2;yes;1;D Dispatch (Go)/Night 04/05 Lunch breaks.txt
+4;Dispatch;Go;06;An HTTP API;feature;2;yes;1;D Dispatch (Go)/Night 04/06 An HTTP API.txt
+4;Dispatch;Go;07;Urgent jobs;feature;2;yes;1;D Dispatch (Go)/Night 04/07 Urgent jobs.txt
+4;Dispatch;Go;08;Why this technician?;feature;2;yes;1;D Dispatch (Go)/Night 04/08 Why this technician.txt
+4;Dispatch;Go;09;The same plan on any number of cores;concurrency;2;yes;1;D Dispatch (Go)/Night 04/09 The same plan on any number of cores.txt
+4;Dispatch;Go;10;Input files with clear errors;edge;3;yes;1;D Dispatch (Go)/Night 04/10 Input files with clear errors.txt
+4;Dispatch;Go;11;Starting and ending at home;feature;2;yes;1;D Dispatch (Go)/Night 04/11 Starting and ending at home.txt
+5;Ledger;CSharp;10;VAT report per period;feature;3;yes;2;A Ledger (CSharp)/Night 05/10 VAT report per period.txt
+5;Ledger;CSharp;11;12 % and 6 % VAT;feature;3;yes;2;A Ledger (CSharp)/Night 05/11 12 % and 6 % VAT.txt
+5;Ledger;CSharp;12;Income statement by month;feature;2;yes;2;A Ledger (CSharp)/Night 05/12 Income statement by month.txt
+5;Ledger;CSharp;13;Balance sheet at a date;feature;2;yes;2;A Ledger (CSharp)/Night 05/13 Balance sheet at a date.txt
+5;Ledger;CSharp;14;SIE 4 export;format;3;yes;2;A Ledger (CSharp)/Night 05/14 SIE 4 export.txt
+5;Ledger;CSharp;15;SIE 4 import;format;3;yes;2;A Ledger (CSharp)/Night 05/15 SIE 4 import.txt
+5;Ledger;CSharp;16;A log that shows tampering;security;3;yes;2;A Ledger (CSharp)/Night 05/16 A log that shows tampering.txt
+5;Ledger;CSharp;17;Euro invoices and exchange differences;feature;3;yes;2;A Ledger (CSharp)/Night 05/17 Euro invoices and exchange differences.txt
+5;Ledger;CSharp;18;Large ledgers stay fast;performance;2;yes;2;A Ledger (CSharp)/Night 05/18 Large ledgers stay fast.txt
+6;Gridcalc;TypeScript;11;Inserting and deleting rows and columns;feature;3;yes;2;B Gridcalc (TypeScript)/Night 06/11 Inserting and deleting rows and columns.txt
+6;Gridcalc;TypeScript;12;Undo and redo;feature;3;yes;2;B Gridcalc (TypeScript)/Night 06/12 Undo and redo.txt
+6;Gridcalc;TypeScript;13;CSV import and export;format;3;yes;2;B Gridcalc (TypeScript)/Night 06/13 CSV import and export.txt
+6;Gridcalc;TypeScript;14;Number formats;feature;2;yes;2;B Gridcalc (TypeScript)/Night 06/14 Number formats.txt
+6;Gridcalc;TypeScript;15;Named ranges;feature;3;yes;2;B Gridcalc (TypeScript)/Night 06/15 Named ranges.txt
+6;Gridcalc;TypeScript;16;Dates;feature;3;yes;2;B Gridcalc (TypeScript)/Night 06/16 Dates.txt
+6;Gridcalc;TypeScript;17;Lookup functions;feature;3;yes;2;B Gridcalc (TypeScript)/Night 06/17 Lookup functions.txt
+6;Gridcalc;TypeScript;18;Long chains do not crash;performance;2;yes;2;B Gridcalc (TypeScript)/Night 06/18 Long chains do not crash.txt
+6;Gridcalc;TypeScript;19;Keyboard navigation;ui;2;yes;2;B Gridcalc (TypeScript)/Night 06/19 Keyboard navigation.txt
+7;Logwatch;Python;10;Large logs;performance;2;yes;2;C Logwatch (Python)/Night 07/10 Large logs.txt
+7;Logwatch;Python;11;Parsing files in parallel;concurrency;2;yes;2;C Logwatch (Python)/Night 07/11 Parsing files in parallel.txt
+7;Logwatch;Python;12;Alert rules;feature;3;yes;2;C Logwatch (Python)/Night 07/12 Alert rules.txt
+7;Logwatch;Python;13;Alerts as e-mail files, with no network;feature;2;yes;2;C Logwatch (Python)/Night 07/13 Alerts as e-mail files, with no network.txt
+7;Logwatch;Python;14;Masking personal data;security;3;yes;2;C Logwatch (Python)/Night 07/14 Masking personal data.txt
+7;Logwatch;Python;15;Deleting old events;feature;2;yes;2;C Logwatch (Python)/Night 07/15 Deleting old events.txt
+7;Logwatch;Python;16;Comparing two days;feature;2;yes;2;C Logwatch (Python)/Night 07/16 Comparing two days.txt
+7;Logwatch;Python;17;Exporting events;format;2;yes;2;C Logwatch (Python)/Night 07/17 Exporting events.txt
+7;Logwatch;Python;18;Parser plug-ins;feature;2;yes;2;C Logwatch (Python)/Night 07/18 Parser plug-ins.txt
+7;Logwatch;Python;19;Status groups and the slowest requests;feature;2;yes;2;C Logwatch (Python)/Night 07/19 Status groups and the slowest requests.txt
+7;Logwatch;Python;20;Traffic by hour of the week;feature;2;yes;2;C Logwatch (Python)/Night 07/20 Traffic by hour of the week.txt
+8;Dispatch;Go;12;Planning several days;feature;3;yes;2;D Dispatch (Go)/Night 08/12 Planning several days.txt
+8;Dispatch;Go;13;Re-planning after a sick call;feature;2;yes;2;D Dispatch (Go)/Night 08/13 Re-planning after a sick call.txt
+8;Dispatch;Go;14;Overtime and shift limits;feature;2;yes;2;D Dispatch (Go)/Night 08/14 Overtime and shift limits.txt
+8;Dispatch;Go;15;A customer's preferred technician;feature;2;yes;2;D Dispatch (Go)/Night 08/15 A customer's preferred technician.txt
+8;Dispatch;Go;16;Route pictures;format;2;yes;2;D Dispatch (Go)/Night 08/16 Route pictures.txt
+8;Dispatch;Go;17;Planning speed;performance;2;yes;2;D Dispatch (Go)/Night 08/17 Planning speed.txt
+8;Dispatch;Go;18;Saved plans and comparing them;migration;2;yes;2;D Dispatch (Go)/Night 08/18 Saved plans and comparing them.txt
+8;Dispatch;Go;19;Fuzzing the input;testing;2;yes;2;D Dispatch (Go)/Night 08/19 Fuzzing the input.txt
+8;Dispatch;Go;20;Consistent help and exit codes;ux;2;yes;2;D Dispatch (Go)/Night 08/20 Consistent help and exit codes.txt
+8;Dispatch;Go;21;Arrival windows for customers;feature;2;yes;2;D Dispatch (Go)/Night 08/21 Arrival windows for customers.txt
+8;Dispatch;Go;22;Technician absences;feature;3;yes;2;D Dispatch (Go)/Night 08/22 Technician absences.txt
+9;Ledger;CSharp;19;Split Core by area;refactor;2;no (structure only);3;A Ledger (CSharp)/Night 09/19 Split Core by area.txt
+9;Ledger;CSharp;20;Saving to a journal with snapshots;migration;3;yes;3;A Ledger (CSharp)/Night 09/20 Saving to a journal with snapshots.txt
+9;Ledger;CSharp;21;Two processes saving at the same time;concurrency;3;yes;3;A Ledger (CSharp)/Night 09/21 Two processes saving at the same time.txt
+9;Ledger;CSharp;22;Budget against actual;feature;3;yes;3;A Ledger (CSharp)/Night 09/22 Budget against actual.txt
+9;Ledger;CSharp;23;Cost centres;feature;3;yes;3;A Ledger (CSharp)/Night 09/23 Cost centres.txt
+9;Ledger;CSharp;24;Spreading a cost over months;feature;3;yes;3;A Ledger (CSharp)/Night 09/24 Spreading a cost over months.txt
+9;Ledger;CSharp;25;Closing the year;feature;3;yes;3;A Ledger (CSharp)/Night 09/25 Closing the year.txt
+9;Ledger;CSharp;26;Warning rules;feature;3;yes;3;A Ledger (CSharp)/Night 09/26 Warning rules.txt
+9;Ledger;CSharp;27;Consistent help and exit codes;ux;3;yes;3;A Ledger (CSharp)/Night 09/27 Consistent help and exit codes.txt
+10;Gridcalc;TypeScript;20;Split the engine into modules;refactor;2;no (structure only);3;B Gridcalc (TypeScript)/Night 10/20 Split the engine into modules.txt
+10;Gridcalc;TypeScript;21;Several sheets;feature;3;yes;3;B Gridcalc (TypeScript)/Night 10/21 Several sheets.txt
+10;Gridcalc;TypeScript;22;Two browser tabs at once;concurrency;3;yes;3;B Gridcalc (TypeScript)/Night 10/22 Two browser tabs at once.txt
+10;Gridcalc;TypeScript;23;Conditional formatting;feature;3;yes;3;B Gridcalc (TypeScript)/Night 10/23 Conditional formatting.txt
+10;Gridcalc;TypeScript;24;Function hints while typing;feature;3;yes;3;B Gridcalc (TypeScript)/Night 10/24 Function hints while typing.txt
+10;Gridcalc;TypeScript;25;Results that spill into neighbouring cells;feature;3;yes;3;B Gridcalc (TypeScript)/Night 10/25 Results that spill into neighbouring cells.txt
+10;Gridcalc;TypeScript;26;Formulas can never run code;security;2;yes;3;B Gridcalc (TypeScript)/Night 10/26 Formulas can never run code.txt
+10;Gridcalc;TypeScript;27;Export as HTML and Markdown tables;format;2;yes;3;B Gridcalc (TypeScript)/Night 10/27 Export as HTML and Markdown tables.txt
+10;Gridcalc;TypeScript;28;An accessible grid;ux;3;yes;3;B Gridcalc (TypeScript)/Night 10/28 An accessible grid.txt
+11;Logwatch;Python;21;Split the command line into one module per command;refactor;2;no (structure only);3;C Logwatch (Python)/Night 11/21 Split the command line into one module per command.txt
+11;Logwatch;Python;22;Database migrations;migration;2;yes;3;C Logwatch (Python)/Night 11/22 Database migrations.txt
+11;Logwatch;Python;23;Windows file names and text encodings;edge;3;yes;3;C Logwatch (Python)/Night 11/23 Windows file names and text encodings.txt
+11;Logwatch;Python;24;Following a growing file;feature;3;yes;3;C Logwatch (Python)/Night 11/24 Following a growing file.txt
+11;Logwatch;Python;25;Message templates;feature;2;yes;3;C Logwatch (Python)/Night 11/25 Message templates.txt
+11;Logwatch;Python;26;Deploy markers and likely causes;feature;2;yes;3;C Logwatch (Python)/Night 11/26 Deploy markers and likely causes.txt
+11;Logwatch;Python;27;Week over week in the HTML report;feature;2;yes;3;C Logwatch (Python)/Night 11/27 Week over week in the HTML report.txt
+11;Logwatch;Python;28;A self-check command;ux;2;yes;3;C Logwatch (Python)/Night 11/28 A self-check command.txt
+11;Logwatch;Python;29;Usage examples stay true;docs;2;yes;3;C Logwatch (Python)/Night 11/29 Usage examples stay true.txt
+11;Logwatch;Python;30;Bots and crawlers;feature;2;yes;3;C Logwatch (Python)/Night 11/30 Bots and crawlers.txt
+11;Logwatch;Python;31;Following one request across files;feature;2;yes;3;C Logwatch (Python)/Night 11/31 Following one request across files.txt
+12;Dispatch;Go;23;Split the solver package;refactor;2;no (structure only);3;D Dispatch (Go)/Night 12/23 Split the solver package.txt
+12;Dispatch;Go;24;Road travel times from a file;feature;2;yes;3;D Dispatch (Go)/Night 12/24 Road travel times from a file.txt
+12;Dispatch;Go;25;Van capacity;feature;2;yes;3;D Dispatch (Go)/Night 12/25 Van capacity.txt
+12;Dispatch;Go;26;Picking up material first;feature;2;yes;3;D Dispatch (Go)/Night 12/26 Picking up material first.txt
+12;Dispatch;Go;27;Better plans across technicians;feature;3;yes;3;D Dispatch (Go)/Night 12/27 Better plans across technicians.txt
+12;Dispatch;Go;28;A time limit;feature;2;yes;3;D Dispatch (Go)/Night 12/28 A time limit.txt
+12;Dispatch;Go;29;A plan quality report;format;2;yes;3;D Dispatch (Go)/Night 12/29 A plan quality report.txt
+12;Dispatch;Go;30;Jobs from a CSV file;format;2;yes;3;D Dispatch (Go)/Night 12/30 Jobs from a CSV file.txt
+12;Dispatch;Go;31;Same request, same answer;feature;3;yes;3;D Dispatch (Go)/Night 12/31 Same request, same answer.txt
+12;Dispatch;Go;32;Adding one job to a plan;feature;2;yes;3;D Dispatch (Go)/Night 12/32 Adding one job to a plan.txt
+12;Dispatch;Go;33;Health and simple metrics;ux;2;yes;3;D Dispatch (Go)/Night 12/33 Health and simple metrics.txt
+13;Ledger;CSharp;28;OCR reference numbers;feature;3;yes;4;A Ledger (CSharp)/Night 13/28 OCR reference numbers.txt
+13;Ledger;CSharp;29;Matching a bank file;feature;3;yes;4;A Ledger (CSharp)/Night 13/29 Matching a bank file.txt
+13;Ledger;CSharp;30;Aging report for customers;feature;3;yes;4;A Ledger (CSharp)/Night 13/30 Aging report for customers.txt
+13;Ledger;CSharp;31;Supplier invoices to pay;feature;3;yes;4;A Ledger (CSharp)/Night 13/31 Supplier invoices to pay.txt
+13;Ledger;CSharp;32;Undoing an import;feature;3;yes;4;A Ledger (CSharp)/Night 13/32 Undoing an import.txt
+13;Ledger;CSharp;33;Reports as web pages;format;2;yes;4;A Ledger (CSharp)/Night 13/33 Reports as web pages.txt
+13;Ledger;CSharp;34;Randomised checks;testing;2;yes;4;A Ledger (CSharp)/Night 13/34 Randomised checks.txt
+13;Ledger;CSharp;35;Recurring vouchers;feature;3;yes;4;A Ledger (CSharp)/Night 13/35 Recurring vouchers.txt
+13;Ledger;CSharp;36;The README stays true;docs;2;yes;4;A Ledger (CSharp)/Night 13/36 The README stays true.txt
+14;Gridcalc;TypeScript;29;Pivot summary;feature;3;yes;4;B Gridcalc (TypeScript)/Night 14/29 Pivot summary.txt
+14;Gridcalc;TypeScript;30;Sorting a range;feature;3;yes;4;B Gridcalc (TypeScript)/Night 14/30 Sorting a range.txt
+14;Gridcalc;TypeScript;31;Find and replace;feature;2;yes;4;B Gridcalc (TypeScript)/Night 14/31 Find and replace.txt
+14;Gridcalc;TypeScript;32;Charts;feature;3;yes;4;B Gridcalc (TypeScript)/Night 14/32 Charts.txt
+14;Gridcalc;TypeScript;33;Data validation;feature;3;yes;4;B Gridcalc (TypeScript)/Night 14/33 Data validation.txt
+14;Gridcalc;TypeScript;34;Cell comments;migration;2;yes;4;B Gridcalc (TypeScript)/Night 14/34 Cell comments.txt
+14;Gridcalc;TypeScript;35;Big sheets on the page;performance;2;yes;4;B Gridcalc (TypeScript)/Night 14/35 Big sheets on the page.txt
+14;Gridcalc;TypeScript;36;Reading .xlsx files without packages;format;3;yes;4;B Gridcalc (TypeScript)/Night 14/36 Reading .xlsx files without packages.txt
+14;Gridcalc;TypeScript;37;A function reference page;docs;3;yes;4;B Gridcalc (TypeScript)/Night 14/37 A function reference page.txt

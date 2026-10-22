@@ -1,0 +1,14 @@
+Fuzzing the input
+
+Now: Strange input has never been tried.
+
+Should: A Go fuzz test for decoding and validating the input JSON, with seed cases in testdata/fuzz. Ordinary "go test" runs the seed cases. No input may cause a panic.
+
+Part 1: The fuzz test and its seed cases.
+Done when: "go test ./..." runs the seed cases and passes.
+
+Part 2: Fixing every panic found in a short fuzz run.
+Done when: A seed case is added for each panic found, and "go test ./..." passes with them.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

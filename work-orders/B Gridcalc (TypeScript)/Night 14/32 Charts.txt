@@ -1,0 +1,17 @@
+Charts
+
+Now: There is no way to see numbers as a chart.
+
+Should: GET /api/chart?range=A1:B12&type=bar|line returns an SVG chart with axis labels and the first column as categories. Text is escaped. The page shows the chart in a side panel.
+
+Part 1: The SVG bar chart.
+Done when: A test checks one rect per value and the axis labels.
+
+Part 2: The line chart.
+Done when: A test checks the path points.
+
+Part 3: Escaping and the page panel.
+Done when: A test with "<script>" in a category finds it escaped.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

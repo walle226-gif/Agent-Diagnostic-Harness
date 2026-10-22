@@ -1,0 +1,14 @@
+Error values
+
+Now: Bad formulas give crashes or JavaScript values like NaN and Infinity.
+
+Should: The error values #DIV/0!, #REF!, #NAME? and #VALUE! are produced where they apply and pass through operators and functions. SUM over a range that contains an error returns that error. IFERROR(x, fallback) catches them.
+
+Part 1: Producing and passing on the four errors.
+Done when: A test per error, plus one where an error passes through two levels of formulas.
+
+Part 2: The IFERROR function.
+Done when: Tests cover IFERROR with and without an error.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

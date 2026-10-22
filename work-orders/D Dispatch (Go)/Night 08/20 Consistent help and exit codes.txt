@@ -1,0 +1,14 @@
+Consistent help and exit codes
+
+Now: Commands report errors in different ways.
+
+Should: Every command supports -h with usage and one example. Exit codes are 0 for OK, 1 for invalid input, 2 for a usage error and 4 for an urgent job not placed. An unknown command suggests the closest command name.
+
+Part 1: Help on every command.
+Done when: A test runs -h on every command and checks for a usage line and an example.
+
+Part 2: The exit codes and the suggestion.
+Done when: A table-driven test covers each code, and "dispatch plna" suggests "plan".
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

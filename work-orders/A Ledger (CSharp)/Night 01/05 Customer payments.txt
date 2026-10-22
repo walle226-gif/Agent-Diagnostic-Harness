@@ -1,0 +1,17 @@
+Customer payments
+
+Now: There is no link between a customer invoice and its payment, so nobody can see what is still unpaid.
+
+Should: "ledger pay K3 --amount 500.00 --date 2026-10-20" books 1930 debit and 1510 credit, linked to K3. Partial payments are allowed, overpayment is not.
+
+Part 1: Track the open amount of each K voucher: gross minus linked payments.
+Done when: A test with two partial payments on one invoice leaves the right open amount.
+
+Part 2: The "ledger pay" command, and "ledger open" listing unpaid K vouchers with their open amount.
+Done when: CLI tests for both commands pass.
+
+Part 3: Paying more than the open amount is refused with a message that states the open amount.
+Done when: A test overpays by 0.01 SEK, gets the message and nothing is saved.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

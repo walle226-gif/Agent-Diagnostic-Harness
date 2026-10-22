@@ -1,0 +1,14 @@
+A self-check command
+
+Now: When something is wrong with the setup, the errors only show up later.
+
+Should: "logwatch doctor" checks database integrity (PRAGMA integrity_check), the configuration, write access to outbox/ and that time zone data is available. It prints OK or a problem per check, and exits with code 1 if any check fails.
+
+Part 1: The four checks.
+Done when: A test with everything in order gets exit code 0.
+
+Part 2: Problems reported clearly.
+Done when: Tests with a broken configuration and a read-only outbox get exit code 1 and the right messages.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

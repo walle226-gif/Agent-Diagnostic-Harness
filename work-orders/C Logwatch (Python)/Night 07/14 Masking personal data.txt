@@ -1,0 +1,17 @@
+Masking personal data
+
+Now: IP addresses and e-mail addresses are stored in plain text.
+
+Should: IPv4 and IPv6 addresses and e-mail addresses in stored fields and messages are replaced with a keyed hash (HMAC-SHA256, with the key from the configuration), so the same address always gets the same mask. An option keeps the first part of IPv4 addresses. "--no-mask" turns masking off for development.
+
+Part 1: Finding and masking the three kinds of data.
+Done when: Tests cover IPv4, IPv6, an e-mail inside a message, and text that only looks like an address.
+
+Part 2: Stable masks across runs, and the option to keep the first part of IPv4 addresses.
+Done when: Tests check that the same address gives the same mask in two runs, and check the kept part.
+
+Part 3: Masking during ingest, and "--no-mask".
+Done when: A test ingests a sample and finds no plain IP address in the database.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

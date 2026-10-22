@@ -1,0 +1,14 @@
+Long chains do not crash
+
+Now: Deep chains of formulas can overflow the JavaScript stack.
+
+Should: A chain of 10,000 cells (A1=A2+1, A2=A3+1 and so on) evaluates without a stack overflow, using an iterative evaluation. 100,000 independent cells recalculate in under 2 seconds.
+
+Part 1: Iterative evaluation instead of deep recursion.
+Done when: A test with a 10,000-cell chain gets the right value at the top.
+
+Part 2: Speed for large sheets.
+Done when: A test with 100,000 cells recalculates in under 2 seconds.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

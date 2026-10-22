@@ -1,0 +1,14 @@
+Keyboard navigation
+
+Now: Cells can only be selected with the mouse.
+
+Should: Arrow keys move the selection, Enter or F2 starts editing, Escape cancels an edit, and Tab moves right. The selected cell has aria-selected="true".
+
+Part 1: A pure function (state, key) returning the new state, in its own module.
+Done when: Unit tests cover every key, and the edges of the grid.
+
+Part 2: Wiring it into the page.
+Done when: A test of the served page finds the keyboard script loaded and a cell with aria-selected.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

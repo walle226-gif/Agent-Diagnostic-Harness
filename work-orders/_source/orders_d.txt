@@ -1,0 +1,276 @@
+=== D01 | 1 | feature | Time windows
+Now: Jobs are planned without looking at when the customer is available.
+Should: A job starts inside its window [earliest, latest]. A technician who arrives early waits. A job that cannot fit anywhere is listed as unassigned with the reason "time window".
+P: Checking windows in the planner, with waiting.
+D: Tests cover an early arrival that waits and a job started on time.
+P: Unassigned jobs with a reason.
+D: A test with a job whose window has passed lists it with "time window".
+
+=== D02 | 1 | feature | Skills
+Now: Any technician can be sent to any job.
+Should: A job's required skills must all be among the technician's skills. A job nobody can do is unassigned with the reason "no technician with skills: ...".
+P: Checking skills in the planner.
+D: Tests cover a match, a partial match and a job with no required skills.
+P: The reason text.
+D: A test checks the reason names the missing skills, sorted.
+
+=== D03 | 1 | feature | Shorter routes with 2-opt
+Now: Each technician's route keeps the order the jobs were given in.
+Should: Each route is improved with 2-opt: reversing a part of the route when that shortens it, as long as every time window still holds. Total distance never gets longer, and the result is the same on every run.
+P: 2-opt on a single route, without time windows.
+D: A test with a crossed route of six points finds the uncrossed order.
+P: Respecting time windows.
+D: A test where the shortest order would break a window keeps a valid order.
+P: Using it in the planner.
+D: A test on testdata shows a total distance no longer than before, and two runs give identical plans.
+
+=== D04 | 1 | feature | A travel time model
+Now: Travel time assumes 50 km/h everywhere.
+Should: 30 km/h when the midpoint of the trip is within 10 km of Stockholm city centre (59.3293, 18.0686), and 70 km/h otherwise. Travel times between places are computed once and reused.
+P: The speed rule.
+D: Tests cover a trip in the centre, one outside and one that crosses the boundary.
+P: Reusing computed times.
+D: A test counts distance calculations and finds each pair computed once.
+
+=== D05 | 1 | feature | Lunch breaks
+Now: Technicians work all day without a break.
+Should: A shift longer than 6 hours gets a 30-minute lunch that starts between 11:00 and 13:00, placed where it delays the route least. The plan shows the break.
+P: Placing the break.
+D: Tests cover a short shift with no break and a long shift with the break in the window.
+P: The break in the plan output.
+D: A CLI test finds the break with its start time.
+
+=== D06 | 1 | feature | An HTTP API
+Now: Planning only works from the command line.
+Should: "dispatch serve -addr :8090" serves POST /plan with {"jobs": [...], "techs": [...]}. Invalid input gets 400 with a list of errors naming the field path, such as "jobs[3].earliest: must be HH:MM".
+P: The server and the endpoint.
+D: A test with net/http/httptest gets a plan back for the test data.
+P: Validation with field paths.
+D: Tests cover a bad time, a missing id and an unknown skill format, each naming its field.
+
+=== D07 | 1 | feature | Urgent jobs
+Now: All jobs are treated the same.
+Should: Jobs with priority "urgent" are placed before normal jobs. If an urgent job cannot be placed, the plan lists it under "urgent_unassigned" and the CLI exits with code 4.
+P: Placing urgent jobs first.
+D: A test where only one job fits places the urgent one.
+P: Reporting urgent jobs that could not be placed.
+D: A CLI test gets exit code 4 and the job listed.
+
+=== D08 | 1 | feature | Why this technician?
+Now: Nobody can tell why a job went to a particular technician.
+Should: "dispatch explain -job J7 -jobs ... -techs ..." lists every technician with their cost for that job (travel minutes, waiting, skills OK or not, window OK or not), and marks the one chosen.
+P: Collecting the cost parts for each technician.
+D: A test checks each part for one job.
+P: The command and its output.
+D: A CLI test finds the chosen technician marked and one line per technician.
+
+=== D09 | 1 | concurrency | The same plan on any number of cores
+Now: Planning several days runs one day after another.
+Should: Days are planned in parallel goroutines, and the output is identical whether one core or many are used.
+P: Planning days in parallel.
+D: A test plans five days and gets five plans.
+P: Identical output.
+D: A test plans the same week with GOMAXPROCS 1 and 8 and compares the JSON byte for byte.
+
+=== D09b | 1 | edge | Input files with clear errors
+Now: A mistake in the jobs or technicians file can give a strange plan instead of an error.
+Should: Before planning, the input is checked for duplicate ids, a window that ends before it starts, a shift that ends before it starts, and coordinates outside the valid range. Every problem is listed with its file and position, and the CLI exits with code 1.
+P: The four checks.
+D: A test per check names the right job or technician.
+P: Listing all problems at once, not only the first.
+D: A test with three problems gets all three.
+P: The CLI output and exit code.
+D: A CLI test gets exit code 1 and one line per problem.
+
+=== D09c | 1 | feature | Starting and ending at home
+Now: Routes end at the last job, so the drive home is never counted.
+Should: Every route starts at the technician's home and must be back home by the end of the shift. The plan shows the time back home, and the drive home counts in km and time.
+P: The drive home in the route and the shift check.
+D: A test where the last job would make the technician late home leaves it unassigned with the reason "shift end".
+P: The time back home and the km in the output.
+D: A CLI test checks the time back home for one technician.
+
+=== D10 | 2 | feature | Planning several days
+Now: Only one day can be planned at a time.
+Should: Jobs have a date range. Jobs that cannot be placed on a day carry over to the next day in their range. "dispatch plan -week 2026-11-02" plans Monday to Friday.
+P: Date ranges on jobs.
+D: Tests cover a job for one day only and a job for a whole week.
+P: Carrying jobs over.
+D: A test with too many jobs for Monday finds the rest on Tuesday.
+P: The week option.
+D: A CLI test gets five days of plans.
+
+=== D11 | 2 | feature | Re-planning after a sick call
+Now: If a technician goes home sick, the whole day has to be planned again.
+Should: "dispatch replan -plan today.json -at 10:00 -absent T2" keeps finished and started jobs, moves T2's remaining jobs to others with as few changes as possible, and reports how many jobs changed technician.
+P: Working out which jobs are fixed at a given time.
+D: Tests cover finished, started and not-started jobs.
+P: Moving the remaining jobs with few changes.
+D: A test checks that only T2's jobs move, and the reported count.
+
+=== D12 | 2 | feature | Overtime and shift limits
+Now: Shifts can grow without limit.
+Should: A workday is never longer than 10 hours. Time after 8 hours counts 1.5 times in the plan's cost, so the planner prefers spreading work over overtime.
+P: The 10-hour limit.
+D: A test with too much work leaves jobs unassigned with the reason "shift limit".
+P: Overtime in the cost.
+D: A test where work can be split between two technicians avoids overtime.
+
+=== D13 | 2 | feature | A customer's preferred technician
+Now: Customers who want the same technician as last time cannot ask for it.
+Should: A job can name a preferred technician. The preference is followed if it adds at most 15 minutes of travel, and otherwise ignored.
+P: The preference rule.
+D: Tests cover a preference followed and one ignored for being too far.
+P: Showing in the plan whether each preference was met.
+D: A CLI test finds "preference met" and "preference not met" in the output.
+
+=== D14 | 2 | format | Route pictures
+Now: Plans can only be read as JSON.
+Should: "dispatch svg -plan plan.json -out plan.svg" draws each technician's route in its own colour, with numbered job labels. All text is escaped.
+P: Drawing routes and labels.
+D: A test checks one path per technician and one label per job.
+P: Escaping.
+D: A test with "<b>" in an address finds it escaped.
+
+=== D15 | 2 | performance | Planning speed
+Now: Nobody knows how the planner behaves with a big day.
+Should: 500 jobs and 20 technicians are planned in under 3 seconds. A Go benchmark measures it but is not run by default.
+P: A generator for big test instances, with a fixed seed.
+D: A test generates the same instance twice.
+P: Making planning fast enough.
+D: A test plans 500 jobs and 20 technicians in under 3 seconds.
+
+=== D16 | 2 | migration | Saved plans and comparing them
+Now: Plans are not saved.
+Should: Plans are saved as JSON with a schema version. "dispatch diff a.json b.json" lists jobs that moved to another technician or more than 30 minutes in time.
+P: Saving and loading with a schema version, refusing unknown versions.
+D: Tests cover a round trip and a version 99 file.
+P: The diff command.
+D: A test with two plans lists exactly the moved jobs.
+
+=== D17 | 2 | testing | Fuzzing the input
+Now: Strange input has never been tried.
+Should: A Go fuzz test for decoding and validating the input JSON, with seed cases in testdata/fuzz. Ordinary "go test" runs the seed cases. No input may cause a panic.
+P: The fuzz test and its seed cases.
+D: "go test ./..." runs the seed cases and passes.
+P: Fixing every panic found in a short fuzz run.
+D: A seed case is added for each panic found, and "go test ./..." passes with them.
+
+=== D18 | 2 | ux | Consistent help and exit codes
+Now: Commands report errors in different ways.
+Should: Every command supports -h with usage and one example. Exit codes are 0 for OK, 1 for invalid input, 2 for a usage error and 4 for an urgent job not placed. An unknown command suggests the closest command name.
+P: Help on every command.
+D: A test runs -h on every command and checks for a usage line and an example.
+P: The exit codes and the suggestion.
+D: A table-driven test covers each code, and "dispatch plna" suggests "plan".
+
+=== D18b | 2 | feature | Arrival windows for customers
+Now: Customers are not told when to expect the technician.
+Should: Each planned job gets a two-hour arrival window for the customer, centred on the planned arrival and rounded to the half hour. "dispatch notices -plan plan.json" writes them as a Swedish CSV file.
+P: Calculating the windows.
+D: Tests cover arrivals at 08:10, 08:15 and 08:45, and a window that would start before the shift.
+P: The notices command.
+D: A test checks the header and one line, with å, ä and ö in a customer address.
+
+=== D18c | 2 | feature | Technician absences
+Now: A technician is either working all day or not at all.
+Should: Technicians can have absences: whole days or part of a day (for example 13:00–15:00). Nothing is planned during an absence, and a route that crosses one waits until it ends.
+P: Absences in the technician model and the input file.
+D: Tests load whole-day and part-day absences.
+P: Respecting whole-day absences.
+D: A test plans a week where one technician is away on Wednesday and gets no jobs that day.
+P: Respecting part-day absences.
+D: A test with an absence from 13:00 to 15:00 has no job overlapping it.
+
+=== D19 | 3 | refactor | Split the solver package
+Now: The solver has grown into a few large files.
+Should: The solver is organised as construct/, improve/ and cost/ packages, with no file over 300 lines and no change in behaviour.
+P: Move the code into the three packages.
+D: Every existing test passes unchanged.
+P: A test that fails if any .go file under internal/ is over 300 lines.
+D: The new test passes.
+N: This order changes structure only. The existing tests are its check, and the new size test may already pass on today's code.
+
+=== D20 | 3 | feature | Road travel times from a file
+Now: Travel times come only from the speed model.
+Should: An optional CSV file (from_id;to_id;minutes) gives real travel times. Pairs missing from the file fall back to the speed model, and the plan reports how many pairs fell back.
+P: Reading the file.
+D: Tests cover a good file and lines with errors (reported with line numbers).
+P: Using the file with the fallback.
+D: A test with half the pairs in the file reports the right fallback count.
+
+=== D21 | 3 | feature | Van capacity
+Now: Material is not considered.
+Should: Jobs need a material volume, and technicians have a van capacity. A route's total material never exceeds its van.
+P: The capacity check.
+D: A test where one van is too small sends the job to another technician.
+P: The reason "van capacity" for jobs that fit nowhere.
+D: A test checks the reason.
+
+=== D22 | 3 | feature | Picking up material first
+Now: Jobs that need material from the depot can be planned before the technician has collected it.
+Should: A job with "pickup_at" set to a depot must be preceded by a visit to that depot on the same route.
+P: The order rule in route building.
+D: A test checks the depot comes before the job.
+P: Keeping the rule during 2-opt.
+D: A test where 2-opt would break the order keeps a valid order.
+
+=== D23 | 3 | feature | Better plans across technicians
+Now: Jobs never move between technicians once placed.
+Should: After building, the planner tries moving a job to another technician (relocate) and exchanging two jobs (swap), keeping only changes that lower the total cost and break no rule. The result is the same on every run.
+P: The relocate move.
+D: A test on a planted bad plan finds a lower cost.
+P: The swap move.
+D: A test on a different planted case finds a lower cost.
+P: Same result on every run.
+D: A test plans twice and compares the JSON byte for byte.
+
+=== D24 | 3 | feature | A time limit
+Now: Planning takes as long as it takes.
+Should: "-time-limit 2s" stops improving when time runs out and returns the best plan found so far, using a context deadline. A plan is always returned.
+P: The deadline in the improvement loop.
+D: A test with a 10 ms limit gets a valid plan.
+P: Reporting whether the limit was reached.
+D: A test checks the flag in the output.
+
+=== D25 | 3 | format | A plan quality report
+Now: It is hard to judge whether a plan is good.
+Should: "dispatch report -plan plan.json" writes Markdown: per technician the share of the shift spent working, idle time, km and overtime, then totals.
+P: The numbers.
+D: Tests check each figure for a small plan.
+P: The Markdown output.
+D: A test compares the table with expected text.
+
+=== D26 | 3 | format | Jobs from a CSV file
+Now: Jobs can only be given as JSON.
+Should: "dispatch import-jobs jobs.csv" reads a Swedish CSV file (semicolon separator, decimal comma in coordinates, addresses with å, ä and ö), and reports every bad line with its line number before writing anything.
+P: Reading the CSV.
+D: Tests cover decimal commas and Swedish addresses.
+P: Validation with line numbers, all or nothing.
+D: A test with two bad lines writes nothing and names both lines.
+
+=== D27 | 3 | feature | Same request, same answer
+Now: Sending the same planning request twice can give two different plans.
+Should: POST /plan with an "Idempotency-Key" header returns the same response for the same key for 24 hours. The same key with a different body gets 422.
+P: Storing responses by key.
+D: An httptest test sends the same request twice and gets identical bodies.
+P: A different body with the same key.
+D: A test gets 422.
+P: Expiry after 24 hours, with a clock that tests can set.
+D: A test moves the clock forward 25 hours, and the key is accepted for a new plan.
+
+=== D27b | 3 | feature | Adding one job to a plan
+Now: A job that comes in during the day means planning everything again.
+Should: POST /plan/insert takes an existing plan and one new job, and places the job where it adds the least cost without breaking any rule. It returns the new plan and a list of what changed.
+P: Cheapest insertion into an existing plan.
+D: A test inserts a job and checks that no other job changes technician.
+P: The endpoint and the list of changes.
+D: An httptest test checks the response and the changes list.
+
+=== D27c | 3 | ux | Health and simple metrics
+Now: There is no way to see whether the server is running well.
+Should: GET /health answers "ok". GET /metrics answers in plain text with plans served, the average planning time and the number of errors since start.
+P: The health endpoint.
+D: An httptest test gets 200 and "ok".
+P: The metrics counters.
+D: A test makes two plans and one bad request, and the metrics show 2 plans and 1 error.

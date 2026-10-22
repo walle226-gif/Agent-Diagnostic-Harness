@@ -1,0 +1,14 @@
+Big sheets on the page
+
+Now: A sheet with 100,000 rows would put 100,000 rows in the page.
+
+Should: The page renders only the rows that are visible, plus a small margin (virtual scrolling), so the page never holds more than 100 rows at once.
+
+Part 1: A pure function giving the visible row range from scroll position, row height and window height.
+Done when: Unit tests cover the top, the middle, the bottom and a window taller than the sheet.
+
+Part 2: Using it on the page, loading rows in blocks.
+Done when: An API test fetches rows 50,000 to 50,050 in one call, and a unit test checks that the page state never holds more than 100 rows.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

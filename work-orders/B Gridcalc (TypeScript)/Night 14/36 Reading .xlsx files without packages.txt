@@ -1,0 +1,17 @@
+Reading .xlsx files without packages
+
+Now: Excel files cannot be opened.
+
+Should: "node dist/cli.js import-xlsx file.xlsx" reads the values (not formulas) of the first sheet, using Node's zlib and a small reader for the zip directory. It handles shared strings and numbers, and refuses other files with a clear message.
+
+Part 1: A zip reader that lists entries and inflates a named one.
+Done when: Tests read entries from a small zip built in the test with zlib.
+
+Part 2: Reading the sheet and the shared strings into cells.
+Done when: A test with a small .xlsx fixture in tests/fixtures checks the cell values.
+
+Part 3: The CLI command and the refusal.
+Done when: Tests cover a good file and a text file renamed to .xlsx.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

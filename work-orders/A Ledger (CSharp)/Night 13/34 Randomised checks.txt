@@ -1,0 +1,14 @@
+Randomised checks
+
+Now: Tests use a few hand-picked examples.
+
+Should: A seeded random generator of balanced vouchers, and property tests that run 200 cases each: the trial balance always sums to zero, SIE export then import gives the same balances, and a correction never changes the original voucher.
+
+Part 1: The generator, with a fixed seed in the tests.
+Done when: A test generates vouchers twice with the same seed and gets identical results.
+
+Part 2: The three properties.
+Done when: Three tests each run 200 cases and pass, and a failing case prints its seed.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,17 @@
+Local time and the October clock change
+
+Now: Timestamps without an offset are stored as if they were UTC.
+
+Should: Each source has a time zone (default Europe/Stockholm, using zoneinfo). Timestamps without an offset are converted to UTC. In the repeated hour on 2026-10-25 (02:00 to 03:00 happens twice), lines are given the first or second occurrence by their order in the file: when the clock goes backwards, switch to the second.
+
+Part 1: Converting local timestamps to UTC.
+Done when: Tests cover a summer time, a winter time and a timestamp that already has an offset.
+
+Part 2: The repeated hour in October.
+Done when: A test with a sample file running from 01:50 through the repeated hour to 03:10 gets strictly increasing UTC times.
+
+Part 3: The hour that does not exist in March (2026-03-29 02:30) counts as an invalid line, with a warning.
+Done when: A test checks the warning count and that the line is not stored.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

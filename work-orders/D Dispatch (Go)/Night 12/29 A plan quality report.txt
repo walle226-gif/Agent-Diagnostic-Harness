@@ -1,0 +1,14 @@
+A plan quality report
+
+Now: It is hard to judge whether a plan is good.
+
+Should: "dispatch report -plan plan.json" writes Markdown: per technician the share of the shift spent working, idle time, km and overtime, then totals.
+
+Part 1: The numbers.
+Done when: Tests check each figure for a small plan.
+
+Part 2: The Markdown output.
+Done when: A test compares the table with expected text.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

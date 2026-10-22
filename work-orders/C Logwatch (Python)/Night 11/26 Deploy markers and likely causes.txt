@@ -1,0 +1,14 @@
+Deploy markers and likely causes
+
+Now: Error spikes are not linked to what changed.
+
+Should: A markers file (timestamp; text) records deploys. For each anomaly, the report shows the nearest marker within the 30 minutes before it, and the templates (order 25) that are new or at least five times more common than in the previous hour.
+
+Part 1: Reading markers and finding the nearest one.
+Done when: Tests cover a marker in the window, one too early, and none at all.
+
+Part 2: New and growing templates for an anomaly window.
+Done when: A test with a planted new error message finds it as the top cause.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

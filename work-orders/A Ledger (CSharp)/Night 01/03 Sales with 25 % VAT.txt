@@ -1,0 +1,14 @@
+Sales with 25 % VAT
+
+Now: A sale has to be entered as a hand-made voucher with three lines, and the VAT worked out by hand.
+
+Should: "ledger sale --gross 1249.00 --text ..." creates a K voucher: 1510 debit gross, 3001 credit net, 2610 credit VAT. VAT is gross × 0.20, rounded to whole öre, half away from zero, and net is gross minus VAT.
+
+Part 1: A VAT split function in Core (gross to net and VAT at 25 %) with the rounding rule above.
+Done when: Tests cover 1249.00, 99.99 and 0.05 SEK with exact expected amounts.
+
+Part 2: The "ledger sale" command builds and saves the voucher.
+Done when: A CLI test adds a sale, and "ledger balance" shows 1510, 2610 and 3001 with the right amounts.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

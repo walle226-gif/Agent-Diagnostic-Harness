@@ -1,0 +1,14 @@
+Exporting events
+
+Now: Events cannot be taken to other tools.
+
+Should: "logwatch export --format csv|jsonl --query '...'" streams matching events to standard output or a file. The output carries a schema version: a comment line in CSV, a field in JSON lines.
+
+Part 1: CSV export.
+Done when: A test checks the header, the schema line and one row.
+
+Part 2: JSON lines export.
+Done when: A test parses every line and checks the schema version.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

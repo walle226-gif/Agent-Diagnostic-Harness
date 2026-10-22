@@ -1,0 +1,14 @@
+Health and simple metrics
+
+Now: There is no way to see whether the server is running well.
+
+Should: GET /health answers "ok". GET /metrics answers in plain text with plans served, the average planning time and the number of errors since start.
+
+Part 1: The health endpoint.
+Done when: An httptest test gets 200 and "ok".
+
+Part 2: The metrics counters.
+Done when: A test makes two plans and one bad request, and the metrics show 2 plans and 1 error.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

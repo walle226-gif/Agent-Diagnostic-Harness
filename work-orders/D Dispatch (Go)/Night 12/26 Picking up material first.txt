@@ -1,0 +1,14 @@
+Picking up material first
+
+Now: Jobs that need material from the depot can be planned before the technician has collected it.
+
+Should: A job with "pickup_at" set to a depot must be preceded by a visit to that depot on the same route.
+
+Part 1: The order rule in route building.
+Done when: A test checks the depot comes before the job.
+
+Part 2: Keeping the rule during 2-opt.
+Done when: A test where 2-opt would break the order keeps a valid order.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

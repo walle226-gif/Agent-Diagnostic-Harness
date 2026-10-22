@@ -1,0 +1,14 @@
+Overtime and shift limits
+
+Now: Shifts can grow without limit.
+
+Should: A workday is never longer than 10 hours. Time after 8 hours counts 1.5 times in the plan's cost, so the planner prefers spreading work over overtime.
+
+Part 1: The 10-hour limit.
+Done when: A test with too much work leaves jobs unassigned with the reason "shift limit".
+
+Part 2: Overtime in the cost.
+Done when: A test where work can be split between two technicians avoids overtime.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

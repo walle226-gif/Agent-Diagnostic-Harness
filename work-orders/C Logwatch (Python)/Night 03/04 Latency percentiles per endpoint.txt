@@ -1,0 +1,17 @@
+Latency percentiles per endpoint
+
+Now: There is no way to see which endpoints are slow.
+
+Should: "logwatch report latency --top 10" shows p50, p95 and p99 per endpoint, using the nearest-rank method. Paths are normalised first: numbers become {id} and UUIDs become {uuid}, so /users/123 and /users/456 count as one endpoint.
+
+Part 1: Path normalisation.
+Done when: Tests cover numbers, UUIDs, query strings (removed) and a trailing slash.
+
+Part 2: Nearest-rank percentiles.
+Done when: Tests with known lists check each percentile, including a list of one value.
+
+Part 3: The CLI table, sorted by p95.
+Done when: A CLI test checks the first row for a sample.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

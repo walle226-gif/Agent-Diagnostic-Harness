@@ -1,0 +1,14 @@
+Saved plans and comparing them
+
+Now: Plans are not saved.
+
+Should: Plans are saved as JSON with a schema version. "dispatch diff a.json b.json" lists jobs that moved to another technician or more than 30 minutes in time.
+
+Part 1: Saving and loading with a schema version, refusing unknown versions.
+Done when: Tests cover a round trip and a version 99 file.
+
+Part 2: The diff command.
+Done when: A test with two plans lists exactly the moved jobs.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

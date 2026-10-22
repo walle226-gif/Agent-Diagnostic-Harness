@@ -1,0 +1,17 @@
+Inserting and deleting rows and columns
+
+Now: Rows and columns cannot be inserted or deleted.
+
+Should: Inserting or deleting a row or column moves the cells and updates every formula that refers to them. A reference to a deleted cell becomes #REF!. The API has POST /api/insert and POST /api/delete.
+
+Part 1: Updating references when rows or columns shift.
+Done when: Tests cover insert above, insert inside a range, and delete of a referenced cell.
+
+Part 2: Moving the cells, and the two endpoints.
+Done when: API tests insert a row and delete a column, and read back the formulas.
+
+Part 3: Buttons on the page for the selected row or column.
+Done when: A test of the served page finds the four buttons by their labels.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

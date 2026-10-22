@@ -1,0 +1,14 @@
+Lazy IF and logic functions
+
+Now: There is no way to choose between values.
+
+Should: IF(condition, a, b) evaluates only the branch it returns, so "=IF(TRUE,1,1/0)" is 1. AND, OR and NOT work, and an error only matters if its argument is actually evaluated.
+
+Part 1: IF with lazy evaluation.
+Done when: Tests include "=IF(TRUE,1,1/0)" giving 1 and "=IF(FALSE,1,1/0)" giving #DIV/0!.
+
+Part 2: AND, OR and NOT.
+Done when: Tests cover each function, including OR stopping at the first TRUE.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,17 @@
+An accessible grid
+
+Now: Screen readers cannot make sense of the grid.
+
+Should: The grid uses role="grid", with row and column headers as rowheader and columnheader, and every cell has an aria-label such as "B3, value 42".
+
+Part 1: The roles in the page.
+Done when: A test of the served page finds role="grid", one columnheader per column and one rowheader per row.
+
+Part 2: A function that builds each cell's label, including errors and empty cells.
+Done when: Unit tests cover a number, text, an error and an empty cell.
+
+Part 3: An aria-live region that announces a cell's new value after an edit, and a visible focus outline.
+Done when: A test of the served page finds the live region and the focus style.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

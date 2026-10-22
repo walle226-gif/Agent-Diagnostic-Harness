@@ -1,0 +1,17 @@
+Planning several days
+
+Now: Only one day can be planned at a time.
+
+Should: Jobs have a date range. Jobs that cannot be placed on a day carry over to the next day in their range. "dispatch plan -week 2026-11-02" plans Monday to Friday.
+
+Part 1: Date ranges on jobs.
+Done when: Tests cover a job for one day only and a job for a whole week.
+
+Part 2: Carrying jobs over.
+Done when: A test with too many jobs for Monday finds the rest on Tuesday.
+
+Part 3: The week option.
+Done when: A CLI test gets five days of plans.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

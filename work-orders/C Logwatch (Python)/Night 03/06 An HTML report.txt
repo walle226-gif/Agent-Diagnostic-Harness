@@ -1,0 +1,17 @@
+An HTML report
+
+Now: Results can only be read in the console.
+
+Should: "logwatch report html out.html" writes one static file with no external files: summary, anomalies, latency and sessions, plus a small inline SVG chart of requests per hour. Every piece of text that comes from a log is HTML-escaped.
+
+Part 1: The page with the four sections.
+Done when: A test finds all four section headings in the output.
+
+Part 2: The SVG chart of requests per hour.
+Done when: A test checks one point per hour in the chart.
+
+Part 3: Escaping.
+Done when: A test with a request path containing "<script>alert(1)</script>" finds it escaped and finds no unescaped "<script>" in the file.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

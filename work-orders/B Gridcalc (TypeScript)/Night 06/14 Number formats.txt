@@ -1,0 +1,14 @@
+Number formats
+
+Now: Numbers show as plain JavaScript numbers, such as 0.30000000000000004.
+
+Should: Each cell can have a format: decimals, thousands separator, percent, and locale "sv-SE" or "en-US". Swedish uses a space for thousands and a comma for decimals. The format changes only what is shown, never the value.
+
+Part 1: A formatting function for all the options.
+Done when: Tests cover 1234567.891 in both locales, a percent, and 0.1+0.2 with 2 decimals.
+
+Part 2: Formats stored with the cells and used on the page.
+Done when: An API test sets a format and gets the formatted text back, with the raw value unchanged.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

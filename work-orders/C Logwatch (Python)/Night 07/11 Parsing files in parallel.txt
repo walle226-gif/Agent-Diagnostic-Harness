@@ -1,0 +1,14 @@
+Parsing files in parallel
+
+Now: Files are parsed one after another.
+
+Should: With "--jobs N", files are parsed in parallel worker processes while one process writes to the database. The result is the same as without "--jobs". It works on Windows, where worker processes start fresh.
+
+Part 1: Parallel parsing with multiprocessing and a single writer.
+Done when: A test ingests four files with "--jobs 1" and "--jobs 4" into two databases and gets identical event tables.
+
+Part 2: An error in one file does not stop the others.
+Done when: A test with one unreadable file still ingests the other three and reports the failure.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

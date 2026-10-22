@@ -1,0 +1,14 @@
+A time limit
+
+Now: Planning takes as long as it takes.
+
+Should: "-time-limit 2s" stops improving when time runs out and returns the best plan found so far, using a context deadline. A plan is always returned.
+
+Part 1: The deadline in the improvement loop.
+Done when: A test with a 10 ms limit gets a valid plan.
+
+Part 2: Reporting whether the limit was reached.
+Done when: A test checks the flag in the output.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

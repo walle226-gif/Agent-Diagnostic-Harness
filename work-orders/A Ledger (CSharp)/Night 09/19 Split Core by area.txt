@@ -1,0 +1,14 @@
+Split Core by area
+
+Now: Ledger.Core has grown with every order and is hard to find your way in.
+
+Should: Ledger.Core is organised in the folders and namespaces Accounting, Vat, Sie, Reports and Storage, with no .cs file over 400 lines, and no change in behaviour.
+
+Part 1: Move and split the code into the five areas.
+Done when: Every existing test passes unchanged, and a new test fails if any .cs file in Ledger.Core is over 400 lines.
+
+Part 2: An "Architecture" section in the README describing the five areas.
+Done when: The README lists all five areas with one sentence each.
+
+This order changes structure only. The existing tests are its check, and the new size test may already pass on today's code.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

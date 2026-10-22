@@ -1,0 +1,14 @@
+Large ledgers stay fast
+
+Now: Nobody knows how the ledger behaves with a real year's worth of vouchers.
+
+Should: With 100,000 vouchers, "ledger balance" finishes in under 5 seconds.
+
+Part 1: "ledger generate --count N --seed S" creates realistic, balanced random vouchers for testing; the same seed gives the same data.
+Done when: A test generates 1,000 vouchers twice with one seed and gets identical files, all balanced.
+
+Part 2: Make loading and the trial balance fast enough.
+Done when: A test with 100,000 generated vouchers runs "balance" in under 5 seconds.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

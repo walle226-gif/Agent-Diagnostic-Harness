@@ -1,0 +1,17 @@
+Shorter routes with 2-opt
+
+Now: Each technician's route keeps the order the jobs were given in.
+
+Should: Each route is improved with 2-opt: reversing a part of the route when that shortens it, as long as every time window still holds. Total distance never gets longer, and the result is the same on every run.
+
+Part 1: 2-opt on a single route, without time windows.
+Done when: A test with a crossed route of six points finds the uncrossed order.
+
+Part 2: Respecting time windows.
+Done when: A test where the shortest order would break a window keeps a valid order.
+
+Part 3: Using it in the planner.
+Done when: A test on testdata shows a total distance no longer than before, and two runs give identical plans.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

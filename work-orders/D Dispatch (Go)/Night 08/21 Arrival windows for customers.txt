@@ -1,0 +1,14 @@
+Arrival windows for customers
+
+Now: Customers are not told when to expect the technician.
+
+Should: Each planned job gets a two-hour arrival window for the customer, centred on the planned arrival and rounded to the half hour. "dispatch notices -plan plan.json" writes them as a Swedish CSV file.
+
+Part 1: Calculating the windows.
+Done when: Tests cover arrivals at 08:10, 08:15 and 08:45, and a window that would start before the shift.
+
+Part 2: The notices command.
+Done when: A test checks the header and one line, with å, ä and ö in a customer address.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,17 @@
+Two browser tabs at once
+
+Now: Two tabs editing the same sheet silently overwrite each other.
+
+Should: The server keeps a version number. A write with an old version gets 409 with the current value. The page asks GET /api/changes?since=<version> every 2 seconds and updates changed cells.
+
+Part 1: Version numbers and the 409 response.
+Done when: An API test writes twice with the same old version; the second write gets 409.
+
+Part 2: The changes endpoint.
+Done when: An API test gets only the cells changed since a given version.
+
+Part 3: Polling on the page.
+Done when: A unit test of the function that merges changes into the page state.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,14 @@
+Re-planning after a sick call
+
+Now: If a technician goes home sick, the whole day has to be planned again.
+
+Should: "dispatch replan -plan today.json -at 10:00 -absent T2" keeps finished and started jobs, moves T2's remaining jobs to others with as few changes as possible, and reports how many jobs changed technician.
+
+Part 1: Working out which jobs are fixed at a given time.
+Done when: Tests cover finished, started and not-started jobs.
+
+Part 2: Moving the remaining jobs with few changes.
+Done when: A test checks that only T2's jobs move, and the reported count.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

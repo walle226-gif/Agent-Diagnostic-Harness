@@ -1,0 +1,17 @@
+Voucher numbers per series
+
+Now: Vouchers are saved without a number, so there is no way to refer to "voucher A12" or to see that none are missing.
+
+Should: Every saved voucher gets the next number in its series (A manual, K customer invoices, L supplier invoices), with no gaps and no reuse.
+
+Part 1: Add a series and a number to the voucher model. Saving assigns the next free number in the series.
+Done when: A test saves three A vouchers and one K voucher and gets A1, A2, A3 and K1.
+
+Part 2: "ledger list" shows the number first on each line, and "ledger add" takes "--series" (default A).
+Done when: A CLI test adds a voucher with "--series K" and "ledger list" shows K1.
+
+Part 3: Numbers survive a restart: reloading the company file continues each series.
+Done when: A test saves A1, reloads the company from disk, saves again and gets A2.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

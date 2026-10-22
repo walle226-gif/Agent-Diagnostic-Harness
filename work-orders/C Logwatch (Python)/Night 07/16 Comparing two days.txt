@@ -1,0 +1,14 @@
+Comparing two days
+
+Now: There is no way to see what changed between two days.
+
+Should: "logwatch report diff --a 2026-10-19 --b 2026-10-20" lists the endpoints whose error rate and p95 latency changed the most, ignoring endpoints with fewer than 50 requests on either day.
+
+Part 1: The comparison, as a pure function on two sets of numbers.
+Done when: Tests cover an endpoint that got worse, one that got better, and one under the volume limit.
+
+Part 2: The CLI report.
+Done when: A CLI test checks the first row.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,14 @@
+Skills
+
+Now: Any technician can be sent to any job.
+
+Should: A job's required skills must all be among the technician's skills. A job nobody can do is unassigned with the reason "no technician with skills: ...".
+
+Part 1: Checking skills in the planner.
+Done when: Tests cover a match, a partial match and a job with no required skills.
+
+Part 2: The reason text.
+Done when: A test checks the reason names the missing skills, sorted.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

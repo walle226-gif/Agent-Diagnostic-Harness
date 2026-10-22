@@ -1,0 +1,14 @@
+Following one request across files
+
+Now: A request that passes through several services leaves lines in several files that cannot be put together.
+
+Should: JSON lines with a request_id field are stored with that id. "logwatch trace <request_id>" prints every line for that id from all files, in time order, with the time since the first line.
+
+Part 1: Storing request ids, through a database migration (order 22).
+Done when: A test ingests two files that share a request id and finds both lines under it.
+
+Part 2: The trace command.
+Done when: A CLI test prints the lines in time order with the right time offsets.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

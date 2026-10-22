@@ -1,0 +1,17 @@
+Aging report for customers
+
+Now: Nobody can see how late customers are paying.
+
+Should: K invoices get a due date (30 days by default, or "--due" on "ledger sale"). "ledger aging customers --date 2026-11-30" lists open amounts in the buckets not due, 1–30, 31–60, 61–90 and over 90 days late.
+
+Part 1: Due dates on K invoices.
+Done when: Tests cover the default and "--due".
+
+Part 2: The aging report.
+Done when: A test with one invoice in each bucket checks the totals.
+
+Part 3: "--csv" on the aging report, using the CSV writer from order 06.
+Done when: A CLI test checks the header and one customer line.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

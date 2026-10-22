@@ -1,0 +1,14 @@
+Lunch breaks
+
+Now: Technicians work all day without a break.
+
+Should: A shift longer than 6 hours gets a 30-minute lunch that starts between 11:00 and 13:00, placed where it delays the route least. The plan shows the break.
+
+Part 1: Placing the break.
+Done when: Tests cover a short shift with no break and a long shift with the break in the window.
+
+Part 2: The break in the plan output.
+Done when: A CLI test finds the break with its start time.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

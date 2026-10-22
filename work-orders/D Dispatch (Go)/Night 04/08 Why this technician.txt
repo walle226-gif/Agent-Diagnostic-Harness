@@ -1,0 +1,14 @@
+Why this technician?
+
+Now: Nobody can tell why a job went to a particular technician.
+
+Should: "dispatch explain -job J7 -jobs ... -techs ..." lists every technician with their cost for that job (travel minutes, waiting, skills OK or not, window OK or not), and marks the one chosen.
+
+Part 1: Collecting the cost parts for each technician.
+Done when: A test checks each part for one job.
+
+Part 2: The command and its output.
+Done when: A CLI test finds the chosen technician marked and one line per technician.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

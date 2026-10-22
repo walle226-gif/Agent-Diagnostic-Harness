@@ -1,0 +1,17 @@
+Absolute references and copy-paste
+
+Now: Copying a formula to another cell copies it unchanged.
+
+Should: $A$1, $A1 and A$1 are understood. Copying a formula from B2 to C3 moves its relative parts only. POST /api/copy {"from":"B2","to":"C3"} does this on the server.
+
+Part 1: Parsing the $ forms.
+Done when: Parser tests cover all three forms.
+
+Part 2: A function that shifts a formula from one cell to another.
+Done when: Tests cover relative, absolute and mixed references, and a shift that moves off the sheet (giving #REF!).
+
+Part 3: The copy endpoint.
+Done when: An API test copies a formula and reads back the shifted formula and its value.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

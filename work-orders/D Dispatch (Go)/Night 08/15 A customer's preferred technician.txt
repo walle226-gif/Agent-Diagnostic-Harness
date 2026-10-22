@@ -1,0 +1,14 @@
+A customer's preferred technician
+
+Now: Customers who want the same technician as last time cannot ask for it.
+
+Should: A job can name a preferred technician. The preference is followed if it adds at most 15 minutes of travel, and otherwise ignored.
+
+Part 1: The preference rule.
+Done when: Tests cover a preference followed and one ignored for being too far.
+
+Part 2: Showing in the plan whether each preference was met.
+Done when: A CLI test finds "preference met" and "preference not met" in the output.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

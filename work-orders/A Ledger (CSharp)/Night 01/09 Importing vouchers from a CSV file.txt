@@ -1,0 +1,17 @@
+Importing vouchers from a CSV file
+
+Now: Vouchers can only be added one JSON file at a time.
+
+Should: "ledger import vouchers.csv" reads lines of "key;date;series;text;account;debit;credit" (semicolon separator, decimal comma, quoted texts), grouping lines with the same key into one voucher. It is all or nothing: if any voucher is invalid, nothing is saved and a report lists file line numbers and reasons.
+
+Part 1: The CSV reader, with decimal comma and quoted fields.
+Done when: Tests cover quotes, an empty text and "1 234,50" style amounts.
+
+Part 2: Validation and the all-or-nothing save.
+Done when: A test with one unbalanced voucher saves nothing, and the report names its line numbers.
+
+Part 3: The CLI command, printing for example "Imported 12 vouchers (A13–A24)".
+Done when: A CLI test checks the summary line and the new numbers.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

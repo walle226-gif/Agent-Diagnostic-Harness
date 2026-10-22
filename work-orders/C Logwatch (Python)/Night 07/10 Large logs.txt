@@ -1,0 +1,14 @@
+Large logs
+
+Now: Ingest inserts one row at a time, which is slow for big files.
+
+Should: Ingest streams the file and inserts in batches of 5,000 rows, with one transaction per batch, so memory use does not grow with file size. "logwatch bench --lines N" writes a synthetic log for testing.
+
+Part 1: The synthetic log generator, the same output for the same seed.
+Done when: A test generates 1,000 lines twice and gets identical files.
+
+Part 2: Batched inserts.
+Done when: A test ingests 200,000 generated lines in under 20 seconds.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

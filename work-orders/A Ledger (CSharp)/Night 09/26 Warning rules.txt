@@ -1,0 +1,17 @@
+Warning rules
+
+Now: Mistakes such as an empty text or an overdrawn bank account are only found by accident.
+
+Should: Rules in data/rules.json, of three kinds: "account below zero", "empty voucher text" and "more than N days between voucher date and entry date". "ledger check" lists every warning. "ledger add" prints warnings for the new voucher but still saves it.
+
+Part 1: The three rule types.
+Done when: A test triggers each rule once.
+
+Part 2: The "ledger check" command.
+Done when: A CLI test lists two warnings in a fixed order.
+
+Part 3: Warnings shown by "ledger add".
+Done when: A CLI test adds a voucher with an empty text, sees the warning and finds it saved.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

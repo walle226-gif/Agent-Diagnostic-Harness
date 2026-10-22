@@ -1,0 +1,17 @@
+Better plans across technicians
+
+Now: Jobs never move between technicians once placed.
+
+Should: After building, the planner tries moving a job to another technician (relocate) and exchanging two jobs (swap), keeping only changes that lower the total cost and break no rule. The result is the same on every run.
+
+Part 1: The relocate move.
+Done when: A test on a planted bad plan finds a lower cost.
+
+Part 2: The swap move.
+Done when: A test on a different planted case finds a lower cost.
+
+Part 3: Same result on every run.
+Done when: A test plans twice and compares the JSON byte for byte.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

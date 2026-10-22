@@ -1,0 +1,17 @@
+Purchases with input VAT
+
+Now: Purchases are hand-made vouchers, and nothing stops a purchase from being booked on a balance account.
+
+Should: "ledger purchase --gross 625.00 --account 4010 --text ..." creates an L voucher: the cost account debit net, 2640 debit VAT, 2440 credit gross.
+
+Part 1: The "ledger purchase" command, reusing the VAT split from order 03.
+Done when: A CLI test adds a purchase and the balance shows the three accounts with the right amounts.
+
+Part 2: "--account" must be between 4000 and 7999. Other accounts are refused with a message naming the allowed range.
+Done when: A test with "--account 1930" fails with that message and saves nothing.
+
+Part 3: "--no-vat" books the whole amount on the cost account, for purchases without VAT.
+Done when: A test with "--no-vat" gives two lines only and no 2640 line.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

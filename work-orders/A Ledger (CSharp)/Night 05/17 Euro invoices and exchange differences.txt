@@ -1,0 +1,17 @@
+Euro invoices and exchange differences
+
+Now: Invoices in euro cannot be booked.
+
+Should: "ledger sale --currency EUR --amount 100 --fx 11.52" books in SEK and stores currency and rate. When it is paid at a different rate, the difference goes to 3960 (gain) or 7960 (loss).
+
+Part 1: Currency and rate stored on K vouchers.
+Done when: A test books a euro sale and checks the SEK amounts and the stored rate.
+
+Part 2: "ledger pay ... --fx" books the exchange difference.
+Done when: Tests cover one gain and one loss with exact amounts.
+
+Part 3: "ledger open" shows both the euro and the SEK open amount for euro invoices.
+Done when: A CLI test checks one euro line.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

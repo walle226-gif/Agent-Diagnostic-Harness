@@ -1,0 +1,17 @@
+Dates
+
+Now: Dates are just text.
+
+Should: The functions DATE(y,m,d), TODAY(), YEAR, MONTH and DAY. A date plus a number is that many days later. Dates are stored as serial numbers counted from 1900-01-01 = 1, without copying the old spreadsheet bug that treats 1900 as a leap year (document this in the README). TODAY() uses a clock that tests can set.
+
+Part 1: Serial numbers and the date functions.
+Done when: Tests cover 2024-02-29, 2026-12-31 and adding 30 days across a month end.
+
+Part 2: TODAY() with a settable clock.
+Done when: A test sets the clock to 2026-10-22 and checks TODAY().
+
+Part 3: Showing date values as YYYY-MM-DD on the page when a cell has the date format.
+Done when: A unit test of the formatting function.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

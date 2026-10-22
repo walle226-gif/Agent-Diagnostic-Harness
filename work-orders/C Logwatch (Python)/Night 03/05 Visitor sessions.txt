@@ -1,0 +1,14 @@
+Visitor sessions
+
+Now: Requests cannot be grouped into visits.
+
+Should: Requests are grouped by IP and user agent into sessions. A gap of more than 30 minutes starts a new session. "logwatch report sessions" shows the number of sessions, the median session length and the most common first pages.
+
+Part 1: Grouping into sessions, as a pure function.
+Done when: Tests cover a gap of exactly 30 minutes (same session) and 30 minutes and 1 second (new session).
+
+Part 2: The report.
+Done when: A CLI test checks the three figures for a sample.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

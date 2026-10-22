@@ -1,0 +1,14 @@
+Recalculate only what changed
+
+Now: Changing one cell re-evaluates every cell in the sheet.
+
+Should: A dependency graph built from the formulas. Editing a cell re-evaluates only the cells that depend on it, directly or indirectly, in dependency order (a topological sort).
+
+Part 1: Building the graph from parsed references, ranges included.
+Done when: A test checks the dependents of a cell in a small sheet.
+
+Part 2: Incremental recalculation, with an evaluation counter that tests can read.
+Done when: A test with 1,000 cells changes one input and counts exactly the expected number of evaluations.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

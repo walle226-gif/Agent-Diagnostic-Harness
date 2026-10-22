@@ -1,0 +1,17 @@
+Matching a bank file
+
+Now: Customer payments have to be entered one by one.
+
+Should: "ledger bank-import bank.csv" reads lines of "date;amount;reference;text", matches each to an open K invoice by OCR reference first and exact amount second, books the payments, and reports the lines it could not match.
+
+Part 1: Reading the bank file.
+Done when: Tests cover decimal comma and negative amounts (outgoing payments, which are skipped).
+
+Part 2: Matching and booking.
+Done when: A test with three lines (OCR match, amount match, no match) books two payments and reports one line.
+
+Part 3: Never match the same invoice twice in one file.
+Done when: A test with two lines for one invoice books one, and the other is reported as unmatched.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,17 @@
+Conditional formatting
+
+Now: Cells cannot change colour by their value.
+
+Should: Rules per range, such as "greater than 100: red", "equal to 0: grey" or "text contains X: bold", stored in the file and applied on the page.
+
+Part 1: Rules in the model and the file.
+Done when: Tests save and load rules.
+
+Part 2: Working out which style applies to a cell.
+Done when: Unit tests cover each rule type and overlapping rules (the last rule wins).
+
+Part 3: Applying them on the page.
+Done when: An API test returns the style for each cell with a value.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

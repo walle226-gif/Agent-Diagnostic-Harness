@@ -1,0 +1,14 @@
+Route pictures
+
+Now: Plans can only be read as JSON.
+
+Should: "dispatch svg -plan plan.json -out plan.svg" draws each technician's route in its own colour, with numbered job labels. All text is escaped.
+
+Part 1: Drawing routes and labels.
+Done when: A test checks one path per technician and one label per job.
+
+Part 2: Escaping.
+Done when: A test with "<b>" in an address finds it escaped.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

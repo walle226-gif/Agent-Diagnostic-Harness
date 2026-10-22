@@ -1,0 +1,14 @@
+Opening balances for a new year
+
+Now: A new year has to be started by hand.
+
+Should: "ledger open-year 2027" creates an opening voucher dated 2027-01-01 in series I. Balance accounts (1000–2999) carry their closing 2026 balance. Result accounts (3000–8999) are not carried; the year's result goes to 2099 so the voucher balances.
+
+Part 1: The opening calculation and voucher in Core.
+Done when: A test with a small 2026 year checks every line of the opening voucher.
+
+Part 2: The CLI command, refused if 2027 already has an opening voucher.
+Done when: A CLI test runs it twice; the second run fails with a clear message and nothing new is saved.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

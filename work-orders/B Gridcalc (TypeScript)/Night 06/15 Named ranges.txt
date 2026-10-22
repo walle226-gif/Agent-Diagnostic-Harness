@@ -1,0 +1,17 @@
+Named ranges
+
+Now: Formulas can only use cell addresses.
+
+Should: A name such as "Sales" can be defined for a range, so "=SUM(Sales)" works. Renaming a name updates every formula that uses it, and an undefined name gives #NAME?.
+
+Part 1: Defining and storing names.
+Done when: Tests define, list and delete a name.
+
+Part 2: Names in formulas.
+Done when: Tests cover "=SUM(Sales)" and an undefined name.
+
+Part 3: Renaming updates formulas.
+Done when: A test renames "Sales" to "Revenue" and the formula text changes with it.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

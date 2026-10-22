@@ -1,0 +1,14 @@
+Income statement by month
+
+Now: There is no way to see the result of the year.
+
+Should: "ledger income 2026" shows revenue (3xxx), material (4xxx), other costs (5xxx–6xxx), staff (7xxx) and financial items (8xxx), then the result, with one column per month and a total column.
+
+Part 1: The calculation in Core.
+Done when: A test checks two months and the total for a small company.
+
+Part 2: The CLI table, and "--csv" using the CSV writer from order 06.
+Done when: A CLI test checks one row of the table and the CSV header.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

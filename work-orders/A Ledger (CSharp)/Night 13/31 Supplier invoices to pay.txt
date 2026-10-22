@@ -1,0 +1,17 @@
+Supplier invoices to pay
+
+Now: Supplier invoices (L vouchers) have no open amounts or due dates.
+
+Should: L vouchers get a due date and an open amount. "ledger pay-supplier L4 --amount ..." books 2440 debit and 1930 credit. "ledger aging suppliers" works like the customer report.
+
+Part 1: Due dates and open amounts on L vouchers.
+Done when: A test with a partial payment checks the open amount.
+
+Part 2: The "ledger pay-supplier" command, with no overpayment.
+Done when: CLI tests for a payment and for an overpayment.
+
+Part 3: The supplier aging report.
+Done when: A test checks the bucket totals.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

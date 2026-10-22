@@ -1,0 +1,14 @@
+Reports as web pages
+
+Now: Reports can only be read in the console or as CSV.
+
+Should: "ledger report html 2026 out/" writes the trial balance, income statement and every VAT report as static HTML pages with an index page, in UTF-8, with all text escaped.
+
+Part 1: The page writer and the index.
+Done when: A test finds the index and one page per report.
+
+Part 2: Escaping.
+Done when: A test with "<script>" in a voucher text finds it escaped on the page, and å, ä and ö intact.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

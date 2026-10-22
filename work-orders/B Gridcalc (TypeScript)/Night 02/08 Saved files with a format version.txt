@@ -1,0 +1,17 @@
+Saved files with a format version
+
+Now: Saved sheets have no version, so a future format change will break old files.
+
+Should: Sheets are saved as {"version": 2, "cells": {...}}. Files without a version are treated as version 1 and still load. A file with a higher version than the program knows is refused with a clear message.
+
+Part 1: Saving and loading with a version.
+Done when: A test saves and reloads a sheet.
+
+Part 2: Loading version 1 files.
+Done when: A test loads a file in today's format and gets the same cells.
+
+Part 3: Refusing future versions, and "node dist/cli.js convert <file>" to rewrite an old file as version 2.
+Done when: Tests cover a version 99 file and the convert command.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,14 @@
+Adding one job to a plan
+
+Now: A job that comes in during the day means planning everything again.
+
+Should: POST /plan/insert takes an existing plan and one new job, and places the job where it adds the least cost without breaking any rule. It returns the new plan and a list of what changed.
+
+Part 1: Cheapest insertion into an existing plan.
+Done when: A test inserts a job and checks that no other job changes technician.
+
+Part 2: The endpoint and the list of changes.
+Done when: An httptest test checks the response and the changes list.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

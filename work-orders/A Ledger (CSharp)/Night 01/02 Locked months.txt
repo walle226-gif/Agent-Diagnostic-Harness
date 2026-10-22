@@ -1,0 +1,17 @@
+Locked months
+
+Now: A voucher can be added with any date, even in a month that has already been reported.
+
+Should: A month can be locked. Adding a voucher dated in a locked month is refused with a message that names the month. A lock can never be removed.
+
+Part 1: Store locked months (YYYY-MM) in the company file and refuse saves into them.
+Done when: A test locks 2026-09, and adding a voucher dated 2026-09-15 fails with an error containing "2026-09 is locked".
+
+Part 2: CLI commands "ledger lock 2026-09" and "ledger locks" (lists locked months).
+Done when: CLI tests for both commands pass.
+
+Part 3: "ledger unlock" exists only to explain that locks are permanent.
+Done when: A CLI test runs "ledger unlock 2026-09", gets exit code 2 and a message explaining why, and the month is still locked.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

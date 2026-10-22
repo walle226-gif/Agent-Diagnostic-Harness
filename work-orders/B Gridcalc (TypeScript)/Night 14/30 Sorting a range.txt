@@ -1,0 +1,17 @@
+Sorting a range
+
+Now: Rows cannot be sorted.
+
+Should: Sort a range by one or more columns, ascending or descending, in a stable way. Formulas inside the range move with their rows. References from outside the range keep their addresses, as in other spreadsheets; this is documented in the README.
+
+Part 1: A stable sort by several keys.
+Done when: Tests cover two keys and equal values keeping their order.
+
+Part 2: Moving formulas with their rows.
+Done when: A test sorts rows that contain relative formulas and checks they still compute correctly.
+
+Part 3: The endpoint, and undo for a sort.
+Done when: An API test sorts and then undoes.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

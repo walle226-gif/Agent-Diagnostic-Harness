@@ -1,0 +1,17 @@
+Undoing an import
+
+Now: A wrong import can only be fixed one voucher at a time.
+
+Should: Every import gets a batch id. "ledger undo-import <batch>" books a correction for every voucher in the batch (it never deletes). It refuses if any voucher in the batch has already been corrected or paid.
+
+Part 1: Batch ids on imported vouchers, shown in "ledger list".
+Done when: A test imports twice and finds two different batch ids.
+
+Part 2: The undo command.
+Done when: A test undoes a batch and the balance is back to what it was before the import.
+
+Part 3: The refusal rule.
+Done when: A test pays one imported invoice, and the undo is refused with its number named.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

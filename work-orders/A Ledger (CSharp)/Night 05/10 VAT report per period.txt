@@ -1,0 +1,17 @@
+VAT report per period
+
+Now: The VAT return has to be worked out from the balance by hand.
+
+Should: "ledger vat-report 2026-10" shows box 05 (sales excluding VAT), box 10 (output VAT 25 %), box 48 (input VAT) and box 49 (VAT to pay if positive, to get back if negative), from vouchers dated in that month.
+
+Part 1: The report calculation in Core from accounts 3001, 2610 and 2640.
+Done when: A test with three sales and two purchases checks every box.
+
+Part 2: CLI output, and "--json".
+Done when: A CLI test checks both outputs.
+
+Part 3: "--book" creates the settlement voucher on the last day of the period, moving 2610 and 2640 to 2650.
+Done when: A test books the settlement, and the period's balances on 2610 and 2640 are zero.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

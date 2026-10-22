@@ -1,0 +1,14 @@
+Parser plug-ins
+
+Now: A new log format means changing the program.
+
+Should: Python files in a parsers/ folder are loaded at start. Each exposes NAME, can_parse(line) and parse(line). A plug-in that fails to load or raises an error is turned off with a warning, and the run continues.
+
+Part 1: Loading plug-ins from the folder.
+Done when: A test with a good plug-in parses a line in a new format.
+
+Part 2: Turning off a broken plug-in.
+Done when: Tests with a plug-in that fails to import and one that raises in parse both give a warning, and other lines are still ingested.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

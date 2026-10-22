@@ -1,0 +1,17 @@
+SIE 4 export
+
+Now: The books cannot be moved to another accounting program.
+
+Should: "ledger sie-export 2026 out.se" writes SIE type 4: #FLAGGA 0, #PROGRAM, #FORMAT PC8, #GEN, #SIETYP 4, #FNAMN, #RAR 0, #KONTO, #IB, #UB, #RES, and #VER blocks with #TRANS lines. Text is encoded in code page 437 (PC8), so å, ä and ö are right in other programs.
+
+Part 1: The header and the #KONTO, #IB, #UB and #RES lines.
+Done when: A test compares the lines for a small company with expected text.
+
+Part 2: #VER blocks with #TRANS lines, quoting texts and escaping quotes inside them.
+Done when: A test with a voucher text containing a quote checks the block exactly.
+
+Part 3: Code page 437 encoding of the whole file.
+Done when: A test reads the file as bytes and finds 0x86 for å, 0x84 for ä and 0x94 for ö.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,17 @@
+Alert rules
+
+Now: Someone has to look at reports to notice problems.
+
+Should: Rules in logwatch.toml: name, query (in the language from order 09), threshold, window in minutes and cooldown in minutes. "logwatch alerts run" checks each rule over its window and records an alert. A rule does not alert again during its cooldown. The clock can be set in tests.
+
+Part 1: Rules in the configuration, validated.
+Done when: Tests cover a good rule and a rule with a bad query.
+
+Part 2: Checking rules and recording alerts.
+Done when: A test with a settable clock triggers a rule once.
+
+Part 3: The cooldown.
+Done when: A test runs the check three times in 10 minutes with a 30-minute cooldown and gets one alert.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

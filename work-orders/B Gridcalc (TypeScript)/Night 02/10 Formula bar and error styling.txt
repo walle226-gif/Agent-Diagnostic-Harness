@@ -1,0 +1,14 @@
+Formula bar and error styling
+
+Now: The page shows only values, so there is no way to see a cell's formula.
+
+Should: A formula bar labelled "Formula" shows the raw content of the selected cell and saves it on Enter. Error values are shown in red, with a tooltip explaining the error.
+
+Part 1: GET /api/cell/:ref returning the raw text, the value and an error description if any.
+Done when: API tests cover a number, a formula and an error cell.
+
+Part 2: The formula bar and error styling on the page.
+Done when: A test fetches the served page and finds an input labelled "Formula", and a unit test checks the function that picks the CSS class and tooltip for a value.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

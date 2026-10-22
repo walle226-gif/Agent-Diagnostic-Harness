@@ -1,0 +1,17 @@
+Following a growing file
+
+Now: New lines are only seen when ingest is run again.
+
+Should: "logwatch tail --follow <path>" stores new lines within one second of being written. If the file is replaced (rotation), it continues with the new file. Ctrl+C stops it cleanly.
+
+Part 1: Following appended lines.
+Done when: A test writes lines from a thread and finds them stored within 2 seconds.
+
+Part 2: Handling rotation.
+Done when: A test replaces the file during the run and finds lines from both files.
+
+Part 3: A clean stop.
+Done when: A test stops the follower and finds the position saved, so a later ingest does not read lines twice.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

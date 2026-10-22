@@ -1,0 +1,17 @@
+Skeleton: Logwatch, a log analysis tool
+
+Build a new Python 3.12 project in this folder. It runs fully offline and uses the standard library only, plus pytest for tests and tzdata (zoneinfo needs it on Windows).
+
+Structure:
+- A package logwatch/ with parsers for three formats: the Apache/Nginx "combined" access log, JSON lines (fields ts, level, msg, path, status, latency_ms, ip) and RFC 5424 syslog.
+- An SQLite database (sqlite3) with an events table: ts_utc, source_file, line_no, level, status, path, latency_ms, ip, message, raw.
+- CLI: "python -m logwatch ingest <files...> --db <path>" and "python -m logwatch summary --db <path>" (counts per level and per status class, first and last timestamp).
+- tests/data/ with a small sample log in each format, including one line with å, ä and ö and one malformed line.
+
+Tests: one test per parser, plus ingest and summary. The project check is "python -m pytest -q", and it must be green when you finish. Keep the whole test run under 2 minutes; long benchmarks go behind a marker that is not run by default.
+
+Also:
+- A virtual environment in .venv/ with pytest and tzdata installed now. Later work orders will not be allowed to add or update packages.
+- A .gitignore covering .venv/, __pycache__/, *.db and _scratch/.
+- An empty _scratch/ folder (with a .gitkeep) for throwaway scripts, excluded from pytest collection (norecursedirs).
+- A README that explains setup, tests and each command.

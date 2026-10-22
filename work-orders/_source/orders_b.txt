@@ -1,0 +1,340 @@
+=== B01 | 1 | feature | Ranges and summary functions
+Now: A formula can only refer to single cells.
+Should: Formulas accept ranges such as A1:B3 and the functions SUM, AVERAGE, MIN, MAX and COUNT, with any number of arguments. Function names are case-insensitive, and AVERAGE and COUNT ignore empty cells.
+P: Tokenizer and parser support for ranges and function calls.
+D: Parser tests cover "=SUM(A1:B3)", "=sum(a1, 2)" and nested calls.
+P: The five functions in the evaluator.
+D: Tests cover each function, empty cells, and "=SUM(A1:A3, MAX(B1:B2)*2)".
+
+=== B02 | 1 | performance | Recalculate only what changed
+Now: Changing one cell re-evaluates every cell in the sheet.
+Should: A dependency graph built from the formulas. Editing a cell re-evaluates only the cells that depend on it, directly or indirectly, in dependency order (a topological sort).
+P: Building the graph from parsed references, ranges included.
+D: A test checks the dependents of a cell in a small sheet.
+P: Incremental recalculation, with an evaluation counter that tests can read.
+D: A test with 1,000 cells changes one input and counts exactly the expected number of evaluations.
+
+=== B03 | 1 | feature | Circular references
+Now: A formula that refers to itself, directly or through other cells, hangs or crashes.
+Should: Every cell in a cycle shows #CYCLE!, and so does every cell that depends on one. Breaking the cycle recalculates the cells normally.
+P: Cycle detection in the dependency graph.
+D: Tests cover a self-reference, a cycle of three cells, and a cell that depends on a cycle.
+P: Recovery when the cycle is broken.
+D: A test breaks a cycle by editing one cell, and all affected cells get numbers again.
+
+=== B04 | 1 | feature | Error values
+Now: Bad formulas give crashes or JavaScript values like NaN and Infinity.
+Should: The error values #DIV/0!, #REF!, #NAME? and #VALUE! are produced where they apply and pass through operators and functions. SUM over a range that contains an error returns that error. IFERROR(x, fallback) catches them.
+P: Producing and passing on the four errors.
+D: A test per error, plus one where an error passes through two levels of formulas.
+P: The IFERROR function.
+D: Tests cover IFERROR with and without an error.
+
+=== B05 | 1 | feature | Text and comparisons
+Now: Formulas only work with numbers.
+Should: String literals ("abc", with "" for a quote inside), & for joining text, the comparisons = <> < > <= >= giving TRUE or FALSE, and the functions LEN, UPPER and LOWER. Text compares case-insensitively, and any text is greater than any number.
+P: String literals in the tokenizer.
+D: Tests cover an empty string and an embedded quote.
+P: The & operator and the comparisons.
+D: Tests cover text against text, number against text, and TRUE/FALSE results.
+P: LEN, UPPER and LOWER, correct for å, ä and ö.
+D: Tests include "=UPPER(\"åäö\")".
+
+=== B06 | 1 | feature | Lazy IF and logic functions
+Now: There is no way to choose between values.
+Should: IF(condition, a, b) evaluates only the branch it returns, so "=IF(TRUE,1,1/0)" is 1. AND, OR and NOT work, and an error only matters if its argument is actually evaluated.
+P: IF with lazy evaluation.
+D: Tests include "=IF(TRUE,1,1/0)" giving 1 and "=IF(FALSE,1,1/0)" giving #DIV/0!.
+P: AND, OR and NOT.
+D: Tests cover each function, including OR stopping at the first TRUE.
+
+=== B07 | 1 | feature | Absolute references and copy-paste
+Now: Copying a formula to another cell copies it unchanged.
+Should: $A$1, $A1 and A$1 are understood. Copying a formula from B2 to C3 moves its relative parts only. POST /api/copy {"from":"B2","to":"C3"} does this on the server.
+P: Parsing the $ forms.
+D: Parser tests cover all three forms.
+P: A function that shifts a formula from one cell to another.
+D: Tests cover relative, absolute and mixed references, and a shift that moves off the sheet (giving #REF!).
+P: The copy endpoint.
+D: An API test copies a formula and reads back the shifted formula and its value.
+
+=== B08 | 1 | migration | Saved files with a format version
+Now: Saved sheets have no version, so a future format change will break old files.
+Should: Sheets are saved as {"version": 2, "cells": {...}}. Files without a version are treated as version 1 and still load. A file with a higher version than the program knows is refused with a clear message.
+P: Saving and loading with a version.
+D: A test saves and reloads a sheet.
+P: Loading version 1 files.
+D: A test loads a file in today's format and gets the same cells.
+P: Refusing future versions, and "node dist/cli.js convert <file>" to rewrite an old file as version 2.
+D: Tests cover a version 99 file and the convert command.
+
+=== B08b | 1 | feature | Percent and power operators
+Now: Formulas have no percent sign and no way to raise a number to a power.
+Should: A postfix % divides by 100, and ^ raises to a power and groups from the right (2^3^2 is 2^9). As in other spreadsheets, unary minus binds tighter than ^, so -2^2 is 4; this is documented in the README.
+P: Tokenizer and parser support for % and ^ with the precedence above.
+D: Parser tests cover 2^3^2, -2^2, 50% and 2*3^2.
+P: Evaluation of both operators.
+D: Tests check the values of the four formulas above and of =10%*A1.
+P: An "Operators" section in the README with the precedence table, including the -2^2 rule.
+D: A test fails if any operator the tokenizer knows is missing from that section.
+
+=== B09 | 1 | ui | Formula bar and error styling
+Now: The page shows only values, so there is no way to see a cell's formula.
+Should: A formula bar labelled "Formula" shows the raw content of the selected cell and saves it on Enter. Error values are shown in red, with a tooltip explaining the error.
+P: GET /api/cell/:ref returning the raw text, the value and an error description if any.
+D: API tests cover a number, a formula and an error cell.
+P: The formula bar and error styling on the page.
+D: A test fetches the served page and finds an input labelled "Formula", and a unit test checks the function that picks the CSS class and tooltip for a value.
+
+=== B10 | 2 | feature | Inserting and deleting rows and columns
+Now: Rows and columns cannot be inserted or deleted.
+Should: Inserting or deleting a row or column moves the cells and updates every formula that refers to them. A reference to a deleted cell becomes #REF!. The API has POST /api/insert and POST /api/delete.
+P: Updating references when rows or columns shift.
+D: Tests cover insert above, insert inside a range, and delete of a referenced cell.
+P: Moving the cells, and the two endpoints.
+D: API tests insert a row and delete a column, and read back the formulas.
+P: Buttons on the page for the selected row or column.
+D: A test of the served page finds the four buttons by their labels.
+
+=== B11 | 2 | feature | Undo and redo
+Now: A mistake cannot be undone.
+Should: The last 50 changes (edits, inserts, deletes, pastes) can be undone and redone, through POST /api/undo and /api/redo and with Ctrl+Z and Ctrl+Y on the page. A new change clears the redo list.
+P: A history of changes on the server.
+D: Tests undo and redo an edit, an insert and a paste.
+P: The limit of 50, and redo being cleared by a new change.
+D: Tests make 60 changes and can undo 50, and check redo after a new change.
+P: The endpoints and the key shortcuts.
+D: API tests for both endpoints, and a unit test for the key handling function.
+
+=== B12 | 2 | format | CSV import and export
+Now: Data can only be typed in by hand.
+Should: Import and export CSV, detecting comma or semicolon as separator. Quoted fields with "" inside and line breaks inside quotes work, and a UTF-8 BOM is handled. With semicolon files, a decimal comma is read as a number.
+P: A CSV reader.
+D: Tests cover both separators, quotes, a line break inside quotes and a BOM.
+P: A CSV writer, and CLI commands "import" and "export".
+D: A round-trip test gives the same cells back.
+P: Decimal comma in semicolon files.
+D: A test imports "1,5;2,25" as the numbers 1.5 and 2.25.
+
+=== B13 | 2 | feature | Number formats
+Now: Numbers show as plain JavaScript numbers, such as 0.30000000000000004.
+Should: Each cell can have a format: decimals, thousands separator, percent, and locale "sv-SE" or "en-US". Swedish uses a space for thousands and a comma for decimals. The format changes only what is shown, never the value.
+P: A formatting function for all the options.
+D: Tests cover 1234567.891 in both locales, a percent, and 0.1+0.2 with 2 decimals.
+P: Formats stored with the cells and used on the page.
+D: An API test sets a format and gets the formatted text back, with the raw value unchanged.
+
+=== B14 | 2 | feature | Named ranges
+Now: Formulas can only use cell addresses.
+Should: A name such as "Sales" can be defined for a range, so "=SUM(Sales)" works. Renaming a name updates every formula that uses it, and an undefined name gives #NAME?.
+P: Defining and storing names.
+D: Tests define, list and delete a name.
+P: Names in formulas.
+D: Tests cover "=SUM(Sales)" and an undefined name.
+P: Renaming updates formulas.
+D: A test renames "Sales" to "Revenue" and the formula text changes with it.
+
+=== B15 | 2 | feature | Dates
+Now: Dates are just text.
+Should: The functions DATE(y,m,d), TODAY(), YEAR, MONTH and DAY. A date plus a number is that many days later. Dates are stored as serial numbers counted from 1900-01-01 = 1, without copying the old spreadsheet bug that treats 1900 as a leap year (document this in the README). TODAY() uses a clock that tests can set.
+P: Serial numbers and the date functions.
+D: Tests cover 2024-02-29, 2026-12-31 and adding 30 days across a month end.
+P: TODAY() with a settable clock.
+D: A test sets the clock to 2026-10-22 and checks TODAY().
+P: Showing date values as YYYY-MM-DD on the page when a cell has the date format.
+D: A unit test of the formatting function.
+
+=== B16 | 2 | feature | Lookup functions
+Now: There is no way to look up a value in a table.
+Should: VLOOKUP(value, range, column, FALSE) and XLOOKUP(value, lookup_range, return_range, if_not_found), with exact matching only. A missing value gives #N/A unless XLOOKUP has a fallback.
+P: VLOOKUP.
+D: Tests cover a found value, a missing value and a column number outside the range (#REF!).
+P: XLOOKUP.
+D: Tests cover a found value and the fallback.
+P: INDEX(range, row, column) and MATCH(value, range, 0), with exact matching.
+D: Tests cover INDEX with MATCH together, and a MATCH that finds nothing (#N/A).
+
+=== B17 | 2 | performance | Long chains do not crash
+Now: Deep chains of formulas can overflow the JavaScript stack.
+Should: A chain of 10,000 cells (A1=A2+1, A2=A3+1 and so on) evaluates without a stack overflow, using an iterative evaluation. 100,000 independent cells recalculate in under 2 seconds.
+P: Iterative evaluation instead of deep recursion.
+D: A test with a 10,000-cell chain gets the right value at the top.
+P: Speed for large sheets.
+D: A test with 100,000 cells recalculates in under 2 seconds.
+
+=== B18 | 2 | ui | Keyboard navigation
+Now: Cells can only be selected with the mouse.
+Should: Arrow keys move the selection, Enter or F2 starts editing, Escape cancels an edit, and Tab moves right. The selected cell has aria-selected="true".
+P: A pure function (state, key) returning the new state, in its own module.
+D: Unit tests cover every key, and the edges of the grid.
+P: Wiring it into the page.
+D: A test of the served page finds the keyboard script loaded and a cell with aria-selected.
+
+=== B19 | 3 | refactor | Split the engine into modules
+Now: The engine has grown into a few large files.
+Should: The code is organised as parser/, evaluator/, graph/ and functions/, with every function registered in one place (a registry). No file is over 300 lines, and behaviour does not change.
+P: Move the code and create the function registry.
+D: Every existing test passes unchanged.
+P: A test that fails if any source file is over 300 lines.
+D: The new test passes.
+N: This order changes structure only. The existing tests are its check, and the new size test may already pass on today's code.
+
+=== B20 | 3 | feature | Several sheets
+Now: A file holds one sheet.
+Should: A file holds several sheets. Formulas can refer to Sheet2!A1 and to 'My sheet'!A1 (quoted when the name has spaces). Renaming a sheet updates formulas, and deleting one turns its references into #REF!.
+P: Several sheets in the model and the saved file (version 3, still loading version 2).
+D: Tests save and load two sheets, and load a version 2 file.
+P: References across sheets.
+D: Tests cover both forms and a dependency across sheets that recalculates.
+P: Renaming and deleting sheets.
+D: Tests for both.
+
+=== B21 | 3 | concurrency | Two browser tabs at once
+Now: Two tabs editing the same sheet silently overwrite each other.
+Should: The server keeps a version number. A write with an old version gets 409 with the current value. The page asks GET /api/changes?since=<version> every 2 seconds and updates changed cells.
+P: Version numbers and the 409 response.
+D: An API test writes twice with the same old version; the second write gets 409.
+P: The changes endpoint.
+D: An API test gets only the cells changed since a given version.
+P: Polling on the page.
+D: A unit test of the function that merges changes into the page state.
+
+=== B22 | 3 | feature | Conditional formatting
+Now: Cells cannot change colour by their value.
+Should: Rules per range, such as "greater than 100: red", "equal to 0: grey" or "text contains X: bold", stored in the file and applied on the page.
+P: Rules in the model and the file.
+D: Tests save and load rules.
+P: Working out which style applies to a cell.
+D: Unit tests cover each rule type and overlapping rules (the last rule wins).
+P: Applying them on the page.
+D: An API test returns the style for each cell with a value.
+
+=== B23 | 3 | feature | Function hints while typing
+Now: You have to know every function name by heart.
+Should: GET /api/functions?prefix=SU returns matching names, signatures and one-line descriptions from the function registry. The page shows them while you type after "=".
+P: Descriptions and signatures in the registry for every function.
+D: A test fails if any registered function has no description.
+P: The endpoint.
+D: API tests cover a prefix, an empty prefix and no matches.
+P: Suggestions on the page.
+D: A unit test of the function that finds the current word at the cursor.
+
+=== B24 | 3 | feature | Results that spill into neighbouring cells
+Now: A formula can only fill one cell.
+Should: SEQUENCE(rows, cols) and TRANSPOSE(range) fill a block of cells starting at the formula. If any target cell is not empty, the formula shows #SPILL!. Other formulas can refer to the spilled cells.
+P: Spilling in the evaluator.
+D: Tests cover a 3 by 2 SEQUENCE and a TRANSPOSE.
+P: #SPILL! when a target cell is taken.
+D: A test blocks one target cell and gets #SPILL!, then clears it and gets the block.
+P: References to spilled cells.
+D: A test sums a spilled range.
+
+=== B25 | 3 | security | Formulas can never run code
+Now: Nothing guarantees that a formula cannot execute JavaScript.
+Should: The parser and evaluator never use eval or new Function. Any input, however broken, gives a value or an error, never an exception.
+P: A test that fails if eval( or new Function appears anywhere under src/.
+D: The test passes.
+P: A seeded fuzz test feeding 5,000 random strings to the parser and evaluator.
+D: The fuzz test passes: every input gives a value or an error, and a failing case prints its seed.
+
+=== B26 | 3 | format | Export as HTML and Markdown tables
+Now: Results cannot be put into a document or a wiki.
+Should: "node dist/cli.js export --html A1:D10" and "--md" print the range as a table, with values formatted as shown on the page and all text escaped.
+P: The HTML table, with escaping.
+D: A test with "<b>" and "&" in a cell checks the escaped output.
+P: The Markdown table, with | escaped.
+D: A test with a "|" in a cell checks the output.
+
+=== B27 | 3 | ux | An accessible grid
+Now: Screen readers cannot make sense of the grid.
+Should: The grid uses role="grid", with row and column headers as rowheader and columnheader, and every cell has an aria-label such as "B3, value 42".
+P: The roles in the page.
+D: A test of the served page finds role="grid", one columnheader per column and one rowheader per row.
+P: A function that builds each cell's label, including errors and empty cells.
+D: Unit tests cover a number, text, an error and an empty cell.
+P: An aria-live region that announces a cell's new value after an edit, and a visible focus outline.
+D: A test of the served page finds the live region and the focus style.
+
+=== B28 | 4 | feature | Pivot summary
+Now: Grouping and totalling has to be done with many formulas by hand.
+Should: POST /api/pivot {"range":"A1:D200","rows":"B","value":"D","agg":"SUM"} writes a summary into a new sheet: one row per distinct value of the row column, with SUM, COUNT or AVERAGE of the value column, sorted by row value.
+P: The summary calculation.
+D: Tests cover all three aggregations and empty cells.
+P: Writing the result to a new sheet through the endpoint.
+D: An API test reads the new sheet.
+P: POST /api/pivot/refresh rebuilds an existing summary after its source data has changed.
+D: An API test changes a source value, refreshes, and reads the updated total.
+
+=== B29 | 4 | feature | Sorting a range
+Now: Rows cannot be sorted.
+Should: Sort a range by one or more columns, ascending or descending, in a stable way. Formulas inside the range move with their rows. References from outside the range keep their addresses, as in other spreadsheets; this is documented in the README.
+P: A stable sort by several keys.
+D: Tests cover two keys and equal values keeping their order.
+P: Moving formulas with their rows.
+D: A test sorts rows that contain relative formulas and checks they still compute correctly.
+P: The endpoint, and undo for a sort.
+D: An API test sorts and then undoes.
+
+=== B30 | 4 | feature | Find and replace
+Now: Changing a value everywhere means editing cell by cell.
+Should: Find and replace in values and formulas, with a regular-expression option. A preview shows how many cells would change before anything changes, and the replacement can be undone in one step.
+P: Finding matches, with the preview count.
+D: Tests cover plain text, a regular expression and matches inside formulas.
+P: Replacing, as one undoable step.
+D: A test replaces in three cells and one undo restores all three.
+
+=== B31 | 4 | feature | Charts
+Now: There is no way to see numbers as a chart.
+Should: GET /api/chart?range=A1:B12&type=bar|line returns an SVG chart with axis labels and the first column as categories. Text is escaped. The page shows the chart in a side panel.
+P: The SVG bar chart.
+D: A test checks one rect per value and the axis labels.
+P: The line chart.
+D: A test checks the path points.
+P: Escaping and the page panel.
+D: A test with "<script>" in a category finds it escaped.
+
+=== B32 | 4 | feature | Data validation
+Now: Any value can be typed into any cell.
+Should: Rules per range: "one of a list", "number between" and "date between". Breaking a rule is refused with 422 and a message, which the page shows next to the cell.
+P: Rules in the model and the file.
+D: Tests save and load each rule type.
+P: Checking writes against the rules.
+D: API tests cover an allowed value and a refused value for each rule type.
+P: "One of a list" rules shown as a drop-down on the page.
+D: A unit test of the function that turns a list rule into drop-down options, including å, ä and ö.
+
+=== B33 | 4 | migration | Cell comments
+Now: There is nowhere to explain a number.
+Should: Comments can be added to, edited on and removed from a cell. They are stored in the file (version 4, still loading versions 2 and 3) and shown as a tooltip on the page.
+P: Comments in the model and the file, with the version 4 format.
+D: Tests save and load comments, and load a version 3 file.
+P: Endpoints for comments.
+D: API tests add, edit and delete a comment.
+
+=== B34 | 4 | performance | Big sheets on the page
+Now: A sheet with 100,000 rows would put 100,000 rows in the page.
+Should: The page renders only the rows that are visible, plus a small margin (virtual scrolling), so the page never holds more than 100 rows at once.
+P: A pure function giving the visible row range from scroll position, row height and window height.
+D: Unit tests cover the top, the middle, the bottom and a window taller than the sheet.
+P: Using it on the page, loading rows in blocks.
+D: An API test fetches rows 50,000 to 50,050 in one call, and a unit test checks that the page state never holds more than 100 rows.
+
+=== B35 | 4 | format | Reading .xlsx files without packages
+Now: Excel files cannot be opened.
+Should: "node dist/cli.js import-xlsx file.xlsx" reads the values (not formulas) of the first sheet, using Node's zlib and a small reader for the zip directory. It handles shared strings and numbers, and refuses other files with a clear message.
+P: A zip reader that lists entries and inflates a named one.
+D: Tests read entries from a small zip built in the test with zlib.
+P: Reading the sheet and the shared strings into cells.
+D: A test with a small .xlsx fixture in tests/fixtures checks the cell values.
+P: The CLI command and the refusal.
+D: Tests cover a good file and a text file renamed to .xlsx.
+
+=== B36 | 4 | docs | A function reference page
+Now: There is no list of the functions the engine supports.
+Should: The page /docs is generated from the function registry: name, signature, description and an example with its result. A test runs every example and fails if a result differs.
+P: An example and its expected result for every function in the registry.
+D: A test fails if any function lacks an example.
+P: The /docs page.
+D: A test fetches /docs and finds every function.
+P: Running the examples.
+D: The test passes, and fails if an example's result is changed.

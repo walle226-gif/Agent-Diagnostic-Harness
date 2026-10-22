@@ -1,0 +1,17 @@
+A function reference page
+
+Now: There is no list of the functions the engine supports.
+
+Should: The page /docs is generated from the function registry: name, signature, description and an example with its result. A test runs every example and fails if a result differs.
+
+Part 1: An example and its expected result for every function in the registry.
+Done when: A test fails if any function lacks an example.
+
+Part 2: The /docs page.
+Done when: A test fetches /docs and finds every function.
+
+Part 3: Running the examples.
+Done when: The test passes, and fails if an example's result is changed.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

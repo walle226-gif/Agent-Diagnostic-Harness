@@ -1,0 +1,340 @@
+=== A01 | 1 | feature | Voucher numbers per series
+Now: Vouchers are saved without a number, so there is no way to refer to "voucher A12" or to see that none are missing.
+Should: Every saved voucher gets the next number in its series (A manual, K customer invoices, L supplier invoices), with no gaps and no reuse.
+P: Add a series and a number to the voucher model. Saving assigns the next free number in the series.
+D: A test saves three A vouchers and one K voucher and gets A1, A2, A3 and K1.
+P: "ledger list" shows the number first on each line, and "ledger add" takes "--series" (default A).
+D: A CLI test adds a voucher with "--series K" and "ledger list" shows K1.
+P: Numbers survive a restart: reloading the company file continues each series.
+D: A test saves A1, reloads the company from disk, saves again and gets A2.
+
+=== A02 | 1 | feature | Locked months
+Now: A voucher can be added with any date, even in a month that has already been reported.
+Should: A month can be locked. Adding a voucher dated in a locked month is refused with a message that names the month. A lock can never be removed.
+P: Store locked months (YYYY-MM) in the company file and refuse saves into them.
+D: A test locks 2026-09, and adding a voucher dated 2026-09-15 fails with an error containing "2026-09 is locked".
+P: CLI commands "ledger lock 2026-09" and "ledger locks" (lists locked months).
+D: CLI tests for both commands pass.
+P: "ledger unlock" exists only to explain that locks are permanent.
+D: A CLI test runs "ledger unlock 2026-09", gets exit code 2 and a message explaining why, and the month is still locked.
+
+=== A03 | 1 | feature | Sales with 25 % VAT
+Now: A sale has to be entered as a hand-made voucher with three lines, and the VAT worked out by hand.
+Should: "ledger sale --gross 1249.00 --text ..." creates a K voucher: 1510 debit gross, 3001 credit net, 2610 credit VAT. VAT is gross × 0.20, rounded to whole öre, half away from zero, and net is gross minus VAT.
+P: A VAT split function in Core (gross to net and VAT at 25 %) with the rounding rule above.
+D: Tests cover 1249.00, 99.99 and 0.05 SEK with exact expected amounts.
+P: The "ledger sale" command builds and saves the voucher.
+D: A CLI test adds a sale, and "ledger balance" shows 1510, 2610 and 3001 with the right amounts.
+
+=== A04 | 1 | feature | Purchases with input VAT
+Now: Purchases are hand-made vouchers, and nothing stops a purchase from being booked on a balance account.
+Should: "ledger purchase --gross 625.00 --account 4010 --text ..." creates an L voucher: the cost account debit net, 2640 debit VAT, 2440 credit gross.
+P: The "ledger purchase" command, reusing the VAT split from order 03.
+D: A CLI test adds a purchase and the balance shows the three accounts with the right amounts.
+P: "--account" must be between 4000 and 7999. Other accounts are refused with a message naming the allowed range.
+D: A test with "--account 1930" fails with that message and saves nothing.
+P: "--no-vat" books the whole amount on the cost account, for purchases without VAT.
+D: A test with "--no-vat" gives two lines only and no 2640 line.
+
+=== A05 | 1 | feature | Customer payments
+Now: There is no link between a customer invoice and its payment, so nobody can see what is still unpaid.
+Should: "ledger pay K3 --amount 500.00 --date 2026-10-20" books 1930 debit and 1510 credit, linked to K3. Partial payments are allowed, overpayment is not.
+P: Track the open amount of each K voucher: gross minus linked payments.
+D: A test with two partial payments on one invoice leaves the right open amount.
+P: The "ledger pay" command, and "ledger open" listing unpaid K vouchers with their open amount.
+D: CLI tests for both commands pass.
+P: Paying more than the open amount is refused with a message that states the open amount.
+D: A test overpays by 0.01 SEK, gets the message and nothing is saved.
+
+=== A06 | 1 | format | Trial balance as a CSV file for Excel
+Now: The trial balance can only be read in the console.
+Should: "ledger balance --csv out.csv" writes a file that opens correctly in Swedish Excel: semicolon separator, decimal comma, no thousands separator, UTF-8 with BOM, a header row, and account names with å, ä and ö intact.
+P: A CSV writer in Core for the trial balance.
+D: A test reads the file as bytes, checks the BOM, and checks the header and the first account line exactly.
+P: The "--csv" option on "ledger balance".
+D: A CLI test writes the file and its content matches the expected text.
+
+=== A07 | 1 | feature | Correcting a voucher the right way
+Now: A booked voucher can only be changed by editing the company file, which bookkeeping rules do not allow.
+Should: "ledger correct A5 --from new.json" never changes A5. It adds a reversing voucher (every line with debit and credit swapped, text "Rättelse av A5") and then the new voucher, both linked to A5, saved together or not at all.
+P: The correction in Core: reversal and replacement in one save.
+D: A test shows that A5 is unchanged and that the balance equals what it would be if only the new voucher had been booked.
+P: The CLI command, and "ledger list" marking corrected vouchers with "(rättad)".
+D: CLI tests for both pass.
+P: If A5 is in a locked month, the reversal and the replacement are dated the first day of the next unlocked month.
+D: A test corrects a voucher in a locked month and checks the new dates.
+
+=== A08 | 1 | feature | Opening balances for a new year
+Now: A new year has to be started by hand.
+Should: "ledger open-year 2027" creates an opening voucher dated 2027-01-01 in series I. Balance accounts (1000–2999) carry their closing 2026 balance. Result accounts (3000–8999) are not carried; the year's result goes to 2099 so the voucher balances.
+P: The opening calculation and voucher in Core.
+D: A test with a small 2026 year checks every line of the opening voucher.
+P: The CLI command, refused if 2027 already has an opening voucher.
+D: A CLI test runs it twice; the second run fails with a clear message and nothing new is saved.
+
+=== A09 | 1 | format | Importing vouchers from a CSV file
+Now: Vouchers can only be added one JSON file at a time.
+Should: "ledger import vouchers.csv" reads lines of "key;date;series;text;account;debit;credit" (semicolon separator, decimal comma, quoted texts), grouping lines with the same key into one voucher. It is all or nothing: if any voucher is invalid, nothing is saved and a report lists file line numbers and reasons.
+P: The CSV reader, with decimal comma and quoted fields.
+D: Tests cover quotes, an empty text and "1 234,50" style amounts.
+P: Validation and the all-or-nothing save.
+D: A test with one unbalanced voucher saves nothing, and the report names its line numbers.
+P: The CLI command, printing for example "Imported 12 vouchers (A13–A24)".
+D: A CLI test checks the summary line and the new numbers.
+
+=== A10 | 2 | feature | VAT report per period
+Now: The VAT return has to be worked out from the balance by hand.
+Should: "ledger vat-report 2026-10" shows box 05 (sales excluding VAT), box 10 (output VAT 25 %), box 48 (input VAT) and box 49 (VAT to pay if positive, to get back if negative), from vouchers dated in that month.
+P: The report calculation in Core from accounts 3001, 2610 and 2640.
+D: A test with three sales and two purchases checks every box.
+P: CLI output, and "--json".
+D: A CLI test checks both outputs.
+P: "--book" creates the settlement voucher on the last day of the period, moving 2610 and 2640 to 2650.
+D: A test books the settlement, and the period's balances on 2610 and 2640 are zero.
+
+=== A11 | 2 | feature | 12 % and 6 % VAT
+Now: Only 25 % VAT is supported.
+Should: Accounts 2620 Utgående moms 12 %, 2630 Utgående moms 6 %, 3002 Försäljning 12 % and 3003 Försäljning 6 % exist. "ledger sale --rate 12" and "--rate 6" work. The VAT report shows boxes 11 and 12, and box 05 is the base for all rates together.
+P: The new accounts, and the VAT split for each rate.
+D: Tests check each rate with the order-03 rounding rule.
+P: "--rate" on "ledger sale" (default 25).
+D: CLI tests for 12 and 6 % check the accounts used.
+P: The VAT report with boxes 10, 11 and 12, and box 05 over all rates.
+D: A test with sales at all three rates checks every box.
+
+=== A12 | 2 | feature | Income statement by month
+Now: There is no way to see the result of the year.
+Should: "ledger income 2026" shows revenue (3xxx), material (4xxx), other costs (5xxx–6xxx), staff (7xxx) and financial items (8xxx), then the result, with one column per month and a total column.
+P: The calculation in Core.
+D: A test checks two months and the total for a small company.
+P: The CLI table, and "--csv" using the CSV writer from order 06.
+D: A CLI test checks one row of the table and the CSV header.
+
+=== A13 | 2 | feature | Balance sheet at a date
+Now: Assets and liabilities cannot be shown on a given day.
+Should: "ledger balance-sheet 2026-10-31" shows assets (1xxx) against equity and liabilities (2xxx), including the result of the year so far. If the two sides differ, it prints the difference and exits with code 1.
+P: The calculation in Core.
+D: A test checks both sides for a small company.
+P: The CLI command with the difference check.
+D: A test builds a deliberately damaged company file and gets exit code 1 and the difference.
+
+=== A14 | 2 | format | SIE 4 export
+Now: The books cannot be moved to another accounting program.
+Should: "ledger sie-export 2026 out.se" writes SIE type 4: #FLAGGA 0, #PROGRAM, #FORMAT PC8, #GEN, #SIETYP 4, #FNAMN, #RAR 0, #KONTO, #IB, #UB, #RES, and #VER blocks with #TRANS lines. Text is encoded in code page 437 (PC8), so å, ä and ö are right in other programs.
+P: The header and the #KONTO, #IB, #UB and #RES lines.
+D: A test compares the lines for a small company with expected text.
+P: #VER blocks with #TRANS lines, quoting texts and escaping quotes inside them.
+D: A test with a voucher text containing a quote checks the block exactly.
+P: Code page 437 encoding of the whole file.
+D: A test reads the file as bytes and finds 0x86 for å, 0x84 for ä and 0x94 for ö.
+
+=== A15 | 2 | format | SIE 4 import
+Now: Books from another program cannot be read in.
+Should: "ledger sie-import file.se --company new" creates a company from a SIE 4 file (accounts, opening balances, vouchers). Its trial balance must equal the file's #UB values, and unknown tags are skipped with a warning.
+P: A SIE 4 parser: quotes, braces, code page 437.
+D: Tests parse a small file with every supported tag.
+P: Building the company and checking it against #UB, listing any accounts that differ.
+D: A test with a file whose #UB is wrong names that account and saves nothing.
+P: Export, import and export again give identical files.
+D: A round-trip test compares the two exports byte for byte.
+
+=== A16 | 2 | security | A log that shows tampering
+Now: If someone edits the company file, nothing shows it.
+Should: Every save appends an entry to audit.log (JSON lines) with the change and the SHA-256 hash of the previous entry. "ledger verify-log" reports OK or the first broken line.
+P: Appending entries with the hash chain.
+D: A test saves three vouchers and checks that each entry's hash links to the one before.
+P: The "ledger verify-log" command.
+D: A test edits a middle line of the log, and the command reports that line number and exits with code 1.
+P: Every save checks the end of the log first, and refuses to save if the last entry has been changed.
+D: A test changes the last log entry, and the next save fails with a message pointing to "ledger verify-log".
+
+=== A17 | 2 | feature | Euro invoices and exchange differences
+Now: Invoices in euro cannot be booked.
+Should: "ledger sale --currency EUR --amount 100 --fx 11.52" books in SEK and stores currency and rate. When it is paid at a different rate, the difference goes to 3960 (gain) or 7960 (loss).
+P: Currency and rate stored on K vouchers.
+D: A test books a euro sale and checks the SEK amounts and the stored rate.
+P: "ledger pay ... --fx" books the exchange difference.
+D: Tests cover one gain and one loss with exact amounts.
+P: "ledger open" shows both the euro and the SEK open amount for euro invoices.
+D: A CLI test checks one euro line.
+
+=== A18 | 2 | performance | Large ledgers stay fast
+Now: Nobody knows how the ledger behaves with a real year's worth of vouchers.
+Should: With 100,000 vouchers, "ledger balance" finishes in under 5 seconds.
+P: "ledger generate --count N --seed S" creates realistic, balanced random vouchers for testing; the same seed gives the same data.
+D: A test generates 1,000 vouchers twice with one seed and gets identical files, all balanced.
+P: Make loading and the trial balance fast enough.
+D: A test with 100,000 generated vouchers runs "balance" in under 5 seconds.
+
+=== A19 | 3 | refactor | Split Core by area
+Now: Ledger.Core has grown with every order and is hard to find your way in.
+Should: Ledger.Core is organised in the folders and namespaces Accounting, Vat, Sie, Reports and Storage, with no .cs file over 400 lines, and no change in behaviour.
+P: Move and split the code into the five areas.
+D: Every existing test passes unchanged, and a new test fails if any .cs file in Ledger.Core is over 400 lines.
+P: An "Architecture" section in the README describing the five areas.
+D: The README lists all five areas with one sentence each.
+N: This order changes structure only. The existing tests are its check, and the new size test may already pass on today's code.
+
+=== A20 | 3 | migration | Saving to a journal with snapshots
+Now: The whole company file is rewritten on every save, which gets slow and risky as it grows.
+Should: Saves are appended to journal.jsonl. A snapshot is written every 1,000 vouchers, and loading reads the snapshot plus the journal after it. Companies in the old single-file format are converted once, and the old file is kept as a backup.
+P: Appending to the journal and loading from it.
+D: A test saves 10 vouchers, reloads, and gets the same company.
+P: Snapshots every 1,000 vouchers.
+D: A test with 2,500 vouchers finds two snapshots and loads correctly.
+P: Converting old companies, and ignoring a half-written last journal line with a warning.
+D: Tests cover the conversion with its backup, and a truncated last line.
+
+=== A21 | 3 | concurrency | Two processes saving at the same time
+Now: Two "ledger" processes saving to the same company can overwrite each other.
+Should: A process takes a lock file before saving and waits up to 5 seconds for it. If the lock is still taken, it exits with code 3 and "company is in use by process <pid>". A lock left by a process that no longer runs is taken over.
+P: The lock file with process id and time.
+D: A test holds the lock and a second save exits with code 3 and the message.
+P: Two real CLI processes adding vouchers at the same time both succeed, with different numbers.
+D: A test starts two processes together and finds both vouchers, A1 and A2.
+P: Taking over a lock from a process that no longer exists.
+D: A test writes a lock with a process id that does not exist, and saving succeeds.
+
+=== A22 | 3 | feature | Budget against actual
+Now: There is no budget.
+Should: "ledger budget set 5010 2026-01..2026-12 10000" sets a monthly budget. "ledger budget report 2026" shows budget, actual, difference and difference in % per account and month.
+P: Storing budgets in the company data.
+D: A test sets and reloads a budget.
+P: The report.
+D: A test checks one account over two months, including a month with no actual amounts.
+P: "--csv" on the report.
+D: A CLI test checks the CSV header and one line.
+
+=== A23 | 3 | feature | Cost centres
+Now: Costs cannot be split by project or department.
+Should: A voucher line can carry a cost centre code, such as "PROJ-12". "ledger income 2026 --cost-centre PROJ-12" shows only those lines, and the SIE export writes #DIM, #OBJEKT and the object list in #TRANS.
+P: The code on voucher lines, in "ledger add" and in the CSV import.
+D: Tests add and import lines with codes.
+P: The filter on the income statement.
+D: A test with two cost centres checks that each report shows only its own.
+P: Cost centres in the SIE export and import.
+D: The SIE round-trip test passes with cost centres included.
+
+=== A24 | 3 | feature | Spreading a cost over months
+Now: A cost paid for a whole year in advance lands in a single month.
+Should: "ledger accrue A40 --account 5010 --months 12 --start 2026-01" moves the cost to 1790 and books one twelfth back to 5010 each month. Any rounding remainder goes into the last month. All the monthly vouchers are created at once, with their own dates.
+P: The schedule, with the remainder in the last month.
+D: A test spreads 10,000.00 over 12 months and checks every amount and that they sum exactly.
+P: Creating the vouchers.
+D: A test checks the balance on 1790 after each month.
+P: If any month in the schedule is locked, nothing is created, and the error lists the locked months.
+D: A test with one locked month saves nothing and names it.
+
+=== A25 | 3 | feature | Closing the year
+Now: Closing a year is a list of manual steps that can be done in the wrong order.
+Should: "ledger close-year 2026" books the year's result to 2099, locks every month of 2026 and creates the 2027 opening voucher (order 08). It refuses if 2610, 2620, 2630 or 2640 is not zero at year end, because VAT has not been settled.
+P: The VAT check before closing.
+D: A test with unsettled VAT is refused with a message naming the account.
+P: The closing itself.
+D: A test closes a small year and checks 2099, the locks and the opening voucher.
+P: Running it a second time only reports that the year is already closed.
+D: A test runs it twice and finds no duplicate vouchers.
+
+=== A26 | 3 | feature | Warning rules
+Now: Mistakes such as an empty text or an overdrawn bank account are only found by accident.
+Should: Rules in data/rules.json, of three kinds: "account below zero", "empty voucher text" and "more than N days between voucher date and entry date". "ledger check" lists every warning. "ledger add" prints warnings for the new voucher but still saves it.
+P: The three rule types.
+D: A test triggers each rule once.
+P: The "ledger check" command.
+D: A CLI test lists two warnings in a fixed order.
+P: Warnings shown by "ledger add".
+D: A CLI test adds a voucher with an empty text, sees the warning and finds it saved.
+
+=== A27 | 3 | ux | Consistent help and exit codes
+Now: Commands report errors in different ways.
+Should: Every command supports --help, with usage and one example. Exit codes are 0 for OK, 1 for a validation error, 2 for a usage error and 3 for locked or in use. An unknown command suggests the closest command name.
+P: --help on every command.
+D: A test runs --help on every command and checks for a usage line and an example.
+P: The exit codes.
+D: A table-driven test covers at least one case of each code for every command that can produce it.
+P: The suggestion for unknown commands, by edit distance.
+D: A test runs "ledger balanse" and gets "Did you mean: balance?" and exit code 2.
+
+=== A28 | 4 | feature | OCR reference numbers
+Now: Customer invoices have no payment reference.
+Should: Each K voucher gets an OCR number built from the voucher number, a length digit and a Luhn check digit. "ledger ocr check <number>" says whether a reference is valid.
+P: Generating and validating OCR numbers.
+D: Tests cover valid numbers, a wrong check digit and a wrong length digit.
+P: The OCR number shown in "ledger open" and stored with the invoice.
+D: A CLI test finds the reference on an open invoice.
+P: The "ledger ocr check" command.
+D: CLI tests for a valid and an invalid number check the exit codes.
+
+=== A29 | 4 | feature | Matching a bank file
+Now: Customer payments have to be entered one by one.
+Should: "ledger bank-import bank.csv" reads lines of "date;amount;reference;text", matches each to an open K invoice by OCR reference first and exact amount second, books the payments, and reports the lines it could not match.
+P: Reading the bank file.
+D: Tests cover decimal comma and negative amounts (outgoing payments, which are skipped).
+P: Matching and booking.
+D: A test with three lines (OCR match, amount match, no match) books two payments and reports one line.
+P: Never match the same invoice twice in one file.
+D: A test with two lines for one invoice books one, and the other is reported as unmatched.
+
+=== A30 | 4 | feature | Aging report for customers
+Now: Nobody can see how late customers are paying.
+Should: K invoices get a due date (30 days by default, or "--due" on "ledger sale"). "ledger aging customers --date 2026-11-30" lists open amounts in the buckets not due, 1–30, 31–60, 61–90 and over 90 days late.
+P: Due dates on K invoices.
+D: Tests cover the default and "--due".
+P: The aging report.
+D: A test with one invoice in each bucket checks the totals.
+P: "--csv" on the aging report, using the CSV writer from order 06.
+D: A CLI test checks the header and one customer line.
+
+=== A31 | 4 | feature | Supplier invoices to pay
+Now: Supplier invoices (L vouchers) have no open amounts or due dates.
+Should: L vouchers get a due date and an open amount. "ledger pay-supplier L4 --amount ..." books 2440 debit and 1930 credit. "ledger aging suppliers" works like the customer report.
+P: Due dates and open amounts on L vouchers.
+D: A test with a partial payment checks the open amount.
+P: The "ledger pay-supplier" command, with no overpayment.
+D: CLI tests for a payment and for an overpayment.
+P: The supplier aging report.
+D: A test checks the bucket totals.
+
+=== A32 | 4 | feature | Undoing an import
+Now: A wrong import can only be fixed one voucher at a time.
+Should: Every import gets a batch id. "ledger undo-import <batch>" books a correction for every voucher in the batch (it never deletes). It refuses if any voucher in the batch has already been corrected or paid.
+P: Batch ids on imported vouchers, shown in "ledger list".
+D: A test imports twice and finds two different batch ids.
+P: The undo command.
+D: A test undoes a batch and the balance is back to what it was before the import.
+P: The refusal rule.
+D: A test pays one imported invoice, and the undo is refused with its number named.
+
+=== A33 | 4 | format | Reports as web pages
+Now: Reports can only be read in the console or as CSV.
+Should: "ledger report html 2026 out/" writes the trial balance, income statement and every VAT report as static HTML pages with an index page, in UTF-8, with all text escaped.
+P: The page writer and the index.
+D: A test finds the index and one page per report.
+P: Escaping.
+D: A test with "<script>" in a voucher text finds it escaped on the page, and å, ä and ö intact.
+
+=== A34 | 4 | testing | Randomised checks
+Now: Tests use a few hand-picked examples.
+Should: A seeded random generator of balanced vouchers, and property tests that run 200 cases each: the trial balance always sums to zero, SIE export then import gives the same balances, and a correction never changes the original voucher.
+P: The generator, with a fixed seed in the tests.
+D: A test generates vouchers twice with the same seed and gets identical results.
+P: The three properties.
+D: Three tests each run 200 cases and pass, and a failing case prints its seed.
+
+=== A35 | 4 | feature | Recurring vouchers
+Now: Rent and other monthly costs have to be entered every month.
+Should: "ledger recurring add rent.json --monthly --day 25" stores a template. "ledger recurring run --until 2026-12-31" books every missed occurrence once, never twice, and skips locked months with a warning.
+P: Storing templates.
+D: A test adds and lists a template.
+P: Running them: catching up on missed months, and running twice books nothing new.
+D: A test runs to 2026-06-30 and then 2026-12-31 and finds exactly one voucher per month.
+P: Locked months are skipped with a warning.
+D: A test with a locked month finds no voucher in it and a warning naming it.
+
+=== A36 | 4 | docs | The README stays true
+Now: The README describes commands by hand and can drift from the program.
+Should: A command reference is generated from every command's --help and written into the README between two marker lines. A test fails if the README differs from the generated text.
+P: The generator, as "ledger docs --write README.md".
+D: A test runs the command twice and finds the README unchanged the second time.
+P: The test that compares the README with the generated text.
+D: The test passes now, and fails if a command's help text is changed without updating the README.

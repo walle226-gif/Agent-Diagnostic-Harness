@@ -1,0 +1,17 @@
+Recurring vouchers
+
+Now: Rent and other monthly costs have to be entered every month.
+
+Should: "ledger recurring add rent.json --monthly --day 25" stores a template. "ledger recurring run --until 2026-12-31" books every missed occurrence once, never twice, and skips locked months with a warning.
+
+Part 1: Storing templates.
+Done when: A test adds and lists a template.
+
+Part 2: Running them: catching up on missed months, and running twice books nothing new.
+Done when: A test runs to 2026-06-30 and then 2026-12-31 and finds exactly one voucher per month.
+
+Part 3: Locked months are skipped with a warning.
+Done when: A test with a locked month finds no voucher in it and a warning naming it.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

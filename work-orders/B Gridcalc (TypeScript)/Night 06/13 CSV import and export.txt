@@ -1,0 +1,17 @@
+CSV import and export
+
+Now: Data can only be typed in by hand.
+
+Should: Import and export CSV, detecting comma or semicolon as separator. Quoted fields with "" inside and line breaks inside quotes work, and a UTF-8 BOM is handled. With semicolon files, a decimal comma is read as a number.
+
+Part 1: A CSV reader.
+Done when: Tests cover both separators, quotes, a line break inside quotes and a BOM.
+
+Part 2: A CSV writer, and CLI commands "import" and "export".
+Done when: A round-trip test gives the same cells back.
+
+Part 3: Decimal comma in semicolon files.
+Done when: A test imports "1,5;2,25" as the numbers 1.5 and 2.25.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

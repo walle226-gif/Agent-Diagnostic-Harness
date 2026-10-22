@@ -1,0 +1,17 @@
+Spreading a cost over months
+
+Now: A cost paid for a whole year in advance lands in a single month.
+
+Should: "ledger accrue A40 --account 5010 --months 12 --start 2026-01" moves the cost to 1790 and books one twelfth back to 5010 each month. Any rounding remainder goes into the last month. All the monthly vouchers are created at once, with their own dates.
+
+Part 1: The schedule, with the remainder in the last month.
+Done when: A test spreads 10,000.00 over 12 months and checks every amount and that they sum exactly.
+
+Part 2: Creating the vouchers.
+Done when: A test checks the balance on 1790 after each month.
+
+Part 3: If any month in the schedule is locked, nothing is created, and the error lists the locked months.
+Done when: A test with one locked month saves nothing and names it.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,17 @@
+SIE 4 import
+
+Now: Books from another program cannot be read in.
+
+Should: "ledger sie-import file.se --company new" creates a company from a SIE 4 file (accounts, opening balances, vouchers). Its trial balance must equal the file's #UB values, and unknown tags are skipped with a warning.
+
+Part 1: A SIE 4 parser: quotes, braces, code page 437.
+Done when: Tests parse a small file with every supported tag.
+
+Part 2: Building the company and checking it against #UB, listing any accounts that differ.
+Done when: A test with a file whose #UB is wrong names that account and saves nothing.
+
+Part 3: Export, import and export again give identical files.
+Done when: A round-trip test compares the two exports byte for byte.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,17 @@
+Lookup functions
+
+Now: There is no way to look up a value in a table.
+
+Should: VLOOKUP(value, range, column, FALSE) and XLOOKUP(value, lookup_range, return_range, if_not_found), with exact matching only. A missing value gives #N/A unless XLOOKUP has a fallback.
+
+Part 1: VLOOKUP.
+Done when: Tests cover a found value, a missing value and a column number outside the range (#REF!).
+
+Part 2: XLOOKUP.
+Done when: Tests cover a found value and the fallback.
+
+Part 3: INDEX(range, row, column) and MATCH(value, range, 0), with exact matching.
+Done when: Tests cover INDEX with MATCH together, and a MATCH that finds nothing (#N/A).
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

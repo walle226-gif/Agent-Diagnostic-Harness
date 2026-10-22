@@ -1,0 +1,17 @@
+Input files with clear errors
+
+Now: A mistake in the jobs or technicians file can give a strange plan instead of an error.
+
+Should: Before planning, the input is checked for duplicate ids, a window that ends before it starts, a shift that ends before it starts, and coordinates outside the valid range. Every problem is listed with its file and position, and the CLI exits with code 1.
+
+Part 1: The four checks.
+Done when: A test per check names the right job or technician.
+
+Part 2: Listing all problems at once, not only the first.
+Done when: A test with three problems gets all three.
+
+Part 3: The CLI output and exit code.
+Done when: A CLI test gets exit code 1 and one line per problem.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,14 @@
+Deleting old events
+
+Now: The database grows forever.
+
+Should: "logwatch retention apply --days 30" deletes older events in batches, then runs VACUUM. "--dry-run" shows how many events would be deleted.
+
+Part 1: The dry run.
+Done when: A test with events of different ages checks the count.
+
+Part 2: Deleting in batches, then VACUUM.
+Done when: A test deletes and checks that the newer events are all still there.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

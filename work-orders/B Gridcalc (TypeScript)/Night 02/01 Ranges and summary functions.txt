@@ -1,0 +1,14 @@
+Ranges and summary functions
+
+Now: A formula can only refer to single cells.
+
+Should: Formulas accept ranges such as A1:B3 and the functions SUM, AVERAGE, MIN, MAX and COUNT, with any number of arguments. Function names are case-insensitive, and AVERAGE and COUNT ignore empty cells.
+
+Part 1: Tokenizer and parser support for ranges and function calls.
+Done when: Parser tests cover "=SUM(A1:B3)", "=sum(a1, 2)" and nested calls.
+
+Part 2: The five functions in the evaluator.
+Done when: Tests cover each function, empty cells, and "=SUM(A1:A3, MAX(B1:B2)*2)".
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

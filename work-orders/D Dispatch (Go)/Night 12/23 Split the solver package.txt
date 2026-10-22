@@ -1,0 +1,14 @@
+Split the solver package
+
+Now: The solver has grown into a few large files.
+
+Should: The solver is organised as construct/, improve/ and cost/ packages, with no file over 300 lines and no change in behaviour.
+
+Part 1: Move the code into the three packages.
+Done when: Every existing test passes unchanged.
+
+Part 2: A test that fails if any .go file under internal/ is over 300 lines.
+Done when: The new test passes.
+
+This order changes structure only. The existing tests are its check, and the new size test may already pass on today's code.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

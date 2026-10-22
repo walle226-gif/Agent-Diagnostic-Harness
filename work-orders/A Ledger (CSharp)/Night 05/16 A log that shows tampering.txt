@@ -1,0 +1,17 @@
+A log that shows tampering
+
+Now: If someone edits the company file, nothing shows it.
+
+Should: Every save appends an entry to audit.log (JSON lines) with the change and the SHA-256 hash of the previous entry. "ledger verify-log" reports OK or the first broken line.
+
+Part 1: Appending entries with the hash chain.
+Done when: A test saves three vouchers and checks that each entry's hash links to the one before.
+
+Part 2: The "ledger verify-log" command.
+Done when: A test edits a middle line of the log, and the command reports that line number and exits with code 1.
+
+Part 3: Every save checks the end of the log first, and refuses to save if the last entry has been changed.
+Done when: A test changes the last log entry, and the next save fails with a message pointing to "ledger verify-log".
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

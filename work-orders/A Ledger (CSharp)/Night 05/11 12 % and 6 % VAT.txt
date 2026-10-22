@@ -1,0 +1,17 @@
+12 % and 6 % VAT
+
+Now: Only 25 % VAT is supported.
+
+Should: Accounts 2620 Utgående moms 12 %, 2630 Utgående moms 6 %, 3002 Försäljning 12 % and 3003 Försäljning 6 % exist. "ledger sale --rate 12" and "--rate 6" work. The VAT report shows boxes 11 and 12, and box 05 is the base for all rates together.
+
+Part 1: The new accounts, and the VAT split for each rate.
+Done when: Tests check each rate with the order-03 rounding rule.
+
+Part 2: "--rate" on "ledger sale" (default 25).
+Done when: CLI tests for 12 and 6 % check the accounts used.
+
+Part 3: The VAT report with boxes 10, 11 and 12, and box 05 over all rates.
+Done when: A test with sales at all three rates checks every box.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

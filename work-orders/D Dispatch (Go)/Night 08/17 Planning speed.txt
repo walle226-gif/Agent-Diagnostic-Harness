@@ -1,0 +1,14 @@
+Planning speed
+
+Now: Nobody knows how the planner behaves with a big day.
+
+Should: 500 jobs and 20 technicians are planned in under 3 seconds. A Go benchmark measures it but is not run by default.
+
+Part 1: A generator for big test instances, with a fixed seed.
+Done when: A test generates the same instance twice.
+
+Part 2: Making planning fast enough.
+Done when: A test plans 500 jobs and 20 technicians in under 3 seconds.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,14 @@
+Status groups and the slowest requests
+
+Now: The summary shows status classes but not which codes or which requests matter.
+
+Should: "logwatch report status" shows counts per status code within each class, and the 20 slowest requests above a threshold (default 2,000 ms) with time, path and latency.
+
+Part 1: Counts per status code.
+Done when: A test checks the counts for a sample with 200, 301, 404 and 503 responses.
+
+Part 2: The slowest requests above the threshold, with "--threshold".
+Done when: Tests cover the default threshold and a custom one, and that the list is sorted by latency.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

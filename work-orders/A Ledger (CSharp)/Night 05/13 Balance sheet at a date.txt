@@ -1,0 +1,14 @@
+Balance sheet at a date
+
+Now: Assets and liabilities cannot be shown on a given day.
+
+Should: "ledger balance-sheet 2026-10-31" shows assets (1xxx) against equity and liabilities (2xxx), including the result of the year so far. If the two sides differ, it prints the difference and exits with code 1.
+
+Part 1: The calculation in Core.
+Done when: A test checks both sides for a small company.
+
+Part 2: The CLI command with the difference check.
+Done when: A test builds a deliberately damaged company file and gets exit code 1 and the difference.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

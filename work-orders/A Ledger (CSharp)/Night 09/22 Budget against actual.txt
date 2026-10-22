@@ -1,0 +1,17 @@
+Budget against actual
+
+Now: There is no budget.
+
+Should: "ledger budget set 5010 2026-01..2026-12 10000" sets a monthly budget. "ledger budget report 2026" shows budget, actual, difference and difference in % per account and month.
+
+Part 1: Storing budgets in the company data.
+Done when: A test sets and reloads a budget.
+
+Part 2: The report.
+Done when: A test checks one account over two months, including a month with no actual amounts.
+
+Part 3: "--csv" on the report.
+Done when: A CLI test checks the CSV header and one line.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

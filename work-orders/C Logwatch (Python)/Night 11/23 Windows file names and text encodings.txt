@@ -1,0 +1,17 @@
+Windows file names and text encodings
+
+Now: Unusual file names and encodings may break ingest.
+
+Should: Paths with å, ä, ö and spaces work. UTF-16 logs with a BOM are read. Windows line endings are handled. A file that is not valid UTF-8 is read as Latin-1, with a warning.
+
+Part 1: Paths with å, ä, ö and spaces.
+Done when: A test ingests a file named "loggar för å.log".
+
+Part 2: UTF-16 with a BOM, and Windows line endings.
+Done when: Tests ingest both and get the same events as from a plain UTF-8 file.
+
+Part 3: The Latin-1 fallback.
+Done when: A test with Latin-1 bytes gets the right text and one warning.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,23 @@
+Skeleton: Gridcalc, a spreadsheet engine with a small web page
+
+Build a new Node.js project in this folder, in TypeScript. It runs fully offline. The only package is typescript (as a dev dependency); no frameworks and no other packages.
+
+Structure:
+- src/tokenizer.ts, src/parser.ts (builds an AST), src/evaluator.ts and src/sheet.ts (cells stored as a map from "A1" to raw text).
+- src/server.ts: a node:http server that serves public/ and a JSON API: GET /api/sheet and PUT /api/cell/:ref.
+- public/index.html and public/app.js (plain JavaScript): a 10 by 10 grid with column letters and row numbers. Clicking a cell lets you type; the cell shows the computed value.
+- src/cli.ts: "node dist/cli.js eval <sheet.json>" prints every cell's value.
+- tests/ with node:test tests, compiled together with src.
+
+First features:
+1. Formulas start with "=" and support numbers, cell references A1 to Z999, + - * /, unary minus, parentheses and normal operator precedence.
+2. A cell that is not a formula is a number if it parses as one, otherwise text.
+3. A formula referring to an empty cell treats it as 0.
+
+Tests: tokenizer, parser, evaluator and one API test that starts the server on a free port. The project check is "npm test": it must compile with tsc and run all tests, and it must be green when you finish. Keep the whole test run under 2 minutes.
+
+Also:
+- A .gitignore covering node_modules/, dist/ and _scratch/.
+- An empty _scratch/ folder (with a .gitkeep) for throwaway scripts, excluded from tsconfig.
+- A README that explains how to build, test, start the server and use the CLI.
+- Install typescript now. Later work orders will not be allowed to add or update packages.

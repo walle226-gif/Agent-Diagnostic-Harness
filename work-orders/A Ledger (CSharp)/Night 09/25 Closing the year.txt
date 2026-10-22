@@ -1,0 +1,17 @@
+Closing the year
+
+Now: Closing a year is a list of manual steps that can be done in the wrong order.
+
+Should: "ledger close-year 2026" books the year's result to 2099, locks every month of 2026 and creates the 2027 opening voucher (order 08). It refuses if 2610, 2620, 2630 or 2640 is not zero at year end, because VAT has not been settled.
+
+Part 1: The VAT check before closing.
+Done when: A test with unsettled VAT is refused with a message naming the account.
+
+Part 2: The closing itself.
+Done when: A test closes a small year and checks 2099, the locks and the opening voucher.
+
+Part 3: Running it a second time only reports that the year is already closed.
+Done when: A test runs it twice and finds no duplicate vouchers.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

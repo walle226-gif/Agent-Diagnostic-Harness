@@ -1,0 +1,14 @@
+An HTTP API
+
+Now: Planning only works from the command line.
+
+Should: "dispatch serve -addr :8090" serves POST /plan with {"jobs": [...], "techs": [...]}. Invalid input gets 400 with a list of errors naming the field path, such as "jobs[3].earliest: must be HH:MM".
+
+Part 1: The server and the endpoint.
+Done when: A test with net/http/httptest gets a plan back for the test data.
+
+Part 2: Validation with field paths.
+Done when: Tests cover a bad time, a missing id and an unknown skill format, each naming its field.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

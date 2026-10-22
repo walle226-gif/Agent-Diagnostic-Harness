@@ -1,0 +1,14 @@
+Bots and crawlers
+
+Now: Crawlers and scripts are counted as visitors and distort every report.
+
+Should: A request is marked as a bot if its user agent matches a list in logwatch.toml, or if its IP makes more than 100 requests in one minute. Reports leave bots out unless "--include-bots" is given.
+
+Part 1: Marking bots by user agent and by request rate.
+Done when: Tests cover a listed user agent, a fast IP, and a normal visitor that stays unmarked.
+
+Part 2: Leaving bots out of reports, and "--include-bots".
+Done when: A CLI test runs the sessions report with and without the option and gets different session counts.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

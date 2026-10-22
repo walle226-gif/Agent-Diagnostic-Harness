@@ -1,0 +1,14 @@
+Cell comments
+
+Now: There is nowhere to explain a number.
+
+Should: Comments can be added to, edited on and removed from a cell. They are stored in the file (version 4, still loading versions 2 and 3) and shown as a tooltip on the page.
+
+Part 1: Comments in the model and the file, with the version 4 format.
+Done when: Tests save and load comments, and load a version 3 file.
+
+Part 2: Endpoints for comments.
+Done when: API tests add, edit and delete a comment.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

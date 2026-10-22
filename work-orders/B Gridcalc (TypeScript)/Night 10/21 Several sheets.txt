@@ -1,0 +1,17 @@
+Several sheets
+
+Now: A file holds one sheet.
+
+Should: A file holds several sheets. Formulas can refer to Sheet2!A1 and to 'My sheet'!A1 (quoted when the name has spaces). Renaming a sheet updates formulas, and deleting one turns its references into #REF!.
+
+Part 1: Several sheets in the model and the saved file (version 3, still loading version 2).
+Done when: Tests save and load two sheets, and load a version 2 file.
+
+Part 2: References across sheets.
+Done when: Tests cover both forms and a dependency across sheets that recalculates.
+
+Part 3: Renaming and deleting sheets.
+Done when: Tests for both.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

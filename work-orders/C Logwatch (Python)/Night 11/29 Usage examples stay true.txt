@@ -1,0 +1,14 @@
+Usage examples stay true
+
+Now: The README examples can drift from what the program prints.
+
+Should: Code blocks in the README marked "logwatch-example" are run by a test against tests/data, and the test fails if the output differs from the output shown in the README.
+
+Part 1: Examples in the README for ingest, summary, query and report latency, with their real output.
+Done when: A test fails if the README has fewer than four marked examples or one of the four commands has none.
+
+Part 2: The test that runs them.
+Done when: The test passes, and fails if an example's expected output is edited.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

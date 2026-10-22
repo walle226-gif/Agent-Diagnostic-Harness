@@ -1,0 +1,14 @@
+Message templates
+
+Now: Thousands of similar error messages cannot be seen as one problem.
+
+Should: Messages are grouped into templates by replacing numbers, hex values, UUIDs and IP addresses with placeholders and grouping by the resulting text. "logwatch report templates --top 20" shows each template with its count and one example.
+
+Part 1: Turning a message into a template.
+Done when: Tests cover each kind of placeholder, and messages that must stay apart.
+
+Part 2: The report.
+Done when: A CLI test checks the top template for a sample.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

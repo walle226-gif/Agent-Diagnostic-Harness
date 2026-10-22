@@ -1,0 +1,14 @@
+Trial balance as a CSV file for Excel
+
+Now: The trial balance can only be read in the console.
+
+Should: "ledger balance --csv out.csv" writes a file that opens correctly in Swedish Excel: semicolon separator, decimal comma, no thousands separator, UTF-8 with BOM, a header row, and account names with å, ä and ö intact.
+
+Part 1: A CSV writer in Core for the trial balance.
+Done when: A test reads the file as bytes, checks the BOM, and checks the header and the first account line exactly.
+
+Part 2: The "--csv" option on "ledger balance".
+Done when: A CLI test writes the file and its content matches the expected text.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

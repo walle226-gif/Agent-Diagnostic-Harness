@@ -1,0 +1,17 @@
+Same request, same answer
+
+Now: Sending the same planning request twice can give two different plans.
+
+Should: POST /plan with an "Idempotency-Key" header returns the same response for the same key for 24 hours. The same key with a different body gets 422.
+
+Part 1: Storing responses by key.
+Done when: An httptest test sends the same request twice and gets identical bodies.
+
+Part 2: A different body with the same key.
+Done when: A test gets 422.
+
+Part 3: Expiry after 24 hours, with a clock that tests can set.
+Done when: A test moves the clock forward 25 hours, and the key is accepted for a new plan.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

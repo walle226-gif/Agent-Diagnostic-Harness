@@ -1,0 +1,17 @@
+Two processes saving at the same time
+
+Now: Two "ledger" processes saving to the same company can overwrite each other.
+
+Should: A process takes a lock file before saving and waits up to 5 seconds for it. If the lock is still taken, it exits with code 3 and "company is in use by process <pid>". A lock left by a process that no longer runs is taken over.
+
+Part 1: The lock file with process id and time.
+Done when: A test holds the lock and a second save exits with code 3 and the message.
+
+Part 2: Two real CLI processes adding vouchers at the same time both succeed, with different numbers.
+Done when: A test starts two processes together and finds both vouchers, A1 and A2.
+
+Part 3: Taking over a lock from a process that no longer exists.
+Done when: A test writes a lock with a process id that does not exist, and saving succeeds.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

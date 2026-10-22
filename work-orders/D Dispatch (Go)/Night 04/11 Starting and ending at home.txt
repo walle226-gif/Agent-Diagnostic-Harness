@@ -1,0 +1,14 @@
+Starting and ending at home
+
+Now: Routes end at the last job, so the drive home is never counted.
+
+Should: Every route starts at the technician's home and must be back home by the end of the shift. The plan shows the time back home, and the drive home counts in km and time.
+
+Part 1: The drive home in the route and the shift check.
+Done when: A test where the last job would make the technician late home leaves it unassigned with the reason "shift end".
+
+Part 2: The time back home and the km in the output.
+Done when: A CLI test checks the time back home for one technician.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

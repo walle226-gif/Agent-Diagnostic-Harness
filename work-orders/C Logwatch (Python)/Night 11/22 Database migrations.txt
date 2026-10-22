@@ -1,0 +1,14 @@
+Database migrations
+
+Now: Changing the database schema breaks existing databases.
+
+Should: A schema_version table, and migrations as numbered functions run in order at start. A database from before this order is upgraded automatically, and a database newer than the program is refused with a clear message.
+
+Part 1: The version table and the migration runner.
+Done when: A test creates a database the way the skeleton did and upgrades it.
+
+Part 2: Refusing a newer database.
+Done when: A test sets the version to 999 and gets the message.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

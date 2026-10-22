@@ -1,0 +1,25 @@
+Skeleton: Ledger, a bookkeeping engine for a small Swedish company
+
+Build a new .NET 8 solution in this folder, in C#. It runs fully offline: no database server and no network use at runtime.
+
+Structure:
+- Ledger.Core (class library): accounts, vouchers (verifikationer) with lines, validation and storage.
+- Ledger.Cli (console app), started as "ledger".
+- Ledger.Tests (xUnit): tests for Core and for the CLI.
+- Ledger.sln tying the three together.
+
+First features:
+1. A chart of accounts read from data/accounts.json, with these BAS accounts: 1510 Kundfordringar, 1790 Övriga förutbetalda kostnader, 1910 Kassa, 1930 Företagskonto, 2099 Årets resultat, 2440 Leverantörsskulder, 2610 Utgående moms 25 %, 2640 Ingående moms, 2650 Redovisningskonto för moms, 3001 Försäljning 25 %, 3960 Valutakursvinster, 4010 Inköp material, 5010 Lokalhyra, 7960 Valutakursförluster.
+2. A voucher has a date, a text and two or more lines (account, debit, credit). Amounts are decimal SEK with two decimals.
+3. A voucher is saved only if debit equals credit and every account exists. Otherwise it is refused with an error that names the problem.
+4. Company data is stored as one JSON file per company under data/companies/.
+5. CLI commands: "ledger add <voucher.json>", "ledger list" and "ledger balance" (trial balance per account, sorted by account number).
+6. Account names with å, ä and ö show correctly in the Windows console.
+
+Tests: at least one test per feature above. The project check is "dotnet test" from the solution folder, and it must be green when you finish. Keep the whole test run under 2 minutes.
+
+Also:
+- A .gitignore covering bin/, obj/, .vs/, *.user and _scratch/.
+- An empty _scratch/ folder (with a .gitkeep) for throwaway scripts. It must not be part of any project.
+- A README that explains how to build, test and run each command.
+- Restore every NuGet package the projects need now. Later work orders will not be allowed to add or update packages.

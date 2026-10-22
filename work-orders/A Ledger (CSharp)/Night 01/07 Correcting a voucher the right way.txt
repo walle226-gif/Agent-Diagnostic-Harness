@@ -1,0 +1,17 @@
+Correcting a voucher the right way
+
+Now: A booked voucher can only be changed by editing the company file, which bookkeeping rules do not allow.
+
+Should: "ledger correct A5 --from new.json" never changes A5. It adds a reversing voucher (every line with debit and credit swapped, text "Rättelse av A5") and then the new voucher, both linked to A5, saved together or not at all.
+
+Part 1: The correction in Core: reversal and replacement in one save.
+Done when: A test shows that A5 is unchanged and that the balance equals what it would be if only the new voucher had been booked.
+
+Part 2: The CLI command, and "ledger list" marking corrected vouchers with "(rättad)".
+Done when: CLI tests for both pass.
+
+Part 3: If A5 is in a locked month, the reversal and the replacement are dated the first day of the next unlocked month.
+Done when: A test corrects a voucher in a locked month and checks the new dates.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

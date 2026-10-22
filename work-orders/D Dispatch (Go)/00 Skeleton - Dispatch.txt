@@ -1,0 +1,17 @@
+Skeleton: Dispatch, route planning for service technicians
+
+Build a new Go module named "dispatch" in this folder. It runs fully offline and uses the standard library only (no downloaded modules).
+
+Structure:
+- internal/model: Job (id, address, lat, lon, duration_min, earliest, latest as "HH:MM", skills) and Technician (id, name, home lat/lon, shift_start, shift_end, skills), and Plan.
+- internal/geo: great-circle distance in km (haversine).
+- internal/solver: a first greedy planner. Take the jobs in order, and give each job to the technician who can reach it soonest. Travel speed is 50 km/h.
+- cmd/dispatch: "dispatch plan -jobs jobs.json -techs techs.json" prints a plan as JSON: per technician the job order with arrival and finish times, total km, and a list of unassigned jobs.
+- testdata/ with a small instance in the Stockholm area: 12 jobs and 3 technicians.
+
+Tests: geo, solver and the CLI. The project check is "go test ./...", and it must be green when you finish, with "go vet ./..." clean. Keep the whole test run under 2 minutes; benchmarks are not run by default.
+
+Also:
+- A .gitignore covering *.exe, *.test and _scratch/ (Go ignores folders that start with an underscore).
+- An empty _scratch/ folder (with a .gitkeep) for throwaway scripts.
+- A README that explains how to build, test and run the planner.

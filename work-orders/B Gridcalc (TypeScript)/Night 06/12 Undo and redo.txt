@@ -1,0 +1,17 @@
+Undo and redo
+
+Now: A mistake cannot be undone.
+
+Should: The last 50 changes (edits, inserts, deletes, pastes) can be undone and redone, through POST /api/undo and /api/redo and with Ctrl+Z and Ctrl+Y on the page. A new change clears the redo list.
+
+Part 1: A history of changes on the server.
+Done when: Tests undo and redo an edit, an insert and a paste.
+
+Part 2: The limit of 50, and redo being cleared by a new change.
+Done when: Tests make 60 changes and can undo 50, and check redo after a new change.
+
+Part 3: The endpoints and the key shortcuts.
+Done when: API tests for both endpoints, and a unit test for the key handling function.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

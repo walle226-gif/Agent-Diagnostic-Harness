@@ -1,0 +1,17 @@
+Pivot summary
+
+Now: Grouping and totalling has to be done with many formulas by hand.
+
+Should: POST /api/pivot {"range":"A1:D200","rows":"B","value":"D","agg":"SUM"} writes a summary into a new sheet: one row per distinct value of the row column, with SUM, COUNT or AVERAGE of the value column, sorted by row value.
+
+Part 1: The summary calculation.
+Done when: Tests cover all three aggregations and empty cells.
+
+Part 2: Writing the result to a new sheet through the endpoint.
+Done when: An API test reads the new sheet.
+
+Part 3: POST /api/pivot/refresh rebuilds an existing summary after its source data has changed.
+Done when: An API test changes a source value, refreshes, and reads the updated total.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

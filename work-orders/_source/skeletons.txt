@@ -1,0 +1,89 @@
+=== A | Ledger | C# (.NET 8) | dotnet test
+Skeleton: Ledger, a bookkeeping engine for a small Swedish company
+
+Build a new .NET 8 solution in this folder, in C#. It runs fully offline: no database server and no network use at runtime.
+
+Structure:
+- Ledger.Core (class library): accounts, vouchers (verifikationer) with lines, validation and storage.
+- Ledger.Cli (console app), started as "ledger".
+- Ledger.Tests (xUnit): tests for Core and for the CLI.
+- Ledger.sln tying the three together.
+
+First features:
+1. A chart of accounts read from data/accounts.json, with these BAS accounts: 1510 Kundfordringar, 1790 Övriga förutbetalda kostnader, 1910 Kassa, 1930 Företagskonto, 2099 Årets resultat, 2440 Leverantörsskulder, 2610 Utgående moms 25 %, 2640 Ingående moms, 2650 Redovisningskonto för moms, 3001 Försäljning 25 %, 3960 Valutakursvinster, 4010 Inköp material, 5010 Lokalhyra, 7960 Valutakursförluster.
+2. A voucher has a date, a text and two or more lines (account, debit, credit). Amounts are decimal SEK with two decimals.
+3. A voucher is saved only if debit equals credit and every account exists. Otherwise it is refused with an error that names the problem.
+4. Company data is stored as one JSON file per company under data/companies/.
+5. CLI commands: "ledger add <voucher.json>", "ledger list" and "ledger balance" (trial balance per account, sorted by account number).
+6. Account names with å, ä and ö show correctly in the Windows console.
+
+Tests: at least one test per feature above. The project check is "dotnet test" from the solution folder, and it must be green when you finish. Keep the whole test run under 2 minutes.
+
+Also:
+- A .gitignore covering bin/, obj/, .vs/, *.user and _scratch/.
+- An empty _scratch/ folder (with a .gitkeep) for throwaway scripts. It must not be part of any project.
+- A README that explains how to build, test and run each command.
+- Restore every NuGet package the projects need now. Later work orders will not be allowed to add or update packages.
+
+=== B | Gridcalc | TypeScript (Node 20+) | npm test
+Skeleton: Gridcalc, a spreadsheet engine with a small web page
+
+Build a new Node.js project in this folder, in TypeScript. It runs fully offline. The only package is typescript (as a dev dependency); no frameworks and no other packages.
+
+Structure:
+- src/tokenizer.ts, src/parser.ts (builds an AST), src/evaluator.ts and src/sheet.ts (cells stored as a map from "A1" to raw text).
+- src/server.ts: a node:http server that serves public/ and a JSON API: GET /api/sheet and PUT /api/cell/:ref.
+- public/index.html and public/app.js (plain JavaScript): a 10 by 10 grid with column letters and row numbers. Clicking a cell lets you type; the cell shows the computed value.
+- src/cli.ts: "node dist/cli.js eval <sheet.json>" prints every cell's value.
+- tests/ with node:test tests, compiled together with src.
+
+First features:
+1. Formulas start with "=" and support numbers, cell references A1 to Z999, + - * /, unary minus, parentheses and normal operator precedence.
+2. A cell that is not a formula is a number if it parses as one, otherwise text.
+3. A formula referring to an empty cell treats it as 0.
+
+Tests: tokenizer, parser, evaluator and one API test that starts the server on a free port. The project check is "npm test": it must compile with tsc and run all tests, and it must be green when you finish. Keep the whole test run under 2 minutes.
+
+Also:
+- A .gitignore covering node_modules/, dist/ and _scratch/.
+- An empty _scratch/ folder (with a .gitkeep) for throwaway scripts, excluded from tsconfig.
+- A README that explains how to build, test, start the server and use the CLI.
+- Install typescript now. Later work orders will not be allowed to add or update packages.
+
+=== C | Logwatch | Python 3.12 | python -m pytest -q
+Skeleton: Logwatch, a log analysis tool
+
+Build a new Python 3.12 project in this folder. It runs fully offline and uses the standard library only, plus pytest for tests and tzdata (zoneinfo needs it on Windows).
+
+Structure:
+- A package logwatch/ with parsers for three formats: the Apache/Nginx "combined" access log, JSON lines (fields ts, level, msg, path, status, latency_ms, ip) and RFC 5424 syslog.
+- An SQLite database (sqlite3) with an events table: ts_utc, source_file, line_no, level, status, path, latency_ms, ip, message, raw.
+- CLI: "python -m logwatch ingest <files...> --db <path>" and "python -m logwatch summary --db <path>" (counts per level and per status class, first and last timestamp).
+- tests/data/ with a small sample log in each format, including one line with å, ä and ö and one malformed line.
+
+Tests: one test per parser, plus ingest and summary. The project check is "python -m pytest -q", and it must be green when you finish. Keep the whole test run under 2 minutes; long benchmarks go behind a marker that is not run by default.
+
+Also:
+- A virtual environment in .venv/ with pytest and tzdata installed now. Later work orders will not be allowed to add or update packages.
+- A .gitignore covering .venv/, __pycache__/, *.db and _scratch/.
+- An empty _scratch/ folder (with a .gitkeep) for throwaway scripts, excluded from pytest collection (norecursedirs).
+- A README that explains setup, tests and each command.
+
+=== D | Dispatch | Go 1.23+ | go test ./...
+Skeleton: Dispatch, route planning for service technicians
+
+Build a new Go module named "dispatch" in this folder. It runs fully offline and uses the standard library only (no downloaded modules).
+
+Structure:
+- internal/model: Job (id, address, lat, lon, duration_min, earliest, latest as "HH:MM", skills) and Technician (id, name, home lat/lon, shift_start, shift_end, skills), and Plan.
+- internal/geo: great-circle distance in km (haversine).
+- internal/solver: a first greedy planner. Take the jobs in order, and give each job to the technician who can reach it soonest. Travel speed is 50 km/h.
+- cmd/dispatch: "dispatch plan -jobs jobs.json -techs techs.json" prints a plan as JSON: per technician the job order with arrival and finish times, total km, and a list of unassigned jobs.
+- testdata/ with a small instance in the Stockholm area: 12 jobs and 3 technicians.
+
+Tests: geo, solver and the CLI. The project check is "go test ./...", and it must be green when you finish, with "go vet ./..." clean. Keep the whole test run under 2 minutes; benchmarks are not run by default.
+
+Also:
+- A .gitignore covering *.exe, *.test and _scratch/ (Go ignores folders that start with an underscore).
+- An empty _scratch/ folder (with a .gitkeep) for throwaway scripts.
+- A README that explains how to build, test and run the planner.

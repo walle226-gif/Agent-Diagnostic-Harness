@@ -1,0 +1,17 @@
+Results that spill into neighbouring cells
+
+Now: A formula can only fill one cell.
+
+Should: SEQUENCE(rows, cols) and TRANSPOSE(range) fill a block of cells starting at the formula. If any target cell is not empty, the formula shows #SPILL!. Other formulas can refer to the spilled cells.
+
+Part 1: Spilling in the evaluator.
+Done when: Tests cover a 3 by 2 SEQUENCE and a TRANSPOSE.
+
+Part 2: #SPILL! when a target cell is taken.
+Done when: A test blocks one target cell and gets #SPILL!, then clears it and gets the block.
+
+Part 3: References to spilled cells.
+Done when: A test sums a spilled range.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

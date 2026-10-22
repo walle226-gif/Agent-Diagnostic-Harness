@@ -1,0 +1,14 @@
+Export as HTML and Markdown tables
+
+Now: Results cannot be put into a document or a wiki.
+
+Should: "node dist/cli.js export --html A1:D10" and "--md" print the range as a table, with values formatted as shown on the page and all text escaped.
+
+Part 1: The HTML table, with escaping.
+Done when: A test with "<b>" and "&" in a cell checks the escaped output.
+
+Part 2: The Markdown table, with | escaped.
+Done when: A test with a "|" in a cell checks the output.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

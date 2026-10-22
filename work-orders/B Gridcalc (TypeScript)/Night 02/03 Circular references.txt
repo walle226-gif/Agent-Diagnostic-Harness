@@ -1,0 +1,14 @@
+Circular references
+
+Now: A formula that refers to itself, directly or through other cells, hangs or crashes.
+
+Should: Every cell in a cycle shows #CYCLE!, and so does every cell that depends on one. Breaking the cycle recalculates the cells normally.
+
+Part 1: Cycle detection in the dependency graph.
+Done when: Tests cover a self-reference, a cycle of three cells, and a cell that depends on a cycle.
+
+Part 2: Recovery when the cycle is broken.
+Done when: A test breaks a cycle by editing one cell, and all affected cells get numbers again.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

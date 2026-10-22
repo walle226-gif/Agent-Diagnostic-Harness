@@ -1,0 +1,14 @@
+Van capacity
+
+Now: Material is not considered.
+
+Should: Jobs need a material volume, and technicians have a van capacity. A route's total material never exceeds its van.
+
+Part 1: The capacity check.
+Done when: A test where one van is too small sends the job to another technician.
+
+Part 2: The reason "van capacity" for jobs that fit nowhere.
+Done when: A test checks the reason.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

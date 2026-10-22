@@ -1,0 +1,17 @@
+A small query language
+
+Now: Finding events means writing SQL by hand.
+
+Should: "logwatch query 'status>=500 and path~\"/api\" since 2026-10-20T00:00'" works with the fields status, level, path, ip and latency_ms, the operators = != < <= > >= and ~ (contains), and/or/not with parentheses, and since/until. A query is turned into SQL with parameters; values are never pasted into the SQL text.
+
+Part 1: A tokenizer and parser for the language.
+Done when: Tests cover precedence, parentheses and a syntax error that gives its position.
+
+Part 2: Turning a query into SQL with parameters.
+Done when: A test queries the value "'; DROP TABLE events; --" and the events table is still there.
+
+Part 3: The CLI output as a table, or as JSON with "--json".
+Done when: CLI tests for both outputs.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

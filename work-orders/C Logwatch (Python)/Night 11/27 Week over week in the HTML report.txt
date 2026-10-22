@@ -1,0 +1,14 @@
+Week over week in the HTML report
+
+Now: The HTML report only shows one period.
+
+Should: A section comparing this week with last week for volume, errors and p95 latency, with ▲ and ▼ arrows, and "no data" when last week is empty.
+
+Part 1: The comparison numbers.
+Done when: Tests cover a rise, a fall and an empty previous week.
+
+Part 2: The section in the report.
+Done when: A test finds the section with the arrows and the right numbers.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

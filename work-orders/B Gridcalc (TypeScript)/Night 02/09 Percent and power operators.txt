@@ -1,0 +1,17 @@
+Percent and power operators
+
+Now: Formulas have no percent sign and no way to raise a number to a power.
+
+Should: A postfix % divides by 100, and ^ raises to a power and groups from the right (2^3^2 is 2^9). As in other spreadsheets, unary minus binds tighter than ^, so -2^2 is 4; this is documented in the README.
+
+Part 1: Tokenizer and parser support for % and ^ with the precedence above.
+Done when: Parser tests cover 2^3^2, -2^2, 50% and 2*3^2.
+
+Part 2: Evaluation of both operators.
+Done when: Tests check the values of the four formulas above and of =10%*A1.
+
+Part 3: An "Operators" section in the README with the precedence table, including the -2^2 rule.
+Done when: A test fails if any operator the tokenizer knows is missing from that section.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

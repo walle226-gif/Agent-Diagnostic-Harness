@@ -1,0 +1,14 @@
+Split the engine into modules
+
+Now: The engine has grown into a few large files.
+
+Should: The code is organised as parser/, evaluator/, graph/ and functions/, with every function registered in one place (a registry). No file is over 300 lines, and behaviour does not change.
+
+Part 1: Move the code and create the function registry.
+Done when: Every existing test passes unchanged.
+
+Part 2: A test that fails if any source file is over 300 lines.
+Done when: The new test passes.
+
+This order changes structure only. The existing tests are its check, and the new size test may already pass on today's code.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,17 @@
+Error spikes per minute
+
+Now: A burst of server errors is only found by reading the log.
+
+Should: "logwatch analyze anomalies" counts 5xx responses per minute and compares each minute with the median and the median absolute deviation (MAD) of the previous 60 minutes. A minute is flagged when it is above median + 5 × MAD and has at least 5 errors. Flagged minutes go into an anomalies table and are listed.
+
+Part 1: Counting errors per minute.
+Done when: A test checks the counts for a sample log, including minutes with no errors.
+
+Part 2: The detector as a pure function on a list of counts.
+Done when: Tests with made-up series cover a flat series, a single spike and a slow rise that is not flagged.
+
+Part 3: The table and the CLI command.
+Done when: A CLI test lists one flagged minute for a sample with one burst.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

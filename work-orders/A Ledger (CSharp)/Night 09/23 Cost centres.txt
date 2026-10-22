@@ -1,0 +1,17 @@
+Cost centres
+
+Now: Costs cannot be split by project or department.
+
+Should: A voucher line can carry a cost centre code, such as "PROJ-12". "ledger income 2026 --cost-centre PROJ-12" shows only those lines, and the SIE export writes #DIM, #OBJEKT and the object list in #TRANS.
+
+Part 1: The code on voucher lines, in "ledger add" and in the CSV import.
+Done when: Tests add and import lines with codes.
+
+Part 2: The filter on the income statement.
+Done when: A test with two cost centres checks that each report shows only its own.
+
+Part 3: Cost centres in the SIE export and import.
+Done when: The SIE round-trip test passes with cost centres included.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

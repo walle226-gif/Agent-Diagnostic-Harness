@@ -1,0 +1,14 @@
+Road travel times from a file
+
+Now: Travel times come only from the speed model.
+
+Should: An optional CSV file (from_id;to_id;minutes) gives real travel times. Pairs missing from the file fall back to the speed model, and the plan reports how many pairs fell back.
+
+Part 1: Reading the file.
+Done when: Tests cover a good file and lines with errors (reported with line numbers).
+
+Part 2: Using the file with the fallback.
+Done when: A test with half the pairs in the file reports the right fallback count.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

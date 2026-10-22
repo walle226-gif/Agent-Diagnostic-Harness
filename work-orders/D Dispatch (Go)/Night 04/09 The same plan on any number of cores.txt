@@ -1,0 +1,14 @@
+The same plan on any number of cores
+
+Now: Planning several days runs one day after another.
+
+Should: Days are planned in parallel goroutines, and the output is identical whether one core or many are used.
+
+Part 1: Planning days in parallel.
+Done when: A test plans five days and gets five plans.
+
+Part 2: Identical output.
+Done when: A test plans the same week with GOMAXPROCS 1 and 8 and compares the JSON byte for byte.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

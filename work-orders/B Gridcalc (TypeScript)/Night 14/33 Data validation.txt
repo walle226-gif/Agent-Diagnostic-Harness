@@ -1,0 +1,17 @@
+Data validation
+
+Now: Any value can be typed into any cell.
+
+Should: Rules per range: "one of a list", "number between" and "date between". Breaking a rule is refused with 422 and a message, which the page shows next to the cell.
+
+Part 1: Rules in the model and the file.
+Done when: Tests save and load each rule type.
+
+Part 2: Checking writes against the rules.
+Done when: API tests cover an allowed value and a refused value for each rule type.
+
+Part 3: "One of a list" rules shown as a drop-down on the page.
+Done when: A unit test of the function that turns a list rule into drop-down options, including å, ä and ö.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

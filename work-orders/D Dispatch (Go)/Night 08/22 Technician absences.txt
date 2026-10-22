@@ -1,0 +1,17 @@
+Technician absences
+
+Now: A technician is either working all day or not at all.
+
+Should: Technicians can have absences: whole days or part of a day (for example 13:00–15:00). Nothing is planned during an absence, and a route that crosses one waits until it ends.
+
+Part 1: Absences in the technician model and the input file.
+Done when: Tests load whole-day and part-day absences.
+
+Part 2: Respecting whole-day absences.
+Done when: A test plans a week where one technician is away on Wednesday and gets no jobs that day.
+
+Part 3: Respecting part-day absences.
+Done when: A test with an absence from 13:00 to 15:00 has no job overlapping it.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

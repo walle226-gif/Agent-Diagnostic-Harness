@@ -1,0 +1,14 @@
+Formulas can never run code
+
+Now: Nothing guarantees that a formula cannot execute JavaScript.
+
+Should: The parser and evaluator never use eval or new Function. Any input, however broken, gives a value or an error, never an exception.
+
+Part 1: A test that fails if eval( or new Function appears anywhere under src/.
+Done when: The test passes.
+
+Part 2: A seeded fuzz test feeding 5,000 random strings to the parser and evaluator.
+Done when: The fuzz test passes: every input gives a value or an error, and a failing case prints its seed.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

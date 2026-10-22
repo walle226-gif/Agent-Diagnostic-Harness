@@ -1,0 +1,14 @@
+Find and replace
+
+Now: Changing a value everywhere means editing cell by cell.
+
+Should: Find and replace in values and formulas, with a regular-expression option. A preview shows how many cells would change before anything changes, and the replacement can be undone in one step.
+
+Part 1: Finding matches, with the preview count.
+Done when: Tests cover plain text, a regular expression and matches inside formulas.
+
+Part 2: Replacing, as one undoable step.
+Done when: A test replaces in three cells and one undo restores all three.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

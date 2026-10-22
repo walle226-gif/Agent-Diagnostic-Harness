@@ -1,0 +1,14 @@
+Jobs from a CSV file
+
+Now: Jobs can only be given as JSON.
+
+Should: "dispatch import-jobs jobs.csv" reads a Swedish CSV file (semicolon separator, decimal comma in coordinates, addresses with å, ä and ö), and reports every bad line with its line number before writing anything.
+
+Part 1: Reading the CSV.
+Done when: Tests cover decimal commas and Swedish addresses.
+
+Part 2: Validation with line numbers, all or nothing.
+Done when: A test with two bad lines writes nothing and names both lines.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

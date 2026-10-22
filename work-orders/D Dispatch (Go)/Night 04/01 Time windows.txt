@@ -1,0 +1,14 @@
+Time windows
+
+Now: Jobs are planned without looking at when the customer is available.
+
+Should: A job starts inside its window [earliest, latest]. A technician who arrives early waits. A job that cannot fit anywhere is listed as unassigned with the reason "time window".
+
+Part 1: Checking windows in the planner, with waiting.
+Done when: Tests cover an early arrival that waits and a job started on time.
+
+Part 2: Unassigned jobs with a reason.
+Done when: A test with a job whose window has passed lists it with "time window".
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

@@ -1,0 +1,14 @@
+A travel time model
+
+Now: Travel time assumes 50 km/h everywhere.
+
+Should: 30 km/h when the midpoint of the trip is within 10 km of Stockholm city centre (59.3293, 18.0686), and 70 km/h otherwise. Travel times between places are computed once and reused.
+
+Part 1: The speed rule.
+Done when: Tests cover a trip in the centre, one outside and one that crosses the boundary.
+
+Part 2: Reusing computed times.
+Done when: A test counts distance calculations and finds each pair computed once.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.

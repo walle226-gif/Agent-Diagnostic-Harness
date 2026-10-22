@@ -1,0 +1,17 @@
+Function hints while typing
+
+Now: You have to know every function name by heart.
+
+Should: GET /api/functions?prefix=SU returns matching names, signatures and one-line descriptions from the function registry. The page shows them while you type after "=".
+
+Part 1: Descriptions and signatures in the registry for every function.
+Done when: A test fails if any registered function has no description.
+
+Part 2: The endpoint.
+Done when: API tests cover a prefix, an empty prefix and no matches.
+
+Part 3: Suggestions on the page.
+Done when: A unit test of the function that finds the current word at the cursor.
+
+Every part's new test must fail on today's code and pass after the part.
+Rules: Work only inside this project folder. Do not add, remove or update packages. Keep every existing test green and the full test run under 2 minutes. Throwaway scripts go in _scratch/, which git ignores; do not commit them.
